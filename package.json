@@ -1,11 +1,11 @@
 {
   "version": "0.1.0",
-  "name": "@committed/template",
-  "description": "Committed TS Lib template",
+  "name": "@committed/components-graph",
+  "description": "Committed Graph Component",
   "author": "Committed",
   "license": "MIT",
   "private": false,
-  "repository": "git://github.com/commitd/template-ts-lib.git",
+  "repository": "git://github.com/commitd/components-graph",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "publishConfig": {
