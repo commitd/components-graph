@@ -41,8 +41,12 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {
+    'react/prop-types':'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
     '@typescript-eslint/ban-types': 'warn',
+    '@typescript-eslint/explicit-function-return-type': ['warn',{
+      allowExpressions: true
+    }],
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/naming-convention': [
       'warn',
