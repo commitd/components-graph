@@ -1,21 +1,19 @@
-<h1 align="center"> TS Lib Template </h1>
+<h1 align="center"> Components Graph </h1>
 <br>
 <p align="center">
   <img src="https://committed.software/Logo.svg" width="128px" alt="Project Logo"/>
 </p>
 <p align="center">
-  Committed ts lib project starter
+  Committed Software Graph Component
 </p>
 
 [![Committed Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fcommitted.software%2Fbadge)](https://committed.io)
-![Build Status](https://github.com/commitd/template-ts-lib/workflows/build/badge.svg?branch=main)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=commitd_template-ts-lib&metric=alert_status&token=aa002ca75e2f3a6d028af9074bceeda1ffa2f9f7)](https://sonarcloud.io/dashboard?id=commitd_template-ts-lib)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=commitd_template-ts-lib&metric=coverage&token=aa002ca75e2f3a6d028af9074bceeda1ffa2f9f7)](https://sonarcloud.io/dashboard?id=commitd_template-ts-lib)
-![GitHub repo size](https://img.shields.io/github/repo-size/commitd/template-ts-lib)
+![Build Status](https://github.com/commitd/components-graph/workflows/build/badge.svg?branch=main)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=commitd_components-graph&metric=alert_status&token=aa002ca75e2f3a6d028af9074bceeda1ffa2f9f7)](https://sonarcloud.io/dashboard?id=commitd_components-graph)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=commitd_components-graph&metric=coverage&token=aa002ca75e2f3a6d028af9074bceeda1ffa2f9f7)](https://sonarcloud.io/dashboard?id=commitd_components-graph)
+![GitHub repo size](https://img.shields.io/github/repo-size/commitd/components-graph)
 
-The Template project aims to standardize the set up of Committed projects and ensure good practice. Best practice changes and improvements should be put back into the template through PRs. The main branch covers the standard Spring Boot server and React UI case.
-
-This template is bootstrapped with TSDX
+A graph visualisation to be used in Committed products. It supports custom decoration, different layouts and user interactions.
 
 ## Commands
 
