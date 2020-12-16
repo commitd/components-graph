@@ -49,11 +49,11 @@
   "size-limit": [
     {
       "path": "dist/template.cjs.production.min.js",
-      "limit": "10 KB"
+      "limit": "200 KB"
     },
     {
       "path": "dist/template.esm.js",
-      "limit": "10 KB"
+      "limit": "200 KB"
     }
   ],
   "jest": {
@@ -100,5 +100,17 @@
     "tsdx": "^0.14.1",
     "tslib": "^2.0.3",
     "typescript": "^4.0.3"
+  },
+  "dependencies": {
+    "@committed/components": "^4.0.1",
+    "@material-ui/core": "^4.9.10",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.56",
+    "@types/react-cytoscapejs": "^1.1.2",
+    "@types/uuid": "^8.3.0",
+    "cytoscape-cola": "^2.4.0",
+    "react-cytoscapejs": "^1.2.1",
+    "use-debounce": "^5.1.0",
+    "uuid": "^8.3.1"
   }
 }

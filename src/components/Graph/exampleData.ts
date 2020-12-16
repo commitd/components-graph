@@ -1,0 +1,47 @@
+import { ModelNode, ModelEdge } from '../../graph/types'
+
+const exampleNodesArr: ModelNode[] = [
+  { id: 'n1', attributes: {} },
+  { id: 'n2', attributes: {} },
+  { id: 'n3', attributes: {} },
+  { id: 'n4', attributes: {} },
+  { id: 'n5', attributes: {} },
+  { id: 'n6', attributes: {} },
+]
+const exampleEdgesArr: ModelEdge[] = [
+  {
+    id: 'e1',
+    source: 'n1',
+    target: 'n2',
+    attributes: {},
+  },
+  {
+    id: 'e2',
+    source: 'n1',
+    target: 'n3',
+    attributes: {},
+  },
+  {
+    id: 'e3',
+    source: 'n3',
+    target: 'n4',
+    attributes: {},
+  },
+  {
+    id: 'e5',
+    source: 'n5',
+    target: 'n5',
+    attributes: {},
+  },
+]
+
+export const exampleGraphData = {
+  nodes: exampleNodesArr.reduce<Record<string, ModelNode>>((prev, next) => {
+    prev[next.id] = next
+    return prev
+  }, {}),
+  edges: exampleEdgesArr.reduce<Record<string, ModelEdge>>((prev, next) => {
+    prev[next.id] = next
+    return prev
+  }, {}),
+}
