@@ -63,7 +63,12 @@ export const Sandbox: React.FC = () => {
         />
       </Box>
       <Box flex={1}>
-        <Template model={model} onModelChange={setModel} height="full-height" />
+        <Graph
+          model={model}
+          onModelChange={setModel}
+          renderer={cytoscapeRenderer}
+          options={{ height: 'full-height' }}
+        />
       </Box>
     </Flex>
   )

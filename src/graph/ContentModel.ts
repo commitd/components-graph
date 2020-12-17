@@ -32,15 +32,15 @@ export class ContentModel {
   }
 
   containsNode(id: string): boolean {
-    return this.nodes[id] != null
+    return this.getNode(id) != null
   }
 
   containsEdge(id: string): boolean {
-    return this.edges[id] != null
+    return this.getEdge(id) != null
   }
 
   getNode(id: string): ModelNode | undefined {
-    return this.nodes[id]
+    return this.nodes[`${id}`]
   }
 
   private getExistingNode(id: string): ModelNode {

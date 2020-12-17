@@ -4,15 +4,18 @@ import React from 'react'
 import { GraphModel } from '../../graph/GraphModel'
 
 export interface GraphToolbarProps extends IconButtonProps {
+  /** The direction of the toolbar */
   direction: 'row' | 'column'
+  /** Declarative definition of graph state */
   model: GraphModel
+  /** The graph model change callback */
   onModelChange: (
     model: GraphModel | ((model2: GraphModel) => GraphModel)
   ) => void
 }
 
 /**
- * GraphToolbar component
+ * GraphToolbar component adds controls for zoom, layout and refit.
  */
 export const GraphToolbar: React.FC<GraphToolbarProps> = ({
   direction,
