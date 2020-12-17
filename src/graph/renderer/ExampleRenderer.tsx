@@ -1,8 +1,11 @@
 import React from 'react'
 import { GraphModel } from '../GraphModel'
-import { GraphRenderer } from '../types'
+import { GraphRenderer, GraphRendererOptions } from '../types'
 
-export const ExampleRenderer: GraphRenderer = (graphModel, onChange) => {
+const Renderer: GraphRenderer<GraphRendererOptions>['render'] = ({
+  graphModel,
+  onChange,
+}) => {
   const handleAddNode = (): void => {
     const withNode = graphModel.getCurrentContent().addNode({})
     const newModel = GraphModel.applyContent(graphModel, withNode)
@@ -35,4 +38,12 @@ export const ExampleRenderer: GraphRenderer = (graphModel, onChange) => {
       </div>
     </div>
   )
+}
+
+export const exampleRenderer: GraphRenderer<GraphRendererOptions> = {
+  defaultOptions: {
+    height: 300,
+  },
+  layouts: [],
+  render: Renderer,
 }

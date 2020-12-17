@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Meta } from '@storybook/react'
 import { Graph } from '.'
-import { ExampleRenderer } from '../../graph/renderer/ExampleRenderer'
-import { CytoscapeRenderer } from '../../graph/renderer/CytoscapeRenderer'
+import { exampleRenderer } from '../../graph/renderer/ExampleRenderer'
+import { cytoscapeRenderer } from '../../graph/renderer/CytoscapeRenderer'
 import { GraphDebugControl } from '../GraphDebugControl'
 import { GraphModel } from '../../graph/GraphModel'
 import { Box, Flex, ThemeProvider } from '@committed/components'
@@ -45,7 +45,7 @@ const Template: React.FC<{
     <Graph
       model={model}
       onModelChange={onModelChange}
-      renderer={new CytoscapeRenderer()}
+      renderer={cytoscapeRenderer}
       options={{ height: height ?? 600 }}
     />
   )
@@ -252,7 +252,7 @@ export const CustomRenderer: React.FC = () => {
     <Graph
       model={model}
       onModelChange={setModel}
-      renderer={ExampleRenderer}
+      renderer={exampleRenderer}
       options={{ height: 600 }}
     />
   )

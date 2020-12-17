@@ -21,9 +21,13 @@ export const Graph = <O extends GraphRendererOptions>({
 }: PropsWithChildren<GraphProps<O>>): ReactElement<GraphProps<O>> => {
   return (
     <>
-      {renderer.render(model, onModelChange, {
-        ...renderer.defaultOptions,
-        ...options,
+      {renderer.render({
+        graphModel: model,
+        onChange: onModelChange,
+        options: {
+          ...renderer.defaultOptions,
+          ...options,
+        },
       })}
     </>
   )

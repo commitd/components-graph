@@ -1,7 +1,14 @@
 import React from 'react'
+import { GraphModel } from '../../graph/GraphModel'
 import { render } from '../../setupTests'
-import { Default } from './GraphDebugControl.stories'
+import { GraphDebugControl } from './GraphDebugControl'
 
 it('renders story', () => {
-  render(<Default />)
+  render(
+    <GraphDebugControl
+      model={GraphModel.createEmpty()}
+      onChange={() => {}}
+      onReset={() => {}}
+    />
+  )
 })
