@@ -1,31 +1,30 @@
-import { Box, BoxProps, makeStyles } from '@committed/components'
-import React from 'react'
+import React, { PropsWithChildren, ReactElement } from 'react'
 import { GraphModel } from '../../graph/GraphModel'
-import { GraphRenderer } from '../../graph/types'
+import { GraphRenderer, GraphRendererOptions } from '../../graph/types'
 
-export interface GraphProps extends BoxProps {
-  renderer: GraphRenderer
+export interface GraphProps<O extends GraphRendererOptions> {
+  renderer: GraphRenderer<O>
   model: GraphModel
+  options: Partial<O> & { height: GraphRendererOptions['height'] }
   onModelChange?: (
     model: GraphModel | ((model2: GraphModel) => GraphModel)
   ) => void
 }
 
-const useStyles = makeStyles({
-  container: {
-    backgroundColor: '#FFF',
-  },
-})
-
-export const Graph: React.FC<GraphProps> = ({
+export const Graph = <O extends GraphRendererOptions>({
   renderer,
   model,
   onModelChange = () => {
     // do nothing by default
   },
-}) => {
-  const classes = useStyles()
+  options,
+}: PropsWithChildren<GraphProps<O>>): ReactElement<GraphProps<O>> => {
   return (
-    <Box className={classes.container}>{renderer(model, onModelChange)}</Box>
+    <>
+      {renderer.render(model, onModelChange, {
+        ...renderer.defaultOptions,
+        ...options,
+      })}
+    </>
   )
 }

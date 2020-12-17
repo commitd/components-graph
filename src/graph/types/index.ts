@@ -23,10 +23,21 @@ export type ModelGraphData = {
   edges: Record<string, ModelEdge>
 }
 
-export type GraphRenderer = (
-  graphModel: GraphModel,
-  onChange: (model: GraphModel | ((model2: GraphModel) => GraphModel)) => void
-) => React.ReactNode
+export interface GraphRenderer<O extends GraphRendererOptions> {
+  render: (
+    graphModel: GraphModel,
+    onChange: (
+      model: GraphModel | ((model2: GraphModel) => GraphModel)
+    ) => void,
+    options: O
+  ) => React.ReactNode
+  defaultOptions: O
+}
+
+export interface GraphRendererOptions {
+  width?: number | 'full-width'
+  height: number | 'full-height'
+}
 
 export interface ItemDecoration {
   label: string
