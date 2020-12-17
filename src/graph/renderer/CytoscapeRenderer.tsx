@@ -238,7 +238,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
         const element: ElementDefinition = {
           data: node,
           style: toNodeCyStyle(
-            graphModel.getDecorators().getNodeDectorationOverrides(n)
+            graphModel.getDecorators().getNodeDecorationOverrides(n)
           ),
           selected: selection.nodes.has(n.id),
         }
@@ -281,8 +281,12 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
         'background-width': '100%',
         'background-height': '100%',
         'border-width': (e) => {
-          const strokeSize = graphModel.getNode(e.id()).strokeSize
-          return e.selected() ? strokeSize * 3 : strokeSize
+          const strokeSize = graphModel.getNode(e.id())?.strokeSize
+          return strokeSize == null
+            ? nodeDefaults.strokeSize
+            : e.selected()
+            ? strokeSize * 3
+            : strokeSize
         },
         ...toNodeCyStyle(nodeDefaults),
       },
@@ -302,8 +306,12 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
         'target-arrow-shape': 'triangle',
         'target-endpoint': 'outside-to-node-or-label',
         width: (e: EdgeSingular) => {
-          const size = graphModel.getEdge(e.id()).size
-          return e.selected() ? size * 3 : size
+          const size = graphModel.getEdge(e.id())?.size
+          return size == null
+            ? edgeDefaults.size
+            : e.selected()
+            ? size * 3
+            : size
         },
         ...toEdgeCyStyle(edgeDefaults),
       },

@@ -112,16 +112,20 @@ export class GraphModel {
     )
   }
 
-  getNode(id: string): DecoratedNode {
-    return this.decoratorModel.getDecoratedNodes([
-      this.contentModel.getNode(id),
-    ])[0]
+  getNode(id: string): DecoratedNode | undefined {
+    const node = this.contentModel.getNode(id)
+    if (node == null) {
+      return node
+    }
+    return this.decoratorModel.getDecoratedNodes([node])[0]
   }
 
-  getEdge(id: string): DecoratedEdge {
-    return this.decoratorModel.getDecoratedEdges([
-      this.contentModel.getEdge(id),
-    ])[0]
+  getEdge(id: string): DecoratedEdge | undefined {
+    const edge = this.contentModel.getEdge(id)
+    if (edge == null) {
+      return edge
+    }
+    return this.decoratorModel.getDecoratedEdges([edge])[0]
   }
 
   getCurrentLayout(): LayoutModel {
