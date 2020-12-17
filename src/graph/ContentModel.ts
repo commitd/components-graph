@@ -8,8 +8,15 @@ import { v4 } from 'uuid'
 
 export class ContentModel {
   public static fromRaw(data: ModelGraphData): ContentModel {
-    // can be more lenient here
-    return new ContentModel(data.nodes, data.edges)
+    let model = Object.values(data.nodes).reduce(
+      (acc, node) => acc.addNode(node),
+      ContentModel.createEmpty()
+    )
+    model = Object.values(data.edges).reduce(
+      (acc, edge) => acc.addEdge(edge),
+      model
+    )
+    return model
   }
 
   public static createEmpty(): ContentModel {
@@ -25,18 +32,23 @@ export class ContentModel {
   }
 
   containsNode(id: string): boolean {
-    return this.nodes[id] != null
+    return this.getNode(id) != null
   }
 
   containsEdge(id: string): boolean {
-    return this.edges[id] != null
+    return this.getEdge(id) != null
   }
 
-  getNode(id: string): ModelNode {
-    if (!this.containsNode(id)) {
+  getNode(id: string): ModelNode | undefined {
+    return this.nodes[`${id}`]
+  }
+
+  private getExistingNode(id: string): ModelNode {
+    const node = this.getNode(id)
+    if (node == null) {
       throw new Error(`Node [${id}] does not exist`)
     }
-    return this.nodes[id]
+    return node
   }
 
   getEdgesLinkedToNode(nodeId: string): ModelEdge[] {
@@ -59,8 +71,7 @@ export class ContentModel {
   }
 
   editNode(node: ModelNode): ContentModel {
-    // ensure node exists
-    this.getNode(node.id)
+    this.getExistingNode(node.id)
     return new ContentModel(
       { ...this.nodes, ...{ [node.id]: node } },
       this.edges
@@ -72,13 +83,13 @@ export class ContentModel {
     attributeName: string,
     attributeValue: V
   ): ContentModel {
-    const node = this.getNode(id)
+    const node = this.getExistingNode(id)
     const newAttributes = {
       ...node.attributes,
       ...{ [attributeName]: attributeValue },
     }
     const changedNode = {
-      ...this.getNode(id),
+      ...this.getExistingNode(id),
       ...{ attributes: newAttributes },
     }
     return this.editNode(changedNode)
@@ -115,14 +126,14 @@ export class ContentModel {
     attributeName: string,
     attributeValue: V
   ): ContentModel {
-    if (this.getNode(id).attributes[attributeName] == null) {
+    if (this.getExistingNode(id).attributes[attributeName] == null) {
       throw new Error(`Node [${id}] does not have attribute ${attributeName}`)
     }
     return this.addNodeAttribute(id, attributeName, attributeValue)
   }
 
   removeNodeAttribute(id: string, attributeName: string): ContentModel {
-    const node = this.getNode(id)
+    const node = this.getExistingNode(id)
     const { [attributeName]: _, ...remainingAttributes } = node.attributes
     const n = { ...node, ...{ attributes: remainingAttributes } }
     return this.editNode(n)
@@ -134,6 +145,9 @@ export class ContentModel {
       attributes?: ModelAttributeSet
     }
   ): ContentModel {
+    // check source and target exist
+    this.getExistingNode(edge.source)
+    this.getExistingNode(edge.target)
     if (edge.id != null && this.containsEdge(edge.id)) {
       throw new Error(`Cannot add edge already in graph (${edge.id})`)
     }
@@ -146,16 +160,21 @@ export class ContentModel {
     return new ContentModel(this.nodes, edges)
   }
 
-  getEdge(id: string): ModelEdge {
-    if (!this.containsEdge(id)) {
+  getEdge(id: string): ModelEdge | undefined {
+    return this.edges[id]
+  }
+
+  private getExistingEdge(id: string): ModelEdge {
+    const edge = this.getEdge(id)
+    if (edge == null) {
       throw new Error(`Edge [${id}] does not exist`)
     }
-    return this.edges[id]
+    return edge
   }
 
   editEdge(edge: ModelEdge): ContentModel {
     // ensure edge exists
-    this.getEdge(edge.id)
+    this.getExistingEdge(edge.id)
     return new ContentModel(this.nodes, {
       ...this.edges,
       ...{ [edge.id]: edge },
@@ -167,13 +186,13 @@ export class ContentModel {
     attributeName: string,
     attributeValue: V
   ): ContentModel {
-    const edge = this.getEdge(id)
+    const edge = this.getExistingEdge(id)
     const newAttributes = {
       ...edge.attributes,
       ...{ [attributeName]: attributeValue },
     }
     const changedEdge = {
-      ...this.getEdge(id),
+      ...this.getExistingEdge(id),
       ...{ attributes: newAttributes },
     }
     return this.editEdge(changedEdge)
@@ -184,14 +203,14 @@ export class ContentModel {
     attributeName: string,
     attributeValue: V
   ): ContentModel {
-    if (this.getEdge(id).attributes[attributeName] == null) {
+    if (this.getExistingEdge(id).attributes[attributeName] == null) {
       throw new Error(`Edge [${id}] does not have attribute ${attributeName}`)
     }
     return this.addEdgeAttribute(id, attributeName, attributeValue)
   }
 
   removeEdgeAttribute(id: string, attributeName: string): ContentModel {
-    const edge = this.getEdge(id)
+    const edge = this.getExistingEdge(id)
     const { [attributeName]: _, ...remainingAttributes } = edge.attributes
     const e = { ...edge, ...{ attributes: remainingAttributes } }
     return this.editEdge(e)

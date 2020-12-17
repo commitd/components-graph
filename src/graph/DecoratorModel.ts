@@ -38,12 +38,19 @@ export class DecoratorModel {
     return { label: item.id }
   }
 
-  static createDefault(): DecoratorModel {
+  static createDefault(
+    options: {
+      nodeDecorators?: NodeDecorator[]
+      nodeDefaults?: NodeDecoration
+      edgeDecorators?: EdgeDecorator[]
+      edgeDefaults?: EdgeDecoration
+    } = {}
+  ): DecoratorModel {
     return new DecoratorModel(
-      [],
-      DecoratorModel.DEFAULT_NODE_DECORATION,
-      [],
-      DecoratorModel.DEFAULT_EDGE_DECORATION
+      options.nodeDecorators ?? [],
+      options.nodeDefaults ?? DecoratorModel.DEFAULT_NODE_DECORATION,
+      options.edgeDecorators ?? [],
+      options.edgeDefaults ?? DecoratorModel.DEFAULT_EDGE_DECORATION
     )
   }
 
@@ -72,7 +79,7 @@ export class DecoratorModel {
     return this.edgeDefaults
   }
 
-  getNodeDectorationOverrides(node: ModelNode): Partial<NodeDecoration> {
+  getNodeDecorationOverrides(node: ModelNode): Partial<NodeDecoration> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, attributes, ...nodeStyle } = node
     const decor = Object.assign(
@@ -85,11 +92,24 @@ export class DecoratorModel {
     }
   }
 
+  getEdgeDecorationOverrides(edge: ModelEdge): Partial<EdgeDecoration> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id, attributes, source, target, ...edgeStyle } = edge
+    const decor = Object.assign(
+      {},
+      ...this.edgeDecorators.map((d) => d(edge))
+    ) as Partial<EdgeDecoration>
+    return {
+      ...decor,
+      ...edgeStyle,
+    }
+  }
+
   getDecoratedNodes(modelNodes: ModelNode[]): DecoratedNode[] {
     return Object.values(modelNodes).map((node) => {
       return {
         ...this.nodeDefaults,
-        ...this.getNodeDectorationOverrides(node),
+        ...this.getNodeDecorationOverrides(node),
         ...node,
       }
     })
@@ -97,12 +117,9 @@ export class DecoratorModel {
 
   getDecoratedEdges(modelEdges: ModelEdge[]): DecoratedEdge[] {
     return Object.values(modelEdges).map((edge) => {
-      const decor = Object.assign(
-        this.edgeDecorators.map((d) => d(edge))
-      ) as Partial<EdgeDecoration>
       return {
         ...this.edgeDefaults,
-        ...decor,
+        ...this.getEdgeDecorationOverrides(edge),
         ...edge,
       }
     })

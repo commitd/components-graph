@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { Meta } from '@storybook/react'
 import { Graph } from '.'
-import { ExampleRenderer } from '../../graph/renderer/ExampleRenderer'
-import { CytoscapeRenderer } from '../../graph/renderer/CytoscapeRenderer'
+import { exampleRenderer } from '../../graph/renderer/ExampleRenderer'
+import { cytoscapeRenderer } from '../../graph/renderer/CytoscapeRenderer'
 import { GraphDebugControl } from '../GraphDebugControl'
 import { GraphModel } from '../../graph/GraphModel'
-import { Box, ThemeProvider } from '@committed/components'
+import { Box, Flex, ThemeProvider } from '@committed/components'
 import {
   addRandomEdge,
   addRandomNode,
@@ -13,10 +13,20 @@ import {
   addRandomNodeShapes,
 } from '../../graph/data/Generator'
 import { ContentModel } from '../../graph/ContentModel'
+import { GraphRendererOptions } from '../../graph/types'
 
 export default {
   title: 'Components/Graph',
   component: Graph,
+  decorators: [
+    (story) => <ThemeProvider>{story()}</ThemeProvider>,
+    (story) => (
+      <div style={{ height: '100vh', padding: '16px' }}>{story()}</div>
+    ),
+  ],
+  parameters: {
+    layout: 'fullscreen',
+  },
 } as Meta
 
 const exampleModel = addRandomEdge(
@@ -24,10 +34,27 @@ const exampleModel = addRandomEdge(
   15
 )
 
+const Template: React.FC<{
+  model: GraphModel
+  onModelChange?: (
+    model: GraphModel | ((model2: GraphModel) => GraphModel)
+  ) => void
+  height?: GraphRendererOptions['height']
+}> = ({ model, onModelChange, height }) => {
+  return (
+    <Graph
+      model={model}
+      onModelChange={onModelChange}
+      renderer={cytoscapeRenderer}
+      options={{ height: height ?? 600 }}
+    />
+  )
+}
+
 export const Sandbox: React.FC = () => {
   const [model, setModel] = useState(exampleModel)
   return (
-    <ThemeProvider>
+    <Flex flexDirection="column" height={1}>
       <Box mb={2}>
         <GraphDebugControl
           model={model}
@@ -35,26 +62,21 @@ export const Sandbox: React.FC = () => {
           onReset={() => setModel(exampleModel)}
         />
       </Box>
-      <Graph
-        model={model}
-        onModelChange={setModel}
-        renderer={CytoscapeRenderer}
-      />
-    </ThemeProvider>
+      <Box flex={1}>
+        <Graph
+          model={model}
+          onModelChange={setModel}
+          renderer={cytoscapeRenderer}
+          options={{ height: 'full-height' }}
+        />
+      </Box>
+    </Flex>
   )
 }
 
 export const ForceDirectedLayout: React.FC = () => {
   const [model, setModel] = useState(exampleModel)
-  return (
-    <ThemeProvider>
-      <Graph
-        model={model}
-        onModelChange={setModel}
-        renderer={CytoscapeRenderer}
-      />
-    </ThemeProvider>
-  )
+  return <Template model={model} onModelChange={setModel} />
 }
 
 export const CircleLayout: React.FC = () => {
@@ -64,15 +86,7 @@ export const CircleLayout: React.FC = () => {
       exampleModel.getCurrentLayout().presetLayout('circle')
     )
   )
-  return (
-    <ThemeProvider>
-      <Graph
-        model={model}
-        onModelChange={setModel}
-        renderer={CytoscapeRenderer}
-      />
-    </ThemeProvider>
-  )
+  return <Template model={model} onModelChange={setModel} />
 }
 
 export const ColaForceDirectedLayout: React.FC = () => {
@@ -82,15 +96,7 @@ export const ColaForceDirectedLayout: React.FC = () => {
       exampleModel.getCurrentLayout().presetLayout('cola')
     )
   )
-  return (
-    <ThemeProvider>
-      <Graph
-        model={model}
-        onModelChange={setModel}
-        renderer={CytoscapeRenderer}
-      />
-    </ThemeProvider>
-  )
+  return <Template model={model} onModelChange={setModel} />
 }
 
 export const GridLayout: React.FC = () => {
@@ -100,45 +106,21 @@ export const GridLayout: React.FC = () => {
       exampleModel.getCurrentLayout().presetLayout('grid')
     )
   )
-  return (
-    <ThemeProvider>
-      <Graph
-        model={model}
-        onModelChange={setModel}
-        renderer={CytoscapeRenderer}
-      />
-    </ThemeProvider>
-  )
+  return <Template model={model} onModelChange={setModel} />
 }
 
 export const NodeShapes: React.FC = () => {
   const [model, setModel] = useState(
     addRandomEdge(addRandomNodeShapes(GraphModel.createEmpty(), 20), 15)
   )
-  return (
-    <ThemeProvider>
-      <Graph
-        model={model}
-        onModelChange={setModel}
-        renderer={CytoscapeRenderer}
-      />
-    </ThemeProvider>
-  )
+  return <Template model={model} onModelChange={setModel} />
 }
 
 export const NodeColors: React.FC = () => {
   const [model, setModel] = useState(
     addRandomEdge(addRandomNodeColors(GraphModel.createEmpty(), 20), 15)
   )
-  return (
-    <ThemeProvider>
-      <Graph
-        model={model}
-        onModelChange={setModel}
-        renderer={CytoscapeRenderer}
-      />
-    </ThemeProvider>
-  )
+  return <Template model={model} onModelChange={setModel} />
 }
 
 export const CustomIcons: React.FC = () => {
@@ -242,15 +224,7 @@ export const CustomIcons: React.FC = () => {
       )
     )
   )
-  return (
-    <ThemeProvider>
-      <Graph
-        model={model}
-        onModelChange={setModel}
-        renderer={CytoscapeRenderer}
-      />
-    </ThemeProvider>
-  )
+  return <Template model={model} onModelChange={setModel} />
 }
 
 export const CustomLayout: React.FC = () => {
@@ -274,21 +248,18 @@ export const CustomLayout: React.FC = () => {
       })
     )
   )
-  return (
-    <ThemeProvider>
-      <Graph
-        model={model}
-        onModelChange={setModel}
-        renderer={CytoscapeRenderer}
-      />
-    </ThemeProvider>
-  )
+  return <Template model={model} onModelChange={setModel} />
 }
 
 export const CustomRenderer: React.FC = () => {
   const [model, setModel] = useState(GraphModel.createEmpty())
   return (
-    <Graph model={model} onModelChange={setModel} renderer={ExampleRenderer} />
+    <Graph
+      model={model}
+      onModelChange={setModel}
+      renderer={exampleRenderer}
+      options={{ height: 600 }}
+    />
   )
 }
 
@@ -304,13 +275,5 @@ export const LargeGraph: React.FC = () => {
       exampleModel.getCurrentLayout().presetLayout('force-directed')
     )
   )
-  return (
-    <ThemeProvider>
-      <Graph
-        model={model}
-        onModelChange={setModel}
-        renderer={CytoscapeRenderer}
-      />
-    </ThemeProvider>
-  )
+  return <Template model={model} onModelChange={setModel} />
 }

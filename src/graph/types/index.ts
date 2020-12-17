@@ -1,5 +1,6 @@
 import { GraphModel } from '../GraphModel'
 import { Css, Position as CyPosition } from 'cytoscape'
+import { FC } from 'react'
 
 export interface ModelItem {
   id: string
@@ -23,10 +24,20 @@ export type ModelGraphData = {
   edges: Record<string, ModelEdge>
 }
 
-export type GraphRenderer = (
-  graphModel: GraphModel,
-  onChange: (model: GraphModel | ((model2: GraphModel) => GraphModel)) => void
-) => React.ReactNode
+export interface GraphRenderer<O extends GraphRendererOptions> {
+  render: FC<{
+    graphModel: GraphModel
+    onChange: (model: GraphModel | ((model2: GraphModel) => GraphModel)) => void
+    options: O
+  }>
+  defaultOptions: O
+  layouts: PresetGraphLayout[]
+}
+
+export interface GraphRendererOptions {
+  width?: number | 'full-width'
+  height: number | 'full-height'
+}
 
 export interface ItemDecoration {
   label: string
@@ -87,4 +98,26 @@ export interface BoundingBox {
   y1: number
   w: number
   h: number
+}
+
+export type GraphCommand =
+  | ZoomInCommand
+  | ZoomOutCommand
+  | RefitCommand
+  | LayoutCommand
+
+export interface ZoomInCommand {
+  type: 'ZoomIn'
+}
+
+export interface ZoomOutCommand {
+  type: 'ZoomOut'
+}
+
+export interface RefitCommand {
+  type: 'Refit'
+}
+
+export interface LayoutCommand {
+  type: 'Layout'
 }
