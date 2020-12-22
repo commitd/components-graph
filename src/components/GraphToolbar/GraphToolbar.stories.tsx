@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Story, Meta } from '@storybook/react'
 import { GraphToolbar, GraphToolbarProps } from '.'
-import { Flex, ThemeProvider } from '@committed/components'
+import { Flex } from '@committed/components'
 import { Graph } from '../Graph/Graph'
 import { addRandomEdge, addRandomNode } from '../../graph/data/Generator'
 import { GraphModel } from '../../graph/GraphModel'
@@ -10,9 +10,6 @@ import { cytoscapeRenderer } from '../../graph/renderer/CytoscapeRenderer'
 export default {
   title: 'Components/GraphToolbar',
   component: GraphToolbar,
-  decorators: [
-    (story) => <ThemeProvider choice="light">{story()}</ThemeProvider>,
-  ],
 } as Meta
 
 export const Vertical: React.FC = () => {
