@@ -126,7 +126,7 @@ export class ContentModel {
     attributeName: string,
     attributeValue: V
   ): ContentModel {
-    if (this.getExistingNode(id).attributes[attributeName] == null) {
+    if (this.getExistingNode(id).attributes[`${attributeName}`] == null) {
       throw new Error(`Node [${id}] does not have attribute ${attributeName}`)
     }
     return this.addNodeAttribute(id, attributeName, attributeValue)
@@ -161,7 +161,7 @@ export class ContentModel {
   }
 
   getEdge(id: string): ModelEdge | undefined {
-    return this.edges[id]
+    return this.edges[`${id}`]
   }
 
   private getExistingEdge(id: string): ModelEdge {
@@ -203,7 +203,7 @@ export class ContentModel {
     attributeName: string,
     attributeValue: V
   ): ContentModel {
-    if (this.getExistingEdge(id).attributes[attributeName] == null) {
+    if (this.getExistingEdge(id).attributes[`${attributeName}`] == null) {
       throw new Error(`Edge [${id}] does not have attribute ${attributeName}`)
     }
     return this.addEdgeAttribute(id, attributeName, attributeValue)

@@ -35,6 +35,7 @@ export class CytoscapeGraphLayoutAdapter implements LayoutManipulation {
     }
 
     //@ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const cy: Core = this.options.cy
     const boundingBox = { x1: 0, y1: 0, w: cy.width(), h: cy.height() }
     const nodePositions = this.options.algorithm.runLayout(this.options.model, {
