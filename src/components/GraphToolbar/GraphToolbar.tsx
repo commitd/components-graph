@@ -28,6 +28,7 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
       <Flex flexDirection={direction}>
         <IconButton
           aria-label="zoom-in"
+          title="Zoom in"
           {...props}
           onClick={() => onModelChange(model.pushCommand({ type: 'ZoomIn' }))}
         >
@@ -35,6 +36,7 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
         </IconButton>
         <IconButton
           aria-label="zoom-out"
+          title="Zoom out"
           {...props}
           onClick={() => onModelChange(model.pushCommand({ type: 'ZoomOut' }))}
         >
@@ -42,6 +44,7 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
         </IconButton>
         <IconButton
           aria-label="layout"
+          title="Layout"
           {...props}
           onClick={() => onModelChange(model.pushCommand({ type: 'Layout' }))}
         >
@@ -49,6 +52,7 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
         </IconButton>
         <IconButton
           aria-label="refit"
+          title="Refit"
           {...props}
           onClick={() => onModelChange(model.pushCommand({ type: 'Refit' }))}
         >
