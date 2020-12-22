@@ -114,7 +114,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
 
   const triggerLayout = useDebouncedCallback((graphLayout: GraphLayout) => {
     if (cytoscape != null) {
-      const l = layouts[graphLayout]
+      const l = layouts[`${graphLayout}` as GraphLayout]
       if (l == null) {
         throw new Error('Layout does not exist')
       }
@@ -177,7 +177,8 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
         console.log(`Layout took ${Date.now() - layoutStart.current}ms`)
       }
     })
-    //  @ts-ignore
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
     return () => cytoscape.removeAllListeners()
   }, [cytoscape, layout, triggerLayout, updateSelection])
 
@@ -225,7 +226,8 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
       }
     })
     onChange(graphModel.clearCommands())
-  }, [commands])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [commands, onChange])
 
   const elements = useMemo(
     () => [

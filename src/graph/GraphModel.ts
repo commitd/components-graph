@@ -184,7 +184,12 @@ export class GraphModel {
     })
   }
 
-  private getOptions() {
+  private getOptions(): {
+    selectionModel: SelectionModel
+    decoratorModel: DecoratorModel
+    layoutModel: LayoutModel
+    commandQueue: GraphCommand[]
+  } {
     return {
       selectionModel: this.selectionModel,
       decoratorModel: this.decoratorModel,
