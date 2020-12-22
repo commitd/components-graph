@@ -33,8 +33,11 @@
     "generate": "plop --plopfile ./generators/plopfile.js"
   },
   "peerDependencies": {
+    "@committed/components": "^4.0.1",
+    "@material-ui/core": "^4.9.10",
+    "@material-ui/icons": "^4.9.1",
     "react": ">=16",
-    "@committed/components": "^4.0.1"
+    "react-dom": ">=16"
   },
   "husky": {
     "hooks": {
@@ -46,14 +49,14 @@
     "semi": false,
     "singleQuote": true
   },
-  "module": "dist/template.esm.js",
+  "module": "dist/components-graph.esm.js",
   "size-limit": [
     {
-      "path": "dist/template.cjs.production.min.js",
+      "path": "dist/components-graph.cjs.production.min.js",
       "limit": "200 KB"
     },
     {
-      "path": "dist/template.esm.js",
+      "path": "dist/components-graph.esm.js",
       "limit": "200 KB"
     }
   ],
