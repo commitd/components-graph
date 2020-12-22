@@ -8,7 +8,7 @@ import {
   GraphToolbar,
   cytoscapeRenderer,
 } from '../dist'
-import { Flex, ThemeProvider } from '@committed/components'
+import { Row, ThemeProvider } from '@committed/components'
 
 const App: React.FC = () => {
   const [model, setModel] = React.useState(
@@ -16,7 +16,7 @@ const App: React.FC = () => {
   )
   return (
     <ThemeProvider>
-      <Flex flexDirection="row">
+      <Row>
         <GraphToolbar
           direction="column"
           model={model}
@@ -28,7 +28,7 @@ const App: React.FC = () => {
           renderer={cytoscapeRenderer}
           options={{ height: 600 }}
         />
-      </Flex>
+      </Row>
     </ThemeProvider>
   )
 }

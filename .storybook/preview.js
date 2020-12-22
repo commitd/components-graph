@@ -1,5 +1,13 @@
-// https://storybook.js.org/docs/react/writing-stories/parameters#global-parameters
+import { committedLight } from './committed/theme.js'
+
 export const parameters = {
-  // https://storybook.js.org/docs/react/essentials/actions#automatically-matching-args
   actions: { argTypesRegex: '^on.*' },
-};
+  options: {
+    storySort: {
+      order: ['Introduction', 'Components'],
+    },
+  },
+  docs: {
+    theme: committedLight,
+  },
+}
