@@ -53,11 +53,11 @@
   "size-limit": [
     {
       "path": "dist/components-graph.cjs.production.min.js",
-      "limit": "200 KB"
+      "limit": "260 KB"
     },
     {
       "path": "dist/components-graph.esm.js",
-      "limit": "200 KB"
+      "limit": "260 KB"
     }
   ],
   "jest": {
