@@ -6,7 +6,12 @@ export const parameters = {
   actions: { argTypesRegex: '^on.*' },
   options: {
     storySort: {
-      order: ['Introduction', 'Components', ['Graph', 'GraphToolbar']],
+      order: [
+        'Introduction',
+        'Components',
+        ['Graph', 'GraphToolbar'],
+        'Example',
+      ],
     },
   },
   docs: {

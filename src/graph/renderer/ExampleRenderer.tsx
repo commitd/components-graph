@@ -1,3 +1,4 @@
+import { Box, Button, Heading, Monospace } from '@committed/components'
 import React from 'react'
 import { GraphModel } from '../GraphModel'
 import { GraphRenderer, GraphRendererOptions } from '../types'
@@ -22,21 +23,33 @@ const Renderer: GraphRenderer<GraphRendererOptions>['render'] = ({
     const withEdge = graphModel.getCurrentContent().addEdge({
       source: node1.id,
       target: node2.id,
-      targetArrow: true,
     })
     const newModel = GraphModel.applyContent(graphModel, withEdge)
     onChange(newModel)
   }
 
   return (
-    <div>
-      <div>Nodes {JSON.stringify(graphModel.nodes, null, '\t')}</div>
-      <div>Edges {JSON.stringify(graphModel.edges, null, '\t')}</div>
+    <Box bgcolor="background.paper" p={3}>
+      <Button m={2} color="primary" onClick={handleAddNode}>
+        Add Node
+      </Button>
+      <Button m={2} color="primary" onClick={handleAddEdge}>
+        Add Edge
+      </Button>
       <div>
-        <button onClick={handleAddNode}>Add Node</button>{' '}
-        <button onClick={handleAddEdge}>Add Edge</button>
+        <Heading.h2>Nodes</Heading.h2>
+        <Monospace fontSize={-2}>
+          {JSON.stringify(graphModel.nodes, null, 2)}
+        </Monospace>
       </div>
-    </div>
+      <div>
+        <Heading.h2>Edges</Heading.h2>
+        <Monospace fontSize={-2}>
+          {JSON.stringify(graphModel.edges, null, 2)}
+        </Monospace>
+      </div>
+      <div></div>
+    </Box>
   )
 }
 

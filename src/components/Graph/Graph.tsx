@@ -18,7 +18,6 @@ export interface GraphProps<O extends GraphRendererOptions> {
 /**
  * The Graph component renders a Graph defined by the GraphModel. How it is rendered is determined by the GraphRenderer
  *
- * @param param0 The options object for the chosen GraphRenderer
  */
 export const Graph = <O extends GraphRendererOptions>({
   renderer,

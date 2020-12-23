@@ -1,3 +1,4 @@
+import { Theme } from '@committed/components'
 import { GraphModel } from '../GraphModel'
 import { Css, Position as CyPosition } from 'cytoscape'
 import { FC } from 'react'
@@ -60,13 +61,34 @@ export interface EdgeDecoration extends ItemDecoration {
   style: EdgeStyle
 }
 
-export type DecoratedNode = ModelNode & NodeDecoration
+export interface DecorationFunction<T extends ItemDecoration, S = Partial<T>> {
+  (theme: Theme): S
+}
 
-export type DecoratedEdge = ModelEdge & EdgeDecoration
+export type NodeDecorationFunction = DecorationFunction<NodeDecoration>
+export type EdgeDecorationFunction = DecorationFunction<EdgeDecoration>
 
-export type NodeDecorator = (node: ModelNode) => Partial<NodeDecoration>
+export interface NodeDecorationCreator {
+  getDecorationOverrides: NodeDecorationFunction
+}
 
-export type EdgeDecorator = (edge: ModelEdge) => Partial<EdgeDecoration>
+export interface EdgeDecorationCreator {
+  getDecorationOverrides: EdgeDecorationFunction
+}
+
+export type DecoratedNode = ModelNode & NodeDecorationCreator
+
+export type DecoratedEdge = ModelEdge & EdgeDecorationCreator
+
+export type NodeDecorator = (
+  node: ModelNode,
+  theme: Theme
+) => Partial<NodeDecoration>
+
+export type EdgeDecorator = (
+  edge: ModelEdge,
+  theme: Theme
+) => Partial<EdgeDecoration>
 
 export type NodeShape = Css.NodeShape
 

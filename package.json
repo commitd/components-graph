@@ -53,11 +53,11 @@
   "size-limit": [
     {
       "path": "dist/components-graph.cjs.production.min.js",
-      "limit": "260 KB"
+      "limit": "200 KB"
     },
     {
       "path": "dist/components-graph.esm.js",
-      "limit": "260 KB"
+      "limit": "200 KB"
     }
   ],
   "jest": {
@@ -110,7 +110,6 @@
   "dependencies": {
     "@types/react-cytoscapejs": "^1.1.2",
     "@types/uuid": "^8.3.0",
-    "cytoscape": "^3.17.1",
     "cytoscape-cola": "^2.4.0",
     "react-cytoscapejs": "^1.2.1",
     "use-debounce": "^5.1.0",

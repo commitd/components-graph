@@ -2,284 +2,252 @@
 
 exports[`renders dark 1`] = `
 <DocumentFragment>
-  <div>
-    <div>
-      Nodes [
-	{
-		"shape": "ellipse",
-		"color": "#FFc526",
-		"label": "",
-		"size": 25,
-		"opacity": 1,
-		"strokeColor": "#3E3E3E",
-		"strokeSize": 2,
-		"id": "n1",
-		"attributes": {}
-	},
-	{
-		"shape": "ellipse",
-		"color": "#FFc526",
-		"label": "",
-		"size": 25,
-		"opacity": 1,
-		"strokeColor": "#3E3E3E",
-		"strokeSize": 2,
-		"id": "n2",
-		"attributes": {}
-	},
-	{
-		"shape": "ellipse",
-		"color": "#FFc526",
-		"label": "",
-		"size": 25,
-		"opacity": 1,
-		"strokeColor": "#3E3E3E",
-		"strokeSize": 2,
-		"id": "n3",
-		"attributes": {}
-	},
-	{
-		"shape": "ellipse",
-		"color": "#FFc526",
-		"label": "",
-		"size": 25,
-		"opacity": 1,
-		"strokeColor": "#3E3E3E",
-		"strokeSize": 2,
-		"id": "n4",
-		"attributes": {}
-	},
-	{
-		"shape": "ellipse",
-		"color": "#FFc526",
-		"label": "",
-		"size": 25,
-		"opacity": 1,
-		"strokeColor": "#3E3E3E",
-		"strokeSize": 2,
-		"id": "n5",
-		"attributes": {}
-	},
-	{
-		"shape": "ellipse",
-		"color": "#FFc526",
-		"label": "",
-		"size": 25,
-		"opacity": 1,
-		"strokeColor": "#3E3E3E",
-		"strokeSize": 2,
-		"id": "n6",
-		"attributes": {}
-	}
-]
-    </div>
-    <div>
-      Edges [
-	{
-		"color": "#3E3E3E",
-		"size": 2,
-		"label": "",
-		"sourceArrow": false,
-		"targetArrow": false,
-		"opacity": 1,
-		"style": "solid",
-		"id": "e1",
-		"attributes": {},
-		"source": "n1",
-		"target": "n2"
-	},
-	{
-		"color": "#3E3E3E",
-		"size": 2,
-		"label": "",
-		"sourceArrow": false,
-		"targetArrow": false,
-		"opacity": 1,
-		"style": "solid",
-		"id": "e2",
-		"attributes": {},
-		"source": "n1",
-		"target": "n3"
-	},
-	{
-		"color": "#3E3E3E",
-		"size": 2,
-		"label": "",
-		"sourceArrow": false,
-		"targetArrow": false,
-		"opacity": 1,
-		"style": "solid",
-		"id": "e3",
-		"attributes": {},
-		"source": "n3",
-		"target": "n4"
-	},
-	{
-		"color": "#3E3E3E",
-		"size": 2,
-		"label": "",
-		"sourceArrow": false,
-		"targetArrow": false,
-		"opacity": 1,
-		"style": "solid",
-		"id": "e5",
-		"attributes": {},
-		"source": "n5",
-		"target": "n5"
-	}
-]
-    </div>
-    <div>
-      <button>
+  <div
+    class="MuiBox-root MuiBox-root Styled(MuiBox)-root Styled(MuiBox)-root"
+  >
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained ForwardRef(withPositioning)-root ForwardRef(withPositioning)-root MuiButton-containedPrimary"
+      tabindex="0"
+      type="button"
+    >
+      <span
+        class="MuiButton-label"
+      >
         Add Node
-      </button>
-       
-      <button>
+      </span>
+      <span
+        class="MuiTouchRipple-root"
+      />
+    </button>
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained ForwardRef(withPositioning)-root ForwardRef(withPositioning)-root MuiButton-containedPrimary"
+      tabindex="0"
+      type="button"
+    >
+      <span
+        class="MuiButton-label"
+      >
         Add Edge
-      </button>
+      </span>
+      <span
+        class="MuiTouchRipple-root"
+      />
+    </button>
+    <div>
+      <h2
+        class="MuiTypography-root ForwardRef(withPositioning)-root ForwardRef(withPositioning)-root Component-root Component-root MuiTypography-h2"
+      >
+        Nodes
+      </h2>
+      <pre
+        class="ForwardRef(withPositioning)-root ForwardRef(withPositioning)-root Component-root Component-root"
+        variant="body1"
+      >
+        [
+  {
+    "id": "n1",
+    "attributes": {
+      "type": "person"
+    }
+  },
+  {
+    "id": "n2",
+    "attributes": {
+      "type": "person"
+    }
+  },
+  {
+    "id": "n3",
+    "attributes": {
+      "type": "person"
+    }
+  },
+  {
+    "id": "n4",
+    "attributes": {
+      "type": "place"
+    }
+  },
+  {
+    "id": "n5",
+    "attributes": {
+      "type": "place"
+    }
+  },
+  {
+    "id": "n6",
+    "attributes": {
+      "type": "place"
+    }
+  }
+]
+      </pre>
     </div>
+    <div>
+      <h2
+        class="MuiTypography-root ForwardRef(withPositioning)-root ForwardRef(withPositioning)-root Component-root Component-root MuiTypography-h2"
+      >
+        Edges
+      </h2>
+      <pre
+        class="ForwardRef(withPositioning)-root ForwardRef(withPositioning)-root Component-root Component-root"
+        variant="body1"
+      >
+        [
+  {
+    "id": "e1",
+    "attributes": {},
+    "source": "n1",
+    "target": "n2"
+  },
+  {
+    "id": "e2",
+    "attributes": {},
+    "source": "n1",
+    "target": "n3"
+  },
+  {
+    "id": "e3",
+    "attributes": {},
+    "source": "n3",
+    "target": "n4"
+  },
+  {
+    "id": "e5",
+    "attributes": {},
+    "source": "n5",
+    "target": "n5"
+  }
+]
+      </pre>
+    </div>
+    <div />
   </div>
 </DocumentFragment>
 `;
 
 exports[`renders light 1`] = `
 <DocumentFragment>
-  <div>
-    <div>
-      Nodes [
-	{
-		"shape": "ellipse",
-		"color": "#FFc526",
-		"label": "",
-		"size": 25,
-		"opacity": 1,
-		"strokeColor": "#3E3E3E",
-		"strokeSize": 2,
-		"id": "n1",
-		"attributes": {}
-	},
-	{
-		"shape": "ellipse",
-		"color": "#FFc526",
-		"label": "",
-		"size": 25,
-		"opacity": 1,
-		"strokeColor": "#3E3E3E",
-		"strokeSize": 2,
-		"id": "n2",
-		"attributes": {}
-	},
-	{
-		"shape": "ellipse",
-		"color": "#FFc526",
-		"label": "",
-		"size": 25,
-		"opacity": 1,
-		"strokeColor": "#3E3E3E",
-		"strokeSize": 2,
-		"id": "n3",
-		"attributes": {}
-	},
-	{
-		"shape": "ellipse",
-		"color": "#FFc526",
-		"label": "",
-		"size": 25,
-		"opacity": 1,
-		"strokeColor": "#3E3E3E",
-		"strokeSize": 2,
-		"id": "n4",
-		"attributes": {}
-	},
-	{
-		"shape": "ellipse",
-		"color": "#FFc526",
-		"label": "",
-		"size": 25,
-		"opacity": 1,
-		"strokeColor": "#3E3E3E",
-		"strokeSize": 2,
-		"id": "n5",
-		"attributes": {}
-	},
-	{
-		"shape": "ellipse",
-		"color": "#FFc526",
-		"label": "",
-		"size": 25,
-		"opacity": 1,
-		"strokeColor": "#3E3E3E",
-		"strokeSize": 2,
-		"id": "n6",
-		"attributes": {}
-	}
-]
-    </div>
-    <div>
-      Edges [
-	{
-		"color": "#3E3E3E",
-		"size": 2,
-		"label": "",
-		"sourceArrow": false,
-		"targetArrow": false,
-		"opacity": 1,
-		"style": "solid",
-		"id": "e1",
-		"attributes": {},
-		"source": "n1",
-		"target": "n2"
-	},
-	{
-		"color": "#3E3E3E",
-		"size": 2,
-		"label": "",
-		"sourceArrow": false,
-		"targetArrow": false,
-		"opacity": 1,
-		"style": "solid",
-		"id": "e2",
-		"attributes": {},
-		"source": "n1",
-		"target": "n3"
-	},
-	{
-		"color": "#3E3E3E",
-		"size": 2,
-		"label": "",
-		"sourceArrow": false,
-		"targetArrow": false,
-		"opacity": 1,
-		"style": "solid",
-		"id": "e3",
-		"attributes": {},
-		"source": "n3",
-		"target": "n4"
-	},
-	{
-		"color": "#3E3E3E",
-		"size": 2,
-		"label": "",
-		"sourceArrow": false,
-		"targetArrow": false,
-		"opacity": 1,
-		"style": "solid",
-		"id": "e5",
-		"attributes": {},
-		"source": "n5",
-		"target": "n5"
-	}
-]
-    </div>
-    <div>
-      <button>
+  <div
+    class="MuiBox-root MuiBox-root Styled(MuiBox)-root Styled(MuiBox)-root"
+  >
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained ForwardRef(withPositioning)-root ForwardRef(withPositioning)-root MuiButton-containedPrimary"
+      tabindex="0"
+      type="button"
+    >
+      <span
+        class="MuiButton-label"
+      >
         Add Node
-      </button>
-       
-      <button>
+      </span>
+      <span
+        class="MuiTouchRipple-root"
+      />
+    </button>
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained ForwardRef(withPositioning)-root ForwardRef(withPositioning)-root MuiButton-containedPrimary"
+      tabindex="0"
+      type="button"
+    >
+      <span
+        class="MuiButton-label"
+      >
         Add Edge
-      </button>
+      </span>
+      <span
+        class="MuiTouchRipple-root"
+      />
+    </button>
+    <div>
+      <h2
+        class="MuiTypography-root ForwardRef(withPositioning)-root ForwardRef(withPositioning)-root Component-root Component-root MuiTypography-h2"
+      >
+        Nodes
+      </h2>
+      <pre
+        class="ForwardRef(withPositioning)-root ForwardRef(withPositioning)-root Component-root Component-root"
+        variant="body1"
+      >
+        [
+  {
+    "id": "n1",
+    "attributes": {
+      "type": "person"
+    }
+  },
+  {
+    "id": "n2",
+    "attributes": {
+      "type": "person"
+    }
+  },
+  {
+    "id": "n3",
+    "attributes": {
+      "type": "person"
+    }
+  },
+  {
+    "id": "n4",
+    "attributes": {
+      "type": "place"
+    }
+  },
+  {
+    "id": "n5",
+    "attributes": {
+      "type": "place"
+    }
+  },
+  {
+    "id": "n6",
+    "attributes": {
+      "type": "place"
+    }
+  }
+]
+      </pre>
     </div>
+    <div>
+      <h2
+        class="MuiTypography-root ForwardRef(withPositioning)-root ForwardRef(withPositioning)-root Component-root Component-root MuiTypography-h2"
+      >
+        Edges
+      </h2>
+      <pre
+        class="ForwardRef(withPositioning)-root ForwardRef(withPositioning)-root Component-root Component-root"
+        variant="body1"
+      >
+        [
+  {
+    "id": "e1",
+    "attributes": {},
+    "source": "n1",
+    "target": "n2"
+  },
+  {
+    "id": "e2",
+    "attributes": {},
+    "source": "n1",
+    "target": "n3"
+  },
+  {
+    "id": "e3",
+    "attributes": {},
+    "source": "n3",
+    "target": "n4"
+  },
+  {
+    "id": "e5",
+    "attributes": {},
+    "source": "n5",
+    "target": "n5"
+  }
+]
+      </pre>
+    </div>
+    <div />
   </div>
 </DocumentFragment>
 `;
