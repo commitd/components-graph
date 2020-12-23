@@ -5,7 +5,7 @@ import { exampleRenderer } from '../../graph/renderer/ExampleRenderer'
 import { cytoscapeRenderer } from '../../graph/renderer/CytoscapeRenderer'
 import { GraphDebugControl } from '../GraphDebugControl'
 import { GraphModel } from '../../graph/GraphModel'
-import { Box, Flex, ThemeProvider } from '@committed/components'
+import { Box, Flex } from '@committed/components'
 import {
   addRandomEdge,
   addRandomNode,
@@ -19,10 +19,7 @@ export default {
   title: 'Components/Graph',
   component: Graph,
   decorators: [
-    (story) => <ThemeProvider>{story()}</ThemeProvider>,
-    (story) => (
-      <div style={{ height: '100vh', padding: '16px' }}>{story()}</div>
-    ),
+    (story) => <div style={{ height: '50vh', padding: '16px' }}>{story()}</div>,
   ],
   parameters: {
     layout: 'fullscreen',
