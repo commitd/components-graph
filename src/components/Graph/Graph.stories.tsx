@@ -248,8 +248,10 @@ export const CustomLayout: React.FC = () => {
   return <Template model={model} onModelChange={setModel} />
 }
 
-export const CustomRenderer: React.FC = () => {
-  const [model, setModel] = useState(GraphModel.createEmpty())
+export const CustomRenderer: React.FC<{ initialModel?: GraphModel }> = ({
+  initialModel = GraphModel.createEmpty(),
+}) => {
+  const [model, setModel] = useState(initialModel)
   return (
     <Graph
       model={model}
