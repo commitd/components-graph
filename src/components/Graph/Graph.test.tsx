@@ -1,9 +1,22 @@
 import React from 'react'
-import { render } from '../../setupTests'
+import { renderLight, renderDark } from '../../setupTests'
 import { CustomRenderer } from './Graph.stories'
+import { ContentModel, GraphModel } from '../../graph'
+import { exampleGraphData } from './exampleData'
 
-// TODO Add canvas to jest:
-// Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
-it('renders story', () => {
-  render(<CustomRenderer />)
+it('renders light', () => {
+  const { asFragment } = renderLight(
+    <CustomRenderer
+      initialModel={new GraphModel(ContentModel.fromRaw(exampleGraphData))}
+    />
+  )
+  expect(asFragment()).toMatchSnapshot()
+})
+it('renders dark', () => {
+  const { asFragment } = renderDark(
+    <CustomRenderer
+      initialModel={new GraphModel(ContentModel.fromRaw(exampleGraphData))}
+    />
+  )
+  expect(asFragment()).toMatchSnapshot()
 })

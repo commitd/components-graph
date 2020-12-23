@@ -1,0 +1,285 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders dark 1`] = `
+<DocumentFragment>
+  <div>
+    <div>
+      Nodes [
+	{
+		"shape": "ellipse",
+		"color": "#FFc526",
+		"label": "",
+		"size": 25,
+		"opacity": 1,
+		"strokeColor": "#3E3E3E",
+		"strokeSize": 2,
+		"id": "n1",
+		"attributes": {}
+	},
+	{
+		"shape": "ellipse",
+		"color": "#FFc526",
+		"label": "",
+		"size": 25,
+		"opacity": 1,
+		"strokeColor": "#3E3E3E",
+		"strokeSize": 2,
+		"id": "n2",
+		"attributes": {}
+	},
+	{
+		"shape": "ellipse",
+		"color": "#FFc526",
+		"label": "",
+		"size": 25,
+		"opacity": 1,
+		"strokeColor": "#3E3E3E",
+		"strokeSize": 2,
+		"id": "n3",
+		"attributes": {}
+	},
+	{
+		"shape": "ellipse",
+		"color": "#FFc526",
+		"label": "",
+		"size": 25,
+		"opacity": 1,
+		"strokeColor": "#3E3E3E",
+		"strokeSize": 2,
+		"id": "n4",
+		"attributes": {}
+	},
+	{
+		"shape": "ellipse",
+		"color": "#FFc526",
+		"label": "",
+		"size": 25,
+		"opacity": 1,
+		"strokeColor": "#3E3E3E",
+		"strokeSize": 2,
+		"id": "n5",
+		"attributes": {}
+	},
+	{
+		"shape": "ellipse",
+		"color": "#FFc526",
+		"label": "",
+		"size": 25,
+		"opacity": 1,
+		"strokeColor": "#3E3E3E",
+		"strokeSize": 2,
+		"id": "n6",
+		"attributes": {}
+	}
+]
+    </div>
+    <div>
+      Edges [
+	{
+		"color": "#3E3E3E",
+		"size": 2,
+		"label": "",
+		"sourceArrow": false,
+		"targetArrow": false,
+		"opacity": 1,
+		"style": "solid",
+		"id": "e1",
+		"attributes": {},
+		"source": "n1",
+		"target": "n2"
+	},
+	{
+		"color": "#3E3E3E",
+		"size": 2,
+		"label": "",
+		"sourceArrow": false,
+		"targetArrow": false,
+		"opacity": 1,
+		"style": "solid",
+		"id": "e2",
+		"attributes": {},
+		"source": "n1",
+		"target": "n3"
+	},
+	{
+		"color": "#3E3E3E",
+		"size": 2,
+		"label": "",
+		"sourceArrow": false,
+		"targetArrow": false,
+		"opacity": 1,
+		"style": "solid",
+		"id": "e3",
+		"attributes": {},
+		"source": "n3",
+		"target": "n4"
+	},
+	{
+		"color": "#3E3E3E",
+		"size": 2,
+		"label": "",
+		"sourceArrow": false,
+		"targetArrow": false,
+		"opacity": 1,
+		"style": "solid",
+		"id": "e5",
+		"attributes": {},
+		"source": "n5",
+		"target": "n5"
+	}
+]
+    </div>
+    <div>
+      <button>
+        Add Node
+      </button>
+       
+      <button>
+        Add Edge
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`renders light 1`] = `
+<DocumentFragment>
+  <div>
+    <div>
+      Nodes [
+	{
+		"shape": "ellipse",
+		"color": "#FFc526",
+		"label": "",
+		"size": 25,
+		"opacity": 1,
+		"strokeColor": "#3E3E3E",
+		"strokeSize": 2,
+		"id": "n1",
+		"attributes": {}
+	},
+	{
+		"shape": "ellipse",
+		"color": "#FFc526",
+		"label": "",
+		"size": 25,
+		"opacity": 1,
+		"strokeColor": "#3E3E3E",
+		"strokeSize": 2,
+		"id": "n2",
+		"attributes": {}
+	},
+	{
+		"shape": "ellipse",
+		"color": "#FFc526",
+		"label": "",
+		"size": 25,
+		"opacity": 1,
+		"strokeColor": "#3E3E3E",
+		"strokeSize": 2,
+		"id": "n3",
+		"attributes": {}
+	},
+	{
+		"shape": "ellipse",
+		"color": "#FFc526",
+		"label": "",
+		"size": 25,
+		"opacity": 1,
+		"strokeColor": "#3E3E3E",
+		"strokeSize": 2,
+		"id": "n4",
+		"attributes": {}
+	},
+	{
+		"shape": "ellipse",
+		"color": "#FFc526",
+		"label": "",
+		"size": 25,
+		"opacity": 1,
+		"strokeColor": "#3E3E3E",
+		"strokeSize": 2,
+		"id": "n5",
+		"attributes": {}
+	},
+	{
+		"shape": "ellipse",
+		"color": "#FFc526",
+		"label": "",
+		"size": 25,
+		"opacity": 1,
+		"strokeColor": "#3E3E3E",
+		"strokeSize": 2,
+		"id": "n6",
+		"attributes": {}
+	}
+]
+    </div>
+    <div>
+      Edges [
+	{
+		"color": "#3E3E3E",
+		"size": 2,
+		"label": "",
+		"sourceArrow": false,
+		"targetArrow": false,
+		"opacity": 1,
+		"style": "solid",
+		"id": "e1",
+		"attributes": {},
+		"source": "n1",
+		"target": "n2"
+	},
+	{
+		"color": "#3E3E3E",
+		"size": 2,
+		"label": "",
+		"sourceArrow": false,
+		"targetArrow": false,
+		"opacity": 1,
+		"style": "solid",
+		"id": "e2",
+		"attributes": {},
+		"source": "n1",
+		"target": "n3"
+	},
+	{
+		"color": "#3E3E3E",
+		"size": 2,
+		"label": "",
+		"sourceArrow": false,
+		"targetArrow": false,
+		"opacity": 1,
+		"style": "solid",
+		"id": "e3",
+		"attributes": {},
+		"source": "n3",
+		"target": "n4"
+	},
+	{
+		"color": "#3E3E3E",
+		"size": 2,
+		"label": "",
+		"sourceArrow": false,
+		"targetArrow": false,
+		"opacity": 1,
+		"style": "solid",
+		"id": "e5",
+		"attributes": {},
+		"source": "n5",
+		"target": "n5"
+	}
+]
+    </div>
+    <div>
+      <button>
+        Add Node
+      </button>
+       
+      <button>
+        Add Edge
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;
