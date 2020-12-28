@@ -48,6 +48,27 @@ beforeEach(() => {
   graphModel = GraphModel.createEmpty()
 })
 
+it('can access by id', () => {
+  const graph = GraphModel.applyContent(
+    graphModel,
+    graphModel.getCurrentContent().addNode(node1).addNode(node2).addEdge(edge1)
+  )
+
+  const decoratedNode = graph.getNode(node1.id)
+  const decoratedEdge = graph.getEdge(edge1.id)
+  // @ts-ignore
+  delete decoratedNode['getDecorationOverrides']
+  expect(decoratedNode).toEqual(node1)
+  // @ts-ignore
+  delete decoratedEdge['getDecorationOverrides']
+  expect(decoratedEdge).toEqual(edge1)
+})
+
+it('missing returns undefined', () => {
+  expect(graphModel.getNode('123')).toBeUndefined()
+  expect(graphModel.getEdge('123')).toBeUndefined()
+})
+
 it('Applies content changes', () => {
   expect(graphModel.nodes.length).toBe(0)
   expect(graphModel.edges.length).toBe(0)

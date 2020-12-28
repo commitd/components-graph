@@ -10,7 +10,7 @@ export interface GraphProps<O extends GraphRendererOptions> {
   /** Options specific to the chosen GraphRenderer */
   options: Partial<O> & { height: GraphRendererOptions['height'] }
   /** The graph model change callback */
-  onModelChange?: (
+  onModelChange: (
     model: GraphModel | ((model2: GraphModel) => GraphModel)
   ) => void
 }
@@ -22,9 +22,7 @@ export interface GraphProps<O extends GraphRendererOptions> {
 export const Graph = <O extends GraphRendererOptions>({
   renderer,
   model,
-  onModelChange = () => {
-    // do nothing by default
-  },
+  onModelChange,
   options,
 }: PropsWithChildren<GraphProps<O>>): ReactElement<GraphProps<O>> => {
   return (

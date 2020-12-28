@@ -68,6 +68,7 @@
       "setupTests.tsx",
       ".*/index.ts",
       ".*.test.ts",
+      ".*/stories/.*",
       ".*.stories.tsx"
     ]
   },

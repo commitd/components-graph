@@ -55,8 +55,8 @@ export const CustomLayout: React.FC = () => {
     GraphModel.applyLayout(
       exampleModel,
       exampleModel.getCurrentLayout().customLayout({
-        runLayout: (model) => {
-          return model.nodes.reduce<Record<string, cytoscape.Position>>(
+        runLayout: (m) => {
+          return m.nodes.reduce<Record<string, cytoscape.Position>>(
             (prev, next) => {
               prev[next.id] = {
                 x: ((next?.label?.charCodeAt(0) ?? 0) - 65) * 40 + 50,

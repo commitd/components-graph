@@ -12,6 +12,7 @@ it('renders light', () => {
   )
   expect(asFragment()).toMatchSnapshot()
 })
+
 it('renders dark', () => {
   const { asFragment } = renderDark(
     <CustomRenderer

@@ -122,7 +122,9 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
       cytoscape.layout(l).run()
     }
   }, 200)
+
   const pendingSelection = useRef<SelectionModel>(selection)
+
   useEffect(() => {
     pendingSelection.current = selection
   }, [selection])

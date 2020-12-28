@@ -113,11 +113,8 @@ export class ContentModel {
   }
 
   private removeOrphanNode(id: string): ContentModel {
-    const node = this.getNode(id)
-    if (node == null) {
-      return this
-    }
-    const { [id]: _, ...withoutNode } = this.nodes
+    const withoutNode = { ...this.nodes }
+    delete withoutNode[`${id}`]
     return new ContentModel(withoutNode, this.edges)
   }
 
@@ -134,7 +131,8 @@ export class ContentModel {
 
   removeNodeAttribute(id: string, attributeName: string): ContentModel {
     const node = this.getExistingNode(id)
-    const { [attributeName]: _, ...remainingAttributes } = node.attributes
+    const remainingAttributes = { ...node.attributes }
+    delete remainingAttributes[`${attributeName}`]
     const n = { ...node, ...{ attributes: remainingAttributes } }
     return this.editNode(n)
   }
@@ -211,7 +209,8 @@ export class ContentModel {
 
   removeEdgeAttribute(id: string, attributeName: string): ContentModel {
     const edge = this.getExistingEdge(id)
-    const { [attributeName]: _, ...remainingAttributes } = edge.attributes
+    const remainingAttributes = { ...edge.attributes }
+    delete remainingAttributes[`${attributeName}`]
     const e = { ...edge, ...{ attributes: remainingAttributes } }
     return this.editEdge(e)
   }
@@ -221,7 +220,8 @@ export class ContentModel {
     if (edge == null) {
       return this
     }
-    const { [id]: _, ...withoutEdge } = this.edges
+    const withoutEdge = { ...this.edges }
+    delete withoutEdge[`${id}`]
     return new ContentModel(this.nodes, withoutEdge)
   }
 }
