@@ -8,7 +8,7 @@ import { ThemeProvider, Box } from '@committed/components'
  */
 export const withTheme = (Story) => {
   return (
-    <ThemeProvider choice="dark">
+    <ThemeProvider>
       {/* Temporary background until themeing in docs is supported */}
       <Box bgcolor="background.paper" p={3}>
         <Story />
