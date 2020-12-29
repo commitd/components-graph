@@ -15,7 +15,7 @@ export const exampleModel = addRandomEdge(
 
 export const Template: React.FC<{
   model: GraphModel
-  onModelChange?: (
+  onModelChange: (
     model: GraphModel | ((model2: GraphModel) => GraphModel)
   ) => void
   height?: GraphRendererOptions['height']
