@@ -1,12 +1,12 @@
-import { ModelNode, ModelEdge } from '../../graph/types'
+import { ModelNode, ModelEdge } from '../../../graph/types'
 
 const exampleNodesArr: ModelNode[] = [
-  { id: 'n1', attributes: {} },
-  { id: 'n2', attributes: {} },
-  { id: 'n3', attributes: {} },
-  { id: 'n4', attributes: {} },
-  { id: 'n5', attributes: {} },
-  { id: 'n6', attributes: {} },
+  { id: 'n1', attributes: { type: 'person' } },
+  { id: 'n2', attributes: { type: 'person' } },
+  { id: 'n3', attributes: { type: 'person' } },
+  { id: 'n4', attributes: { type: 'place' } },
+  { id: 'n5', attributes: { type: 'place' } },
+  { id: 'n6', attributes: { type: 'place' } },
 ]
 const exampleEdgesArr: ModelEdge[] = [
   {

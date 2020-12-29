@@ -1,8 +1,8 @@
 import React from 'react'
 import { renderLight, renderDark } from '../../setupTests'
-import { CustomRenderer } from './Graph.stories'
+import { CustomRenderer } from './stories/CustomRenderer.stories'
 import { ContentModel, GraphModel } from '../../graph'
-import { exampleGraphData } from './exampleData'
+import { exampleGraphData } from './stories/exampleData'
 
 it('renders light', () => {
   const { asFragment } = renderLight(
@@ -12,6 +12,7 @@ it('renders light', () => {
   )
   expect(asFragment()).toMatchSnapshot()
 })
+
 it('renders dark', () => {
   const { asFragment } = renderDark(
     <CustomRenderer

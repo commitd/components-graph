@@ -5401,14 +5401,6 @@ cytoscape-cola@^2.4.0:
   dependencies:
     webcola "^3.4.0"
 
-cytoscape@^3.17.1:
-  version "3.17.1"
-  resolved "https://registry.yarnpkg.com/cytoscape/-/cytoscape-3.17.1.tgz#da2dd84035db1bcfcff84989ff87f3f841ea01cc"
-  integrity sha512-66jNdRnRxIS4IE+EOax6ElhQcwK8VHmcsbGtDJ4YeuDGLRr5HLotCgeTCAIzpYt6V9CuaTuvhkSkie83wUqhxg==
-  dependencies:
-    heap "^0.2.6"
-    lodash.debounce "^4.0.8"
-
 cytoscape@^3.2.19:
   version "3.17.0"
   resolved "https://registry.yarnpkg.com/cytoscape/-/cytoscape-3.17.0.tgz#9dc476636a32e2b6f272ee0620177b933427c571"

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders dark 1`] = `
+exports[`can be rendered light 1`] = `
 <DocumentFragment>
   <div
     class="MuiBox-root MuiBox-root Styled(MuiBox)-root Styled(MuiBox)-root"
@@ -45,40 +45,30 @@ exports[`renders dark 1`] = `
       >
         [
   {
-    "id": "n1",
+    "id": "node1",
     "attributes": {
-      "type": "person"
-    }
+      "employer": "Committed"
+    },
+    "color": "yellow",
+    "label": "Node 1",
+    "size": 10,
+    "strokeColor": "black",
+    "opacity": 1,
+    "shape": "ellipse",
+    "strokeSize": 2
   },
   {
-    "id": "n2",
+    "id": "node2",
     "attributes": {
-      "type": "person"
-    }
-  },
-  {
-    "id": "n3",
-    "attributes": {
-      "type": "person"
-    }
-  },
-  {
-    "id": "n4",
-    "attributes": {
-      "type": "place"
-    }
-  },
-  {
-    "id": "n5",
-    "attributes": {
-      "type": "place"
-    }
-  },
-  {
-    "id": "n6",
-    "attributes": {
-      "type": "place"
-    }
+      "employer": "Government"
+    },
+    "color": "green",
+    "label": "Node 2",
+    "size": 12,
+    "strokeColor": "black",
+    "opacity": 0.9,
+    "shape": "rectangle",
+    "strokeSize": 3
   }
 ]
       </pre>
@@ -95,28 +85,12 @@ exports[`renders dark 1`] = `
       >
         [
   {
-    "id": "e1",
-    "attributes": {},
-    "source": "n1",
-    "target": "n2"
-  },
-  {
-    "id": "e2",
-    "attributes": {},
-    "source": "n1",
-    "target": "n3"
-  },
-  {
-    "id": "e3",
-    "attributes": {},
-    "source": "n3",
-    "target": "n4"
-  },
-  {
-    "id": "e5",
-    "attributes": {},
-    "source": "n5",
-    "target": "n5"
+    "id": "edge1",
+    "attributes": {
+      "role": "client"
+    },
+    "source": "node1",
+    "target": "node2"
   }
 ]
       </pre>
@@ -126,7 +100,7 @@ exports[`renders dark 1`] = `
 </DocumentFragment>
 `;
 
-exports[`renders light 1`] = `
+exports[`can be rendered light 2`] = `
 <DocumentFragment>
   <div
     class="MuiBox-root MuiBox-root Styled(MuiBox)-root Styled(MuiBox)-root"
@@ -171,40 +145,30 @@ exports[`renders light 1`] = `
       >
         [
   {
-    "id": "n1",
+    "id": "node1",
     "attributes": {
-      "type": "person"
-    }
+      "employer": "Committed"
+    },
+    "color": "yellow",
+    "label": "Node 1",
+    "size": 10,
+    "strokeColor": "black",
+    "opacity": 1,
+    "shape": "ellipse",
+    "strokeSize": 2
   },
   {
-    "id": "n2",
+    "id": "node2",
     "attributes": {
-      "type": "person"
-    }
-  },
-  {
-    "id": "n3",
-    "attributes": {
-      "type": "person"
-    }
-  },
-  {
-    "id": "n4",
-    "attributes": {
-      "type": "place"
-    }
-  },
-  {
-    "id": "n5",
-    "attributes": {
-      "type": "place"
-    }
-  },
-  {
-    "id": "n6",
-    "attributes": {
-      "type": "place"
-    }
+      "employer": "Government"
+    },
+    "color": "green",
+    "label": "Node 2",
+    "size": 12,
+    "strokeColor": "black",
+    "opacity": 0.9,
+    "shape": "rectangle",
+    "strokeSize": 3
   }
 ]
       </pre>
@@ -221,28 +185,12 @@ exports[`renders light 1`] = `
       >
         [
   {
-    "id": "e1",
-    "attributes": {},
-    "source": "n1",
-    "target": "n2"
-  },
-  {
-    "id": "e2",
-    "attributes": {},
-    "source": "n1",
-    "target": "n3"
-  },
-  {
-    "id": "e3",
-    "attributes": {},
-    "source": "n3",
-    "target": "n4"
-  },
-  {
-    "id": "e5",
-    "attributes": {},
-    "source": "n5",
-    "target": "n5"
+    "id": "edge1",
+    "attributes": {
+      "role": "client"
+    },
+    "source": "node1",
+    "target": "node2"
   }
 ]
       </pre>

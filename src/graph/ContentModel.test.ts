@@ -126,6 +126,11 @@ it('Add fully specified node', () => {
   expect(contentModel.getNode(node1.id)).toStrictEqual(node1)
 })
 
+it('Throws if trying to add existing node', () => {
+  contentModel = contentModel.addNode(node1)
+  expect(() => contentModel.addNode(node1)).toThrow()
+})
+
 it('Add fully unspecified node', () => {
   contentModel = contentModel.addNode({})
   const newNode = Object.values(contentModel.nodes)[0]
@@ -151,6 +156,14 @@ it('Edit node attribute', () => {
   const node = contentModel.getNode(node1.id)
   expect(node).toBeTruthy()
   expect(node!.attributes[attribute]).toBe(newAttributeValue)
+})
+
+it('Edit node attribute should throw if missing', () => {
+  contentModel = contentModel.addNode(node1)
+
+  expect(() =>
+    contentModel.editNodeAttribute(node1.id, attribute, attributeValue)
+  ).toThrow()
 })
 
 it('Remove node attribute', () => {
@@ -195,6 +208,16 @@ it('Add fully unspecified edge with supporting nodes', () => {
   expect(newEdge.id).toBeTruthy()
 })
 
+it('Throws if trying to add existing node', () => {
+  const edge = {
+    id: 'test',
+    source: node1.id,
+    target: node2.id,
+  }
+  contentModel = contentModel.addNode(node1).addNode(node2).addEdge(edge)
+  expect(() => contentModel.addEdge(edge)).toThrow()
+})
+
 it('Add edge attribute', () => {
   contentModel = contentModel
     .addNode(node1)
@@ -217,6 +240,14 @@ it('Edit edge attribute', () => {
   const edge = contentModel.getEdge(edge1.id)
   expect(edge).toBeTruthy()
   expect(edge!.attributes[attribute]).toBe(newAttributeValue)
+})
+
+it('Edit edge attribute throws if missing', () => {
+  contentModel = contentModel.addNode(node1).addNode(node2).addEdge(edge1)
+
+  expect(() =>
+    contentModel.editEdgeAttribute(edge1.id, attribute, attributeValue)
+  ).toThrow()
 })
 
 it('Remove edge attribute', () => {

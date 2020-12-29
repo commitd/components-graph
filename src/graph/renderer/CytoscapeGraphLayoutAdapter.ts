@@ -33,7 +33,6 @@ export class CytoscapeGraphLayoutAdapter implements LayoutManipulation {
     if (this.options.algorithm == null) {
       throw new Error('No custom layout algorithm was specified')
     }
-
     //@ts-ignore
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const cy: Core = this.options.cy
