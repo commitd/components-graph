@@ -1,10 +1,8 @@
-import { GraphModel } from '../GraphModel'
-import { cytoscapeRenderer } from './CytoscapeRenderer'
-import { renderLight } from '../../setupTests'
 import React from 'react'
 import { Graph } from '../../components'
-import { ModelNode, ModelEdge } from '..'
-import { ContentModel } from '../ContentModel'
+import { exampleGraph, renderLight } from '../../setupTests'
+import { GraphModel } from '../GraphModel'
+import { cytoscapeRenderer } from './CytoscapeRenderer'
 
 let cytoscape: any
 
@@ -32,48 +30,8 @@ jest.mock('use-debounce', () => {
 
 let graphModel: GraphModel
 
-const node1: ModelNode = {
-  id: 'node1',
-  attributes: {
-    employer: 'Committed',
-  },
-  color: 'yellow',
-  label: 'Node 1',
-  size: 10,
-  strokeColor: 'black',
-  opacity: 1,
-  shape: 'ellipse',
-  strokeSize: 2,
-}
-
-const node2: ModelNode = {
-  id: 'node2',
-  attributes: {
-    employer: 'Government',
-  },
-  color: 'green',
-  label: 'Node 2',
-  size: 12,
-  strokeColor: 'black',
-  opacity: 0.9,
-  shape: 'rectangle',
-  strokeSize: 3,
-}
-
-const edge1: ModelEdge = {
-  id: 'edge1',
-  attributes: {
-    role: 'client',
-  },
-  source: node1.id,
-  target: node2.id,
-}
-
 beforeEach(() => {
-  graphModel = GraphModel.applyContent(
-    GraphModel.createEmpty(),
-    ContentModel.createEmpty().addNode(node1).addNode(node2).addEdge(edge1)
-  )
+  graphModel = exampleGraph
   cytoscape = {
     on: jest.fn(),
     fit: jest.fn(),

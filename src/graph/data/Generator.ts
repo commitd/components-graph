@@ -29,7 +29,7 @@ const randomColor = (): string => {
 }
 
 const randomShape = (): string => {
-  return shapes[Math.floor(Math.random() * shapes.length)]
+  return randomItem(shapes)
 }
 
 const randomName = (): string => {
@@ -70,6 +70,9 @@ export const addRandomNodeColors = (
 }
 
 export const addRandomEdge = (model: GraphModel, count = 1): GraphModel => {
+  if (model.nodes.length === 0) {
+    return model
+  }
   let content = model.getCurrentContent()
   for (let i = 0; i < count; i++) {
     const node1 = randomNode(content)
