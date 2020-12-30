@@ -1,6 +1,6 @@
 import { Box, Button, Heading, Monospace } from '@committed/components'
 import React from 'react'
-import { GraphModel } from '../GraphModel'
+import { addRandomEdge, addRandomNode } from '../data'
 import { GraphRenderer, GraphRendererOptions } from '../types'
 
 const Renderer: GraphRenderer<GraphRendererOptions>['render'] = ({
@@ -8,24 +8,11 @@ const Renderer: GraphRenderer<GraphRendererOptions>['render'] = ({
   onChange,
 }) => {
   const handleAddNode = (): void => {
-    const withNode = graphModel.getCurrentContent().addNode({})
-    const newModel = GraphModel.applyContent(graphModel, withNode)
-    onChange(newModel)
+    onChange(addRandomNode(graphModel))
   }
 
   const handleAddEdge = (): void => {
-    const nodes = Object.values(graphModel.getCurrentContent().nodes)
-    if (nodes.length === 0) {
-      return
-    }
-    const node1 = nodes[Math.floor(Math.random() * nodes.length)]
-    const node2 = nodes[Math.floor(Math.random() * nodes.length)]
-    const withEdge = graphModel.getCurrentContent().addEdge({
-      source: node1.id,
-      target: node2.id,
-    })
-    const newModel = GraphModel.applyContent(graphModel, withEdge)
-    onChange(newModel)
+    onChange(addRandomEdge(graphModel))
   }
 
   return (

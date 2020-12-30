@@ -1,44 +1,7 @@
+import { edge1, node1, node2 } from '../setupTests'
 import { ContentModel } from './ContentModel'
-import { ModelEdge, ModelNode } from './types'
 
 let contentModel: ContentModel
-
-const node1: ModelNode = {
-  id: 'node1',
-  attributes: {
-    employer: 'Committed',
-  },
-  color: 'yellow',
-  label: 'Node 1',
-  size: 10,
-  strokeColor: 'black',
-  opacity: 1,
-  shape: 'ellipse',
-  strokeSize: 2,
-}
-
-const node2: ModelNode = {
-  id: 'node2',
-  attributes: {
-    employer: 'Government',
-  },
-  color: 'green',
-  label: 'Node 2',
-  size: 12,
-  strokeColor: 'black',
-  opacity: 0.9,
-  shape: 'rectangle',
-  strokeSize: 3,
-}
-
-const edge1: ModelEdge = {
-  id: 'edge1',
-  attributes: {
-    role: 'client',
-  },
-  source: node1.id,
-  target: node2.id,
-}
 
 const attribute = 'att1'
 const attributeValue = 'att1val'

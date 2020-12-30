@@ -1,58 +1,19 @@
+import { edge1, node1, node2, exampleGraph } from '../setupTests'
 import { ContentModel } from './ContentModel'
 import { DecoratorModel } from './DecoratorModel'
 import { GraphModel } from './GraphModel'
 import { LayoutModel } from './LayoutModel'
 import { SelectionModel } from './SelectionModel'
-import { GraphCommand, ModelEdge, ModelNode } from './types'
+import { GraphCommand } from './types'
 
 let graphModel: GraphModel
-
-const node1: ModelNode = {
-  id: 'node1',
-  attributes: {
-    employer: 'Committed',
-  },
-  color: 'yellow',
-  label: 'Node 1',
-  size: 10,
-  strokeColor: 'black',
-  opacity: 1,
-  shape: 'ellipse',
-  strokeSize: 2,
-}
-
-const node2: ModelNode = {
-  id: 'node2',
-  attributes: {
-    employer: 'Government',
-  },
-  color: 'green',
-  label: 'Node 2',
-  size: 12,
-  strokeColor: 'black',
-  opacity: 0.9,
-  shape: 'rectangle',
-  strokeSize: 3,
-}
-
-const edge1: ModelEdge = {
-  id: 'edge1',
-  attributes: {
-    role: 'client',
-  },
-  source: node1.id,
-  target: node2.id,
-}
 
 beforeEach(() => {
   graphModel = GraphModel.createEmpty()
 })
 
 it('can access by id', () => {
-  const graph = GraphModel.applyContent(
-    graphModel,
-    graphModel.getCurrentContent().addNode(node1).addNode(node2).addEdge(edge1)
-  )
+  const graph = exampleGraph
 
   const decoratedNode = graph.getNode(node1.id)
   const decoratedEdge = graph.getEdge(edge1.id)
@@ -110,14 +71,7 @@ it('Removed nodes and edges are removed from selection', () => {
   expect(graphModel.selectedNodes.length).toBe(0)
   expect(graphModel.selectedEdges.length).toBe(0)
   const withDataSelected = GraphModel.applySelection(
-    GraphModel.applyContent(
-      graphModel,
-      graphModel
-        .getCurrentContent()
-        .addNode(node1)
-        .addNode(node2)
-        .addEdge(edge1)
-    ),
+    exampleGraph,
     new SelectionModel([node1.id, node2.id], [edge1.id])
   )
   expect(withDataSelected.selectedNodes.length).toBe(2)
