@@ -19,7 +19,8 @@
     "@material-ui/icons": "../node_modules/@material-ui/icons",
     "@material-ui/styles": "../node_modules/@material-ui/styles",
     "@material-ui/system": "../node_modules/@material-ui/system",
-    "@material-ui/utils": "../node_modules/@material-ui/utils"
+    "@material-ui/utils": "../node_modules/@material-ui/utils",
+    "react-cytoscapejs": "../node_modules/react-cytoscapejs"
   },
   "devDependencies": {
     "@types/react": "^16.9.11",
