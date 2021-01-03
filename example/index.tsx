@@ -30,7 +30,7 @@ const App: React.FC = () => {
             <Heading.h1>Components Graph</Heading.h1>
           </Box>
           <GraphToolbar
-            direction="row"
+            flexDirection="row"
             model={model}
             onModelChange={setModel}
             color="inherit"

@@ -5,14 +5,16 @@ import { addRandomEdge, addRandomNode } from '../../graph/data/Generator'
 import { GraphModel } from '../../graph/GraphModel'
 import { renderDark, renderLight, userEvent } from '../../setupTests'
 
-const Template: React.FC<{ direction: 'row' | 'column' }> = ({ direction }) => {
+const Template: React.FC<{ flexDirection: 'row' | 'column' }> = ({
+  flexDirection,
+}) => {
   const [model, setModel] = useState(
     addRandomEdge(addRandomNode(GraphModel.createEmpty(), 20), 15)
   )
   return (
-    <Flex flexDirection={direction === 'row' ? 'column' : 'row'}>
+    <Flex flexDirection={flexDirection === 'row' ? 'column' : 'row'}>
       <GraphToolbar
-        direction={direction}
+        flexDirection={flexDirection}
         model={model}
         onModelChange={setModel}
       />
@@ -21,11 +23,11 @@ const Template: React.FC<{ direction: 'row' | 'column' }> = ({ direction }) => {
 }
 
 export const Vertical: React.FC = () => {
-  return <Template direction="column" />
+  return <Template flexDirection="column" />
 }
 
 export const Horizontal: React.FC = () => {
-  return <Template direction="row" />
+  return <Template flexDirection="row" />
 }
 
 it('renders light', () => {
@@ -47,7 +49,7 @@ test.each([
   const onChange = jest.fn()
   const { getByRole } = renderLight(
     <GraphToolbar
-      direction="row"
+      flexDirection="row"
       model={GraphModel.createEmpty()}
       onModelChange={onChange}
     />
