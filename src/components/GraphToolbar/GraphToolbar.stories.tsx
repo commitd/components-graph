@@ -10,26 +10,19 @@ import { cytoscapeRenderer } from '../../graph/renderer/CytoscapeRenderer'
 export default {
   title: 'Components/GraphToolbar',
   component: GraphToolbar,
+  argTypes: {},
 } as Meta
 
-export const Vertical: React.FC = () => {
-  return <Template direction="column" />
-}
-
-export const Horizontal: React.FC = () => {
-  return <Template direction="row" />
-}
-
-const Template: Story<{ direction: GraphToolbarProps['direction'] }> = ({
-  direction,
+export const Default: Story<{ flexDirection?: 'row' | 'column' }> = ({
+  flexDirection = 'row',
 }) => {
   const [model, setModel] = useState(
     addRandomEdge(addRandomNode(GraphModel.createEmpty(), 20), 15)
   )
   return (
-    <Flex flexDirection={direction === 'row' ? 'column' : 'row'}>
+    <Flex flexDirection={flexDirection === 'row' ? 'column' : 'row'}>
       <GraphToolbar
-        direction={direction}
+        flexDirection={flexDirection}
         model={model}
         onModelChange={setModel}
       />
@@ -42,3 +35,56 @@ const Template: Story<{ direction: GraphToolbarProps['direction'] }> = ({
     </Flex>
   )
 }
+
+const Template: Story<Omit<GraphToolbarProps, 'model' | 'onModelChange'>> = ({
+  flexDirection = 'row',
+  ...props
+}) => {
+  const [model, setModel] = useState(
+    addRandomEdge(addRandomNode(GraphModel.createEmpty(), 20), 15)
+  )
+  return (
+    <Flex flexDirection={flexDirection === 'row' ? 'column' : 'row'}>
+      <GraphToolbar
+        flexDirection={flexDirection}
+        model={model}
+        onModelChange={setModel}
+        {...props}
+      />
+      <Graph
+        model={model}
+        onModelChange={setModel}
+        renderer={cytoscapeRenderer}
+        options={{ height: 600 }}
+      />
+    </Flex>
+  )
+}
+
+export const Vertical = Template.bind({})
+Vertical.args = {
+  flexDirection: 'column',
+}
+
+export const Horizontal = Template.bind({})
+Horizontal.args = { flexDirection: 'row' }
+
+export const Right = Template.bind({})
+Right.args = { flexDirection: 'row', justifyContent: 'flex-end' }
+
+export const Bottom = Template.bind({})
+Bottom.args = {
+  flexDirection: 'column',
+  justifyContent: 'flex-end',
+}
+
+export const Overlayed = Template.bind({})
+Overlayed.args = {
+  flexDirection: 'row',
+  position: 'absolute',
+  top: '32px',
+  zIndex: '1',
+}
+
+export const IconProps = Template.bind({})
+IconProps.args = { iconProps: { color: 'secondary' } }

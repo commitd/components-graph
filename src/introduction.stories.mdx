@@ -30,7 +30,7 @@ A graph visualisation to be used in Committed products. It supports custom decor
     return (
       <Row bgcolor="background.default" mb={3} style={{ border: '2px solid' }}>
         <GraphToolbar
-          direction="column"
+          flexDirection="column"
           model={model}
           onModelChange={setModel}
         />
@@ -82,7 +82,7 @@ const App: React.FC = () => {
     <ThemeProvider>
       <Row>
         <GraphToolbar
-          direction="column"
+          flexDirection="column"
           model={model}
           onModelChange={setModel}
         />
