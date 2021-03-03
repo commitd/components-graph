@@ -25,6 +25,7 @@ export const Default: Story<{ flexDirection?: 'row' | 'column' }> = ({
         flexDirection={flexDirection}
         model={model}
         onModelChange={setModel}
+        layouts={cytoscapeRenderer.layouts}
       />
       <Graph
         model={model}
@@ -36,10 +37,10 @@ export const Default: Story<{ flexDirection?: 'row' | 'column' }> = ({
   )
 }
 
-const Template: Story<Omit<GraphToolbarProps, 'model' | 'onModelChange'>> = ({
-  flexDirection = 'row',
-  ...props
-}) => {
+const Template: Story<Omit<
+  GraphToolbarProps,
+  'model' | 'onModelChange' | 'layouts'
+>> = ({ flexDirection = 'row', ...props }) => {
   const [model, setModel] = useState(
     addRandomEdge(addRandomNode(GraphModel.createEmpty(), 20), 15)
   )
@@ -49,6 +50,7 @@ const Template: Story<Omit<GraphToolbarProps, 'model' | 'onModelChange'>> = ({
         flexDirection={flexDirection}
         model={model}
         onModelChange={setModel}
+        layouts={cytoscapeRenderer.layouts}
         {...props}
       />
       <Graph

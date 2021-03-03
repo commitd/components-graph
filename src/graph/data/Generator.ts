@@ -32,20 +32,22 @@ const randomShape = (): string => {
   return randomItem(shapes)
 }
 
-const randomName = (): string => {
-  return `${randomItem(names)} ${randomItem(names)}`
-}
-
 export const addRandomNode = (
   model: GraphModel,
   count = 1,
   options?: Partial<ModelNode> | (() => Partial<ModelNode>)
 ): GraphModel => {
   let content = model.getCurrentContent()
+  const firstName = randomItem(names)
+  const lastName = randomItem(names)
   for (let i = 0; i < count; i++) {
     content = content.addNode({
-      label: randomName(),
+      label: `${firstName} ${lastName}`,
       ...(typeof options === 'function' ? options() : options),
+      attributes: {
+        firstName,
+        lastName,
+      },
     })
   }
   return GraphModel.applyContent(model, content)
@@ -84,6 +86,7 @@ export const addRandomEdge = (model: GraphModel, count = 1): GraphModel => {
       source: node1.id,
       target: node2.id,
       targetArrow: true,
+      label: 'edge',
     })
   }
   return GraphModel.applyContent(model, content)

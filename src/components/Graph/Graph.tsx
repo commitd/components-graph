@@ -1,6 +1,10 @@
 import React, { PropsWithChildren, ReactElement } from 'react'
 import { GraphModel } from '../../graph/GraphModel'
-import { GraphRenderer, GraphRendererOptions } from '../../graph/types'
+import {
+  DecoratedNode,
+  GraphRenderer,
+  GraphRendererOptions,
+} from '../../graph/types'
 
 export interface GraphProps<O extends GraphRendererOptions> {
   /** Pluggable GraphRender interface to create a React Component using the GraphModel  */
@@ -13,6 +17,7 @@ export interface GraphProps<O extends GraphRendererOptions> {
   onModelChange: (
     model: GraphModel | ((model2: GraphModel) => GraphModel)
   ) => void
+  onViewNode?: (node: DecoratedNode) => void
 }
 
 /**
@@ -23,6 +28,7 @@ export const Graph = <O extends GraphRendererOptions>({
   renderer,
   model,
   onModelChange,
+  onViewNode,
   options,
 }: PropsWithChildren<GraphProps<O>>): ReactElement<GraphProps<O>> => {
   return (
@@ -30,6 +36,7 @@ export const Graph = <O extends GraphRendererOptions>({
       {renderer.render({
         graphModel: model,
         onChange: onModelChange,
+        onViewNode,
         options: {
           ...renderer.defaultOptions,
           ...options,

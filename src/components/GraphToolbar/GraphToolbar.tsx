@@ -1,11 +1,22 @@
 import {
+  Box,
   Flex,
   FlexProps,
   IconButton,
   IconButtonProps,
+  Menu,
+  MenuItem,
 } from '@committed/components'
-import { Timeline, ZoomIn, ZoomOut, ZoomOutMap } from '@material-ui/icons'
-import React from 'react'
+import {
+  Check,
+  Settings,
+  Timeline,
+  ZoomIn,
+  ZoomOut,
+  ZoomOutMap,
+} from '@material-ui/icons'
+import React, { useState, ComponentProps } from 'react'
+import { PresetGraphLayout } from '../../graph'
 import { GraphModel } from '../../graph/GraphModel'
 
 export interface GraphToolbarProps extends Omit<FlexProps, 'flexDirection'> {
@@ -15,10 +26,31 @@ export interface GraphToolbarProps extends Omit<FlexProps, 'flexDirection'> {
   onModelChange: (
     model: GraphModel | ((model2: GraphModel) => GraphModel)
   ) => void
+  /** List of possible layouts. These can be obtained from the graph renderer e.g. cytoscapeRenderer.layouts */
+  layouts: PresetGraphLayout[]
   /** The direction of the toolbar */
   flexDirection?: 'row' | 'column'
   /** Props passed to all icons */
   iconProps?: Omit<IconButtonProps, 'onClick'>
+}
+
+const SelectableMenuItem: React.FC<
+  ComponentProps<typeof MenuItem> & { selected: boolean }
+> = ({ selected, children, ...itemProps }) => {
+  return (
+    <MenuItem {...itemProps}>
+      <Flex>
+        <Box mr={2}>
+          <Check
+            style={{
+              visibility: selected ? 'inherit' : 'hidden',
+            }}
+          />
+        </Box>
+        {children}
+      </Flex>
+    </MenuItem>
+  )
 }
 
 /**
@@ -30,8 +62,27 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
   model,
   onModelChange,
   iconProps,
+  layouts,
   ...props
 }) => {
+  const [settingsMenuAnchor, setSettingsMenuAnchor] = useState<HTMLElement>()
+  const [settingsLayoutMenuAnchor, setSettingsLayoutMenuAnchor] = useState<
+    HTMLElement
+  >()
+  const handleCloseSettings = (): void => {
+    setSettingsMenuAnchor(undefined)
+    setSettingsLayoutMenuAnchor(undefined)
+  }
+  const handleToggleHideEdgeLabels = (): void => {
+    onModelChange(
+      GraphModel.applyDecoration(
+        model,
+        model
+          .getDecorators()
+          .hideEdgeLabels(!model.getDecorators().isHideEdgeLabels())
+      )
+    )
+  }
   return (
     <Flex {...props}>
       <IconButton
@@ -66,6 +117,61 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
       >
         <ZoomOutMap />
       </IconButton>
+      <IconButton
+        aria-label="settings"
+        title="Settings"
+        {...iconProps}
+        onClick={(e) => setSettingsMenuAnchor(e.currentTarget)}
+      >
+        <Settings />
+      </IconButton>
+      <Menu
+        anchorEl={settingsMenuAnchor}
+        keepMounted
+        open={Boolean(settingsMenuAnchor)}
+        onClose={handleCloseSettings}
+      >
+        <SelectableMenuItem
+          selected={model.getDecorators().isHideEdgeLabels()}
+          onClick={() => {
+            handleCloseSettings()
+            handleToggleHideEdgeLabels()
+          }}
+        >
+          Hide edge labels
+        </SelectableMenuItem>
+        <SelectableMenuItem
+          selected={false}
+          onClick={(e) => setSettingsLayoutMenuAnchor(e.currentTarget)}
+        >
+          Graph Layout...
+        </SelectableMenuItem>
+      </Menu>
+      <Menu
+        anchorEl={settingsLayoutMenuAnchor}
+        keepMounted
+        open={Boolean(settingsLayoutMenuAnchor)}
+        onClose={handleCloseSettings}
+        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+      >
+        {layouts.map((l) => (
+          <SelectableMenuItem
+            key={l}
+            onClick={() => {
+              onModelChange(
+                GraphModel.applyLayout(
+                  model,
+                  model.getCurrentLayout().presetLayout(l)
+                )
+              )
+              handleCloseSettings()
+            }}
+            selected={model.getCurrentLayout().getLayout() === l}
+          >
+            {l.charAt(0).toUpperCase() + l.slice(1)}
+          </SelectableMenuItem>
+        ))}
+      </Menu>
     </Flex>
   )
 }

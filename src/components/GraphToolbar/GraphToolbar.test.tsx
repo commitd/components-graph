@@ -1,6 +1,7 @@
 import { Flex } from '@committed/components'
 import React, { useState } from 'react'
 import { GraphToolbar } from '.'
+import { cytoscapeRenderer } from '../../graph'
 import { addRandomEdge, addRandomNode } from '../../graph/data/Generator'
 import { GraphModel } from '../../graph/GraphModel'
 import { renderDark, renderLight, userEvent } from '../../setupTests'
@@ -17,6 +18,7 @@ const Template: React.FC<{ flexDirection: 'row' | 'column' }> = ({
         flexDirection={flexDirection}
         model={model}
         onModelChange={setModel}
+        layouts={cytoscapeRenderer.layouts}
       />
     </Flex>
   )
@@ -52,6 +54,7 @@ test.each([
       flexDirection="row"
       model={GraphModel.createEmpty()}
       onModelChange={onChange}
+      layouts={cytoscapeRenderer.layouts}
     />
   )
 
