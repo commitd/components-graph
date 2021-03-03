@@ -145,7 +145,8 @@ it('Gets latest decoration', () => {
       sourceArrow: true,
       targetArrow: true,
       style: 'solid',
-    }
+    },
+    false
   )
   expect(
     new GraphModel(ContentModel.createEmpty(), {
