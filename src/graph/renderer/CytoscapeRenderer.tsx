@@ -388,7 +388,6 @@ export const cytoscapeRenderer: GraphRenderer<CyGraphRendererOptions> = {
   defaultOptions: {
     height: 300,
     renderOptions: {
-      wheelSensitivity: 0.25,
       maxZoom: 5,
       minZoom: 0.05,
     },
