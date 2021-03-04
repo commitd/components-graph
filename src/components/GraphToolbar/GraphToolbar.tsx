@@ -27,7 +27,7 @@ export interface GraphToolbarProps extends Omit<FlexProps, 'flexDirection'> {
     model: GraphModel | ((model2: GraphModel) => GraphModel)
   ) => void
   /** List of possible layouts. These can be obtained from the graph renderer e.g. cytoscapeRenderer.layouts */
-  layouts: PresetGraphLayout[]
+  layouts?: PresetGraphLayout[]
   /** The direction of the toolbar */
   flexDirection?: 'row' | 'column'
   /** Props passed to all icons */
@@ -62,7 +62,7 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
   model,
   onModelChange,
   iconProps,
-  layouts,
+  layouts = [],
   ...props
 }) => {
   const [settingsMenuAnchor, setSettingsMenuAnchor] = useState<HTMLElement>()
@@ -140,12 +140,14 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
         >
           Hide edge labels
         </SelectableMenuItem>
-        <SelectableMenuItem
-          selected={false}
-          onClick={(e) => setSettingsLayoutMenuAnchor(e.currentTarget)}
-        >
-          Graph Layout...
-        </SelectableMenuItem>
+        {layouts.length > 0 ? (
+          <SelectableMenuItem
+            selected={false}
+            onClick={(e) => setSettingsLayoutMenuAnchor(e.currentTarget)}
+          >
+            Graph Layout...
+          </SelectableMenuItem>
+        ) : null}
       </Menu>
       <Menu
         anchorEl={settingsLayoutMenuAnchor}
