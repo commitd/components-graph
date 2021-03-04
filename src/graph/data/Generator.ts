@@ -38,9 +38,9 @@ export const addRandomNode = (
   options?: Partial<ModelNode> | (() => Partial<ModelNode>)
 ): GraphModel => {
   let content = model.getCurrentContent()
-  const firstName = randomItem(names)
-  const lastName = randomItem(names)
   for (let i = 0; i < count; i++) {
+    const firstName = randomItem(names)
+    const lastName = randomItem(names)
     content = content.addNode({
       label: `${firstName} ${lastName}`,
       ...(typeof options === 'function' ? options() : options),
