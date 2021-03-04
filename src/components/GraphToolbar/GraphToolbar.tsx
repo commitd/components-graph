@@ -36,9 +36,9 @@ export interface GraphToolbarProps extends Omit<FlexProps, 'flexDirection'> {
 
 const SelectableMenuItem: React.FC<
   ComponentProps<typeof MenuItem> & { selected: boolean }
-> = ({ selected, children, ...itemProps }) => {
+> = React.forwardRef(({ selected, children, ...itemProps }, ref) => {
   return (
-    <MenuItem {...itemProps}>
+    <MenuItem {...itemProps} ref={ref}>
       <Flex>
         <Box mr={2}>
           <Check
@@ -51,7 +51,8 @@ const SelectableMenuItem: React.FC<
       </Flex>
     </MenuItem>
   )
-}
+})
+SelectableMenuItem.displayName = 'SelectableMenuItem'
 
 /**
  * GraphToolbar component adds controls for zoom, layout and refit.
