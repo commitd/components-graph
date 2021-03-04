@@ -42,7 +42,7 @@ export interface GraphRendererOptions {
 }
 
 export interface ItemDecoration {
-  label: string
+  label?: string
   size: number
   color: string
   opacity: number

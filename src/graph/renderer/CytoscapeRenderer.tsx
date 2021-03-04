@@ -1,10 +1,9 @@
 import { useTheme } from '@committed/components'
-import {
+import cy, {
   Css,
   EdgeCollection,
   EdgeDataDefinition,
   EdgeSingular,
-  ElementDefinition,
   LayoutOptions,
   NodeCollection,
   NodeDataDefinition,
@@ -34,7 +33,6 @@ import {
   CustomLayoutOptions,
   CytoscapeGraphLayoutAdapter,
 } from './CytoscapeGraphLayoutAdapter'
-import cy from 'cytoscape'
 import dblclick from 'cytoscape-dblclick'
 import { useCyListener } from './useCyListener'
 
@@ -57,10 +55,8 @@ export interface CyGraphRendererOptions extends GraphRendererOptions {
 use(CytoscapeGraphLayoutAdapter.register)
 use(ccola)
 
-let firstRun = true
-
 const toNodeCyStyle = (d: Partial<NodeDecoration>): Css.Node | undefined => {
-  const s = {
+  const s: Css.Node = {
     backgroundColor: d.color,
     width: d.size,
     height: d.size,
@@ -70,6 +66,9 @@ const toNodeCyStyle = (d: Partial<NodeDecoration>): Css.Node | undefined => {
     'background-image-opacity': d.opacity,
     'border-opacity': d.opacity,
     'border-color': d.strokeColor,
+  }
+  if (d.label !== undefined) {
+    s.label = d.label
   }
   if (Object.values(s).every((v) => v == null)) {
     return undefined
@@ -83,7 +82,10 @@ const toEdgeCyStyle = (e: Partial<EdgeDecoration>): Css.Edge | undefined => {
     'line-color': e.color,
     'target-arrow-color': e.color,
     opacity: e.opacity,
-    label: e.label,
+  }
+
+  if (e.label !== undefined) {
+    s.label = e.label
   }
   if (Object.values(s).every((v) => v == null)) {
     return undefined
@@ -98,10 +100,12 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   onViewNode,
   options,
 }) => {
-  if (firstRun) {
+  try {
     cy.use(dblclick)
-    firstRun = false
+  } catch (e) {
+    // ignore
   }
+
   const layouts: Record<GraphLayout, LayoutOptions> = {
     'force-directed': forceDirected,
     circle,
@@ -282,12 +286,13 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
           label: n.label,
           model: n,
         }
-        const element: ElementDefinition = {
-          data: node,
-          style: toNodeCyStyle(n.getDecorationOverrides(theme)),
+        const { label, ...style } =
+          toNodeCyStyle(n.getDecorationOverrides(theme)) ?? {}
+        return {
+          data: { ...node, label },
+          style,
           selected: selection.nodes.has(n.id),
         }
-        return element
       }),
       ...edges.map((e) => {
         const edge: EdgeDataDefinition = {
@@ -300,12 +305,11 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
         }
         const { label, ...style } =
           toEdgeCyStyle(e.getDecorationOverrides(theme)) ?? {}
-        const element: ElementDefinition = {
+        return {
           data: { ...edge, label },
           style,
           classes: 'bezier',
         }
-        return element
       }),
     ],
     [nodes, edges, selection, theme]
@@ -367,9 +371,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
             ? size * 3
             : size
         },
-        'line-color': edgeDefaults.color,
-        'target-arrow-color': edgeDefaults.color,
-        opacity: edgeDefaults.opacity,
+        ...toEdgeCyStyle(edgeDefaults),
       },
     }
   }, [graphModel, theme])
@@ -385,8 +387,8 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
         backgroundColor: theme.palette.background.paper,
         overflow: 'hidden',
       }}
-      cy={(cy): void => {
-        setCytoscape(cy)
+      cy={(cyCore): void => {
+        setCytoscape(cyCore)
       }}
       stylesheet={[defaultNodeStyles, defaultEdgeStyles]}
       {...options.renderOptions}

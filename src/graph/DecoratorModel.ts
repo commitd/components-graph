@@ -18,7 +18,6 @@ export class DecoratorModel {
   static readonly DEFAULT_NODE_DECORATION: NodeDecoration = {
     shape: 'ellipse',
     color: '#FFc526',
-    label: '',
     size: 25,
     opacity: 1,
     strokeColor: '#3E3E3E',
@@ -28,7 +27,6 @@ export class DecoratorModel {
   static readonly DEFAULT_EDGE_DECORATION: EdgeDecoration = {
     color: '#FF0000',
     size: 2,
-    label: '',
     sourceArrow: false,
     targetArrow: false,
     opacity: 1,
@@ -49,6 +47,7 @@ export class DecoratorModel {
       nodeDefaults?: Partial<NodeDecoration> | NodeDecorationFunction
       edgeDecorators?: EdgeDecorator[]
       edgeDefaults?: Partial<EdgeDecoration> | EdgeDecorationFunction
+      hideNodeLabels?: boolean
       hideEdgeLabels?: boolean
     } = {}
   ): DecoratorModel {
@@ -57,6 +56,7 @@ export class DecoratorModel {
       options.nodeDefaults ?? {},
       options.edgeDecorators ?? [],
       options.edgeDefaults ?? {},
+      options.hideNodeLabels ?? false,
       options.hideEdgeLabels ?? false
     )
   }
@@ -70,12 +70,14 @@ export class DecoratorModel {
     private readonly edgeDefaults:
       | Partial<EdgeDecoration>
       | EdgeDecorationFunction,
+    private readonly nodeLabelsHidden: boolean,
     private readonly edgeLabelsHidden: boolean
   ) {
     this.nodeDecorators = nodeDecorators
     this.nodeDefaults = nodeDefaults
     this.edgeDecorators = edgeDecorators
     this.edgeDefaults = edgeDefaults
+    this.nodeLabelsHidden = nodeLabelsHidden
     this.edgeLabelsHidden = edgeLabelsHidden
   }
 
@@ -123,9 +125,8 @@ export class DecoratorModel {
   getDecoratedNodes(modelNodes: ModelNode[]): DecoratedNode[] {
     return Object.values(modelNodes).map((node) => {
       return {
-        getDecorationOverrides: (theme: Theme) => ({
-          ...this.getNodeDecorationOverrides(node, theme),
-        }),
+        getDecorationOverrides: (theme: Theme) =>
+          this.getNodeDecorationOverrides(node, theme),
         ...node,
       }
     })
@@ -138,9 +139,8 @@ export class DecoratorModel {
   getDecoratedEdges(modelEdges: ModelEdge[]): DecoratedEdge[] {
     return Object.values(modelEdges).map((edge) => {
       return {
-        getDecorationOverrides: (theme: Theme) => ({
-          ...this.getEdgeDecorationOverrides(edge, theme),
-        }),
+        getDecorationOverrides: (theme: Theme) =>
+          this.getEdgeDecorationOverrides(edge, theme),
         ...edge,
       }
     })
@@ -158,6 +158,7 @@ export class DecoratorModel {
       this.nodeDefaults,
       this.edgeDecorators,
       this.edgeDefaults,
+      this.nodeLabelsHidden,
       this.edgeLabelsHidden
     )
   }
@@ -169,6 +170,7 @@ export class DecoratorModel {
       this.nodeDefaults,
       this.edgeDecorators,
       this.edgeDefaults,
+      this.nodeLabelsHidden,
       this.edgeLabelsHidden
     )
   }
@@ -194,6 +196,7 @@ export class DecoratorModel {
       this.nodeDefaults,
       this.addDecorator<EdgeDecorator>(decorator, this.edgeDecorators),
       this.edgeDefaults,
+      this.nodeLabelsHidden,
       this.edgeLabelsHidden
     )
   }
@@ -205,6 +208,7 @@ export class DecoratorModel {
       this.nodeDefaults,
       this.removeDecorator<EdgeDecorator>(decorator, this.edgeDecorators),
       this.edgeDefaults,
+      this.nodeLabelsHidden,
       this.edgeLabelsHidden
     )
   }
@@ -218,14 +222,30 @@ export class DecoratorModel {
     }
   }
 
+  hideNodeLabels(hide: boolean): DecoratorModel {
+    return new DecoratorModel(
+      this.nodeDecorators,
+      this.nodeDefaults,
+      this.edgeDecorators,
+      this.edgeDefaults,
+      hide,
+      this.edgeLabelsHidden
+    )
+  }
+
   hideEdgeLabels(hide: boolean): DecoratorModel {
     return new DecoratorModel(
       this.nodeDecorators,
       this.nodeDefaults,
       this.edgeDecorators,
       this.edgeDefaults,
+      this.nodeLabelsHidden,
       hide
     )
+  }
+
+  isHideNodeLabels(): boolean {
+    return this.nodeLabelsHidden
   }
 
   isHideEdgeLabels(): boolean {
@@ -269,9 +289,11 @@ export class DecoratorModel {
       {},
       ...this.nodeDecorators.map((d) => d(node, theme))
     ) as Partial<NodeDecoration>
+    const labelOverride = this.nodeLabelsHidden ? { label: '' } : undefined
     return {
       ...decor,
       ...nodeStyle,
+      ...labelOverride,
     }
   }
 

@@ -74,6 +74,16 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
     setSettingsMenuAnchor(undefined)
     setSettingsLayoutMenuAnchor(undefined)
   }
+  const handleToggleHideNodeLabels = (): void => {
+    onModelChange(
+      GraphModel.applyDecoration(
+        model,
+        model
+          .getDecorators()
+          .hideNodeLabels(!model.getDecorators().isHideNodeLabels())
+      )
+    )
+  }
   const handleToggleHideEdgeLabels = (): void => {
     onModelChange(
       GraphModel.applyDecoration(
@@ -132,6 +142,15 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
         open={Boolean(settingsMenuAnchor)}
         onClose={handleCloseSettings}
       >
+        <SelectableMenuItem
+          selected={model.getDecorators().isHideNodeLabels()}
+          onClick={() => {
+            handleCloseSettings()
+            handleToggleHideNodeLabels()
+          }}
+        >
+          Hide node labels
+        </SelectableMenuItem>
         <SelectableMenuItem
           selected={model.getDecorators().isHideEdgeLabels()}
           onClick={() => {
