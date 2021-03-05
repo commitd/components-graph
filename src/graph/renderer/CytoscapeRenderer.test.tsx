@@ -36,10 +36,12 @@ beforeEach(() => {
     on: jest.fn(),
     fit: jest.fn(),
     zoom: jest.fn().mockImplementation(() => 1),
-    removeAllListeners: jest.fn(),
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
     layout: jest.fn().mockImplementation(() => ({
       run: jest.fn(),
     })),
+    dblclick: jest.fn(),
     width: () => 200,
     height: () => 400,
   }
@@ -57,11 +59,11 @@ it('can be rendered', () => {
     />
   )
   expect(asFragment()).toMatchSnapshot()
-  expect(cytoscape.on).toHaveBeenCalledTimes(9)
+  expect(cytoscape.addListener).toHaveBeenCalledTimes(9)
 
   unmount()
 
-  expect(cytoscape.removeAllListeners).toHaveBeenCalledTimes(1)
+  expect(cytoscape.removeListener).toHaveBeenCalledTimes(9)
 })
 
 it('layout command triggers layout', () => {

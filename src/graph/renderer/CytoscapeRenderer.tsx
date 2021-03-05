@@ -1,15 +1,15 @@
 import { useTheme } from '@committed/components'
-import {
+import cy, {
   Css,
   EdgeCollection,
   EdgeDataDefinition,
   EdgeSingular,
-  ElementDefinition,
   LayoutOptions,
   NodeCollection,
   NodeDataDefinition,
   Stylesheet,
   use,
+  EventObject,
 } from 'cytoscape'
 //@ts-ignore
 import ccola from 'cytoscape-cola'
@@ -33,6 +33,8 @@ import {
   CustomLayoutOptions,
   CytoscapeGraphLayoutAdapter,
 } from './CytoscapeGraphLayoutAdapter'
+import dblclick from 'cytoscape-dblclick'
+import { useCyListener } from './useCyListener'
 
 export interface CyGraphRendererOptions extends GraphRendererOptions {
   renderOptions: Pick<
@@ -54,7 +56,7 @@ use(CytoscapeGraphLayoutAdapter.register)
 use(ccola)
 
 const toNodeCyStyle = (d: Partial<NodeDecoration>): Css.Node | undefined => {
-  const s = {
+  const s: Css.Node = {
     backgroundColor: d.color,
     width: d.size,
     height: d.size,
@@ -65,6 +67,9 @@ const toNodeCyStyle = (d: Partial<NodeDecoration>): Css.Node | undefined => {
     'border-opacity': d.opacity,
     'border-color': d.strokeColor,
   }
+  if (d.label !== undefined) {
+    s.label = d.label
+  }
   if (Object.values(s).every((v) => v == null)) {
     return undefined
   } else {
@@ -73,10 +78,14 @@ const toNodeCyStyle = (d: Partial<NodeDecoration>): Css.Node | undefined => {
 }
 
 const toEdgeCyStyle = (e: Partial<EdgeDecoration>): Css.Edge | undefined => {
-  const s = {
+  const s: Css.Edge = {
     'line-color': e.color,
     'target-arrow-color': e.color,
-    'line-opacity': e.opacity,
+    opacity: e.opacity,
+  }
+
+  if (e.label !== undefined) {
+    s.label = e.label
   }
   if (Object.values(s).every((v) => v == null)) {
     return undefined
@@ -88,8 +97,15 @@ const toEdgeCyStyle = (e: Partial<EdgeDecoration>): Css.Edge | undefined => {
 const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   graphModel,
   onChange,
+  onViewNode,
   options,
 }) => {
+  try {
+    cy.use(dblclick)
+  } catch (e) {
+    // ignore
+  }
+
   const layouts: Record<GraphLayout, LayoutOptions> = {
     'force-directed': forceDirected,
     circle,
@@ -141,49 +157,78 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
     },
     [pendingSelection, selectionUpdate]
   )
+  const handleViewNode = useCallback(
+    (id: string) => {
+      const node = graphModel.getNode(id)
+      if (node != null && onViewNode != null) {
+        onViewNode(node)
+      }
+    },
+    [onViewNode, graphModel]
+  )
 
-  useEffect(() => {
-    if (cytoscape == null) {
-      return
-    }
-    cytoscape.on('add remove', 'edge', () => {
-      triggerLayout.callback(layout)
-    })
-    cytoscape.on('resize', () => {
-      triggerLayout.callback(layout)
-    })
-    cytoscape.on('add remove', 'node', () => {
-      triggerLayout.callback(layout)
-    })
-    cytoscape.on('select', 'node', (e) => {
+  const updateLayout = useCallback(() => {
+    triggerLayout.callback(layout)
+  }, [triggerLayout, layout])
+  const selectNode = useCallback(
+    (e: EventObject) => {
       const selectedNodes = e.target as NodeCollection
       updateSelection((s) => s.addNodes(selectedNodes.map((n) => n.id())))
-    })
-    cytoscape.on('unselect', 'node', (e) => {
+    },
+    [updateSelection]
+  )
+  const unselectNode = useCallback(
+    (e: EventObject) => {
       const selectedNodes = e.target as NodeCollection
       updateSelection((s) => s.removeNodes(selectedNodes.map((n) => n.id())))
-    })
-    cytoscape.on('select', 'edge', (e) => {
+    },
+    [updateSelection]
+  )
+  const selectEdge = useCallback(
+    (e: EventObject) => {
       const selectedEdges = e.target as EdgeCollection
       updateSelection((s) => s.addEdges(selectedEdges.map((n) => n.id())))
-    })
-    cytoscape.on('unselect', 'edge', (e) => {
+    },
+    [updateSelection]
+  )
+  const unselectEdge = useCallback(
+    (e: EventObject) => {
       const selectedEdges = e.target as EdgeCollection
       updateSelection((s) => s.removeEdges(selectedEdges.map((n) => n.id())))
-    })
-    cytoscape.on('layoutstart', () => {
-      console.debug('Layout started')
-      layoutStart.current = Date.now()
-    })
-    cytoscape.on('layoutstop', () => {
-      if (layoutStart.current != null) {
-        console.debug(`Layout took ${Date.now() - layoutStart.current}ms`)
+    },
+    [updateSelection]
+  )
+  const layoutStarting = useCallback(() => {
+    console.debug('Layout started')
+    layoutStart.current = Date.now()
+  }, [])
+  const layoutStopping = useCallback(() => {
+    if (layoutStart.current != null) {
+      console.debug(`Layout took ${Date.now() - layoutStart.current}ms`)
+    }
+  }, [])
+  const dblclickNode = useCallback(
+    (e: EventObject) => {
+      const selectedNodes = e.target as NodeCollection
+      const node = selectedNodes[0]
+      if (node != null) {
+        handleViewNode(node.id())
       }
-    })
-    // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
-    return () => cytoscape.removeAllListeners()
-  }, [cytoscape, layout, triggerLayout, updateSelection])
+    },
+    [handleViewNode]
+  )
+  useCyListener(cytoscape, updateLayout, 'add remove', 'edge')
+  useCyListener(cytoscape, updateLayout, 'resize', 'edge')
+  useCyListener(cytoscape, selectNode, 'select', 'node')
+  useCyListener(cytoscape, unselectNode, 'unselect', 'node')
+  useCyListener(cytoscape, selectEdge, 'select', 'edge')
+  useCyListener(cytoscape, unselectEdge, 'unselect', 'edge')
+  useCyListener(cytoscape, layoutStarting, 'layoutstart')
+  useCyListener(cytoscape, layoutStopping, 'layoutstop')
+  useEffect(() => {
+    if (cytoscape != null) cytoscape.dblclick()
+  }, [cytoscape])
+  useCyListener(cytoscape, dblclickNode, 'dblclick', 'node')
 
   useEffect(() => {
     if (dirty) {
@@ -241,12 +286,13 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
           label: n.label,
           model: n,
         }
-        const element: ElementDefinition = {
-          data: node,
-          style: toNodeCyStyle(n.getDecorationOverrides(theme)),
+        const { label, ...style } =
+          toNodeCyStyle(n.getDecorationOverrides(theme)) ?? {}
+        return {
+          data: { ...node, label },
+          style,
           selected: selection.nodes.has(n.id),
         }
-        return element
       }),
       ...edges.map((e) => {
         const edge: EdgeDataDefinition = {
@@ -257,12 +303,13 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
           selected: selection.edges.has(e.id),
           model: e,
         }
-        const element: ElementDefinition = {
-          data: edge,
-          style: toEdgeCyStyle(e.getDecorationOverrides(theme)),
+        const { label, ...style } =
+          toEdgeCyStyle(e.getDecorationOverrides(theme)) ?? {}
+        return {
+          data: { ...edge, label },
+          style,
           classes: 'bezier',
         }
-        return element
       }),
     ],
     [nodes, edges, selection, theme]
@@ -309,9 +356,11 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
         label: 'data(label)',
         // label styles
         'text-background-color': theme.palette.background.paper,
+        color: theme.palette.text.primary,
         'text-background-opacity': 0.7,
         'text-margin-y': -4,
         'text-background-shape': 'roundrectangle',
+
         'target-arrow-shape': 'triangle',
         'target-endpoint': 'outside-to-node-or-label',
         width: (e: EdgeSingular) => {
@@ -326,7 +375,6 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
       },
     }
   }, [graphModel, theme])
-
   return (
     <CytoscapeComponent
       elements={elements}
@@ -339,8 +387,8 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
         backgroundColor: theme.palette.background.paper,
         overflow: 'hidden',
       }}
-      cy={(cy): void => {
-        setCytoscape(cy)
+      cy={(cyCore): void => {
+        setCytoscape(cyCore)
       }}
       stylesheet={[defaultNodeStyles, defaultEdgeStyles]}
       {...options.renderOptions}
@@ -353,7 +401,6 @@ export const cytoscapeRenderer: GraphRenderer<CyGraphRendererOptions> = {
   defaultOptions: {
     height: 300,
     renderOptions: {
-      wheelSensitivity: 0.25,
       maxZoom: 5,
       minZoom: 0.05,
     },

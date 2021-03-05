@@ -91,6 +91,16 @@ export class GraphModel {
     })
   }
 
+  static applyDecoration(
+    graphModel: GraphModel,
+    decoratorModel: DecoratorModel
+  ): GraphModel {
+    return new GraphModel(graphModel.contentModel, {
+      ...graphModel.getOptions(),
+      decoratorModel,
+    })
+  }
+
   static createEmpty(): GraphModel {
     return new GraphModel(ContentModel.createEmpty())
   }

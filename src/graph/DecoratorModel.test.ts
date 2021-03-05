@@ -83,7 +83,6 @@ it('Create default sets default node decoration for light theme', () => {
     .toMatchInlineSnapshot(`
     Object {
       "color": "#FFBB00",
-      "label": "",
       "opacity": 1,
       "shape": "ellipse",
       "size": 25,
@@ -98,7 +97,6 @@ it('Create default sets default node decoration for dark theme', () => {
     .toMatchInlineSnapshot(`
     Object {
       "color": "#FFBB00",
-      "label": "",
       "opacity": 1,
       "shape": "ellipse",
       "size": 25,
@@ -116,15 +114,14 @@ it('Can supply partial decorator for default', () => {
   expect(decoration.color).toEqual('#123456')
   expect(decoration.size).toEqual(10)
   expect(decoration).toMatchInlineSnapshot(`
-      Object {
-        "color": "#123456",
-        "label": "",
-        "opacity": 1,
-        "shape": "ellipse",
-        "size": 10,
-        "strokeColor": "#515151",
-        "strokeSize": 2,
-      }
+    Object {
+      "color": "#123456",
+      "opacity": 1,
+      "shape": "ellipse",
+      "size": 10,
+      "strokeColor": "#515151",
+      "strokeSize": 2,
+    }
   `)
 })
 
@@ -205,7 +202,6 @@ it('Create default sets default edge decoration for light theme', () => {
     .toMatchInlineSnapshot(`
     Object {
       "color": "#515151",
-      "label": "",
       "opacity": 1,
       "size": 2,
       "sourceArrow": false,
@@ -220,7 +216,6 @@ it('Create default sets default edge decoration for dark theme', () => {
     .toMatchInlineSnapshot(`
     Object {
       "color": "#E1E1E1",
-      "label": "",
       "opacity": 1,
       "size": 2,
       "sourceArrow": false,
@@ -243,7 +238,6 @@ it('Can supply partial decorator function for default', () => {
   expect(decoration).toMatchInlineSnapshot(`
     Object {
       "color": "#B3ECFF",
-      "label": "",
       "opacity": 1,
       "size": 10,
       "sourceArrow": false,

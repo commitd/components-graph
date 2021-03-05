@@ -18,7 +18,6 @@ export class DecoratorModel {
   static readonly DEFAULT_NODE_DECORATION: NodeDecoration = {
     shape: 'ellipse',
     color: '#FFc526',
-    label: '',
     size: 25,
     opacity: 1,
     strokeColor: '#3E3E3E',
@@ -28,7 +27,6 @@ export class DecoratorModel {
   static readonly DEFAULT_EDGE_DECORATION: EdgeDecoration = {
     color: '#FF0000',
     size: 2,
-    label: '',
     sourceArrow: false,
     targetArrow: false,
     opacity: 1,
@@ -49,13 +47,17 @@ export class DecoratorModel {
       nodeDefaults?: Partial<NodeDecoration> | NodeDecorationFunction
       edgeDecorators?: EdgeDecorator[]
       edgeDefaults?: Partial<EdgeDecoration> | EdgeDecorationFunction
+      hideNodeLabels?: boolean
+      hideEdgeLabels?: boolean
     } = {}
   ): DecoratorModel {
     return new DecoratorModel(
       options.nodeDecorators ?? [],
       options.nodeDefaults ?? {},
       options.edgeDecorators ?? [],
-      options.edgeDefaults ?? {}
+      options.edgeDefaults ?? {},
+      options.hideNodeLabels ?? false,
+      options.hideEdgeLabels ?? false
     )
   }
 
@@ -67,12 +69,16 @@ export class DecoratorModel {
     private readonly edgeDecorators: EdgeDecorator[],
     private readonly edgeDefaults:
       | Partial<EdgeDecoration>
-      | EdgeDecorationFunction
+      | EdgeDecorationFunction,
+    private readonly nodeLabelsHidden: boolean,
+    private readonly edgeLabelsHidden: boolean
   ) {
     this.nodeDecorators = nodeDecorators
     this.nodeDefaults = nodeDefaults
     this.edgeDecorators = edgeDecorators
     this.edgeDefaults = edgeDefaults
+    this.nodeLabelsHidden = nodeLabelsHidden
+    this.edgeLabelsHidden = edgeLabelsHidden
   }
 
   /**
@@ -119,9 +125,8 @@ export class DecoratorModel {
   getDecoratedNodes(modelNodes: ModelNode[]): DecoratedNode[] {
     return Object.values(modelNodes).map((node) => {
       return {
-        getDecorationOverrides: (theme: Theme) => ({
-          ...this.getNodeDecorationOverrides(node, theme),
-        }),
+        getDecorationOverrides: (theme: Theme) =>
+          this.getNodeDecorationOverrides(node, theme),
         ...node,
       }
     })
@@ -134,12 +139,144 @@ export class DecoratorModel {
   getDecoratedEdges(modelEdges: ModelEdge[]): DecoratedEdge[] {
     return Object.values(modelEdges).map((edge) => {
       return {
-        getDecorationOverrides: (theme: Theme) => ({
-          ...this.getEdgeDecorationOverrides(edge, theme),
-        }),
+        getDecorationOverrides: (theme: Theme) =>
+          this.getEdgeDecorationOverrides(edge, theme),
         ...edge,
       }
     })
+  }
+
+  /** Does the decorator already exist in the model. === equality is used */
+  isNodeDecoratorSet(decorator: NodeDecorator): boolean {
+    return this.isDecoratorSet<NodeDecorator>(decorator, this.nodeDecorators)
+  }
+
+  /** Add a new decorator */
+  addNodeDecorator(decorator: NodeDecorator): DecoratorModel {
+    return new DecoratorModel(
+      this.addDecorator<NodeDecorator>(decorator, this.nodeDecorators),
+      this.nodeDefaults,
+      this.edgeDecorators,
+      this.edgeDefaults,
+      this.nodeLabelsHidden,
+      this.edgeLabelsHidden
+    )
+  }
+
+  /** Remove an existing decorator. === equality is used */
+  removeNodeDecorator(decorator: NodeDecorator): DecoratorModel {
+    return new DecoratorModel(
+      this.removeDecorator<NodeDecorator>(decorator, this.nodeDecorators),
+      this.nodeDefaults,
+      this.edgeDecorators,
+      this.edgeDefaults,
+      this.nodeLabelsHidden,
+      this.edgeLabelsHidden
+    )
+  }
+
+  /** Toggle a decorator on or off */
+  toggleNodeDecorator(decorator: NodeDecorator): DecoratorModel {
+    if (this.isNodeDecoratorSet(decorator)) {
+      return this.removeNodeDecorator(decorator)
+    } else {
+      return this.addNodeDecorator(decorator)
+    }
+  }
+
+  /** Does the decorator already exist in the model. === equality is used */
+  isEdgeDecoratorSet(decorator: EdgeDecorator): boolean {
+    return this.isDecoratorSet<EdgeDecorator>(decorator, this.edgeDecorators)
+  }
+
+  /** Add a new decorator */
+  addEdgeDecorator(decorator: EdgeDecorator): DecoratorModel {
+    return new DecoratorModel(
+      this.nodeDecorators,
+      this.nodeDefaults,
+      this.addDecorator<EdgeDecorator>(decorator, this.edgeDecorators),
+      this.edgeDefaults,
+      this.nodeLabelsHidden,
+      this.edgeLabelsHidden
+    )
+  }
+
+  /** Remove an existing decorator. === equality is used */
+  removeEdgeDecorator(decorator: EdgeDecorator): DecoratorModel {
+    return new DecoratorModel(
+      this.nodeDecorators,
+      this.nodeDefaults,
+      this.removeDecorator<EdgeDecorator>(decorator, this.edgeDecorators),
+      this.edgeDefaults,
+      this.nodeLabelsHidden,
+      this.edgeLabelsHidden
+    )
+  }
+
+  /** Toggle a decorator on or off */
+  toggleEdgeDecorator(decorator: EdgeDecorator): DecoratorModel {
+    if (this.isEdgeDecoratorSet(decorator)) {
+      return this.removeEdgeDecorator(decorator)
+    } else {
+      return this.addEdgeDecorator(decorator)
+    }
+  }
+
+  hideNodeLabels(hide: boolean): DecoratorModel {
+    return new DecoratorModel(
+      this.nodeDecorators,
+      this.nodeDefaults,
+      this.edgeDecorators,
+      this.edgeDefaults,
+      hide,
+      this.edgeLabelsHidden
+    )
+  }
+
+  hideEdgeLabels(hide: boolean): DecoratorModel {
+    return new DecoratorModel(
+      this.nodeDecorators,
+      this.nodeDefaults,
+      this.edgeDecorators,
+      this.edgeDefaults,
+      this.nodeLabelsHidden,
+      hide
+    )
+  }
+
+  isHideNodeLabels(): boolean {
+    return this.nodeLabelsHidden
+  }
+
+  isHideEdgeLabels(): boolean {
+    return this.edgeLabelsHidden
+  }
+
+  private isDecoratorSet<T extends NodeDecorator | EdgeDecorator>(
+    decorator: T,
+    decorators: T[]
+  ): boolean {
+    return decorators.includes(decorator)
+  }
+
+  private addDecorator<T extends NodeDecorator | EdgeDecorator>(
+    decorator: T,
+    decorators: T[]
+  ): T[] {
+    if (this.isDecoratorSet(decorator, decorators)) {
+      return decorators
+    }
+    return decorators.concat([decorator])
+  }
+
+  private removeDecorator<T extends NodeDecorator | EdgeDecorator>(
+    decorator: T,
+    decorators: T[]
+  ): T[] {
+    if (!this.isDecoratorSet(decorator, decorators)) {
+      return decorators
+    }
+    return decorators.filter((d) => d !== decorator)
   }
 
   private getNodeDecorationOverrides(
@@ -152,9 +289,11 @@ export class DecoratorModel {
       {},
       ...this.nodeDecorators.map((d) => d(node, theme))
     ) as Partial<NodeDecoration>
+    const labelOverride = this.nodeLabelsHidden ? { label: '' } : undefined
     return {
       ...decor,
       ...nodeStyle,
+      ...labelOverride,
     }
   }
 
@@ -168,9 +307,11 @@ export class DecoratorModel {
       {},
       ...this.edgeDecorators.map((d) => d(edge, theme))
     ) as Partial<EdgeDecoration>
+    const labelOverride = this.edgeLabelsHidden ? { label: '' } : undefined
     return {
       ...decor,
       ...edgeStyle,
+      ...labelOverride,
     }
   }
 
