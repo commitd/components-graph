@@ -146,6 +146,7 @@ it('Gets latest decoration', () => {
       targetArrow: true,
       style: 'solid',
     },
+    false,
     false
   )
   expect(
