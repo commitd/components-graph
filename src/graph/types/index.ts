@@ -29,6 +29,7 @@ export interface GraphRenderer<O extends GraphRendererOptions> {
   render: FC<{
     graphModel: GraphModel
     onChange: (model: GraphModel | ((model2: GraphModel) => GraphModel)) => void
+    onViewNode?: (node: DecoratedNode) => void
     options: O
   }>
   defaultOptions: O
@@ -41,7 +42,7 @@ export interface GraphRendererOptions {
 }
 
 export interface ItemDecoration {
-  label: string
+  label?: string
   size: number
   color: string
   opacity: number
