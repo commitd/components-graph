@@ -1,3 +1,4 @@
+import { v4 } from 'uuid'
 import { ContentModel } from './ContentModel'
 import {
   JSONGraph,
@@ -24,7 +25,9 @@ export function fromJsonGraph(data: JSONGraphData | JSONGraph): ContentModel {
     throw new Error(`Hyper edges are not supported`)
   }
 
-  let model = Object.entries(graphData.nodes).reduce((acc, entry) => {
+  const nodes = Object.entries(graphData.nodes).reduce<
+    Record<string, ModelNode>
+  >((acc, entry) => {
     const node: ModelNode = { id: entry[0], attributes: {} }
     const jsonNode: JSONGraphNode = entry[1]
     if (jsonNode.label !== undefined) {
@@ -33,10 +36,15 @@ export function fromJsonGraph(data: JSONGraphData | JSONGraph): ContentModel {
     if (jsonNode.metadata !== undefined) {
       node.attributes = jsonNode.metadata
     }
-    return acc.addNode(node)
-  }, ContentModel.createEmpty())
-  model = Object.values(graphData.edges).reduce((acc, jsonEdge) => {
-    const edge: Omit<ModelEdge, 'id'> & { id?: string } = {
+    acc[node.id] = node
+    return acc
+  }, {})
+
+  const edges = Object.values(graphData.edges).reduce<
+    Record<string, ModelEdge>
+  >((acc, jsonEdge) => {
+    const edge: ModelEdge = {
+      id: jsonEdge.id ?? v4(),
       source: jsonEdge.source,
       target: jsonEdge.target,
       attributes: {},
@@ -53,7 +61,8 @@ export function fromJsonGraph(data: JSONGraphData | JSONGraph): ContentModel {
     if (jsonEdge.relation !== undefined) {
       edge.attributes.relation = jsonEdge.relation
     }
-    return acc.addEdge(edge)
-  }, model)
-  return model
+    acc[edge.id] = edge
+    return acc
+  }, {})
+  return ContentModel.fromRaw({ nodes, edges })
 }

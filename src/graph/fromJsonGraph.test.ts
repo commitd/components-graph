@@ -1,4 +1,8 @@
-import { largeGraph, smallGraph } from './data/jsonGraphExamples'
+import {
+  largeGraph,
+  smallGraph,
+  veryLargeGraph,
+} from './data/jsonGraphExamples'
 import { fromJsonGraph } from './fromJsonGraph'
 import { JSONGraph, ModelNode } from './types'
 
@@ -100,4 +104,10 @@ it('ContentModel does not support hyperedges from graphs', () => {
       graph: hyperGraph,
     })
   ).toThrow()
+})
+
+it('loads very large graph', () => {
+  const contentModel = fromJsonGraph(veryLargeGraph)
+  expect(Object.keys(contentModel.nodes).length).toBe(1000)
+  expect(Object.keys(contentModel.edges).length).toBe(1000)
 })

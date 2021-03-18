@@ -2,7 +2,7 @@
 // Copyright 2014 Anthony Bargnesi, Anselmo DiFabio, William Hayes
 // https://github.com/jsongraph/jsongraph.rb
 
-import { JSONGraphData } from '../types'
+import { JSONGraphData, JSONGraphNode } from '../types'
 
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -25,7 +25,7 @@ import { JSONGraphData } from '../types'
 
 // Graphs from JSON Graph Spec to ensure compatibility
 
-export const smallGraph = {
+export const smallGraph: JSONGraphData = {
   graph: {
     id: 'car-manufacturer-relationships',
     type: 'car',
@@ -559,3 +559,25 @@ export const largeGraph = {
     },
   },
 } as JSONGraphData
+
+export const veryLargeGraph = {
+  graph: {
+    directed: true,
+    nodes: new Array(1000)
+      .fill(null)
+      .map((_, i) => ({
+        id: `id${i}`,
+        label: `label${i}`,
+        metadata: { type: 'Person' },
+      }))
+      .reduce<Record<string, JSONGraphNode>>((acc, next) => {
+        acc[next.id] = next
+        return acc
+      }, {}),
+
+    edges: new Array(1000).fill({
+      source: 'id1',
+      target: 'id2',
+    }),
+  },
+}
