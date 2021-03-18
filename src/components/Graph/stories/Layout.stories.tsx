@@ -55,6 +55,7 @@ export const CustomLayout: React.FC = () => {
     GraphModel.applyLayout(
       exampleModel,
       exampleModel.getCurrentLayout().customLayout({
+        name: 'Alphabetical',
         runLayout: (m) => {
           return m.nodes.reduce<Record<string, cytoscape.Position>>(
             (prev, next) => {

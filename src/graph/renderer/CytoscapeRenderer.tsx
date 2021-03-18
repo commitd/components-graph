@@ -28,6 +28,7 @@ import {
   GraphRenderer,
   GraphRendererOptions,
   NodeDecoration,
+  PresetGraphLayout,
 } from '../types'
 import {
   CustomLayoutOptions,
@@ -106,7 +107,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
     // ignore
   }
 
-  const layouts: Record<GraphLayout, LayoutOptions> = {
+  const layouts: Record<PresetGraphLayout | 'custom', LayoutOptions> = {
     'force-directed': forceDirected,
     circle,
     grid,
@@ -114,7 +115,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
     custom: {
       name: CytoscapeGraphLayoutAdapter.LAYOUT_NAME,
       model: graphModel,
-      algorithm: graphModel.getCurrentLayout().getLayoutAlgorithm(),
+      algorithm: graphModel.getCurrentLayout().getLayout(),
     } as CustomLayoutOptions & LayoutOptions,
   }
   const nodes = graphModel.nodes
@@ -131,11 +132,19 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
 
   const triggerLayout = useDebouncedCallback((graphLayout: GraphLayout) => {
     if (cytoscape != null) {
-      const l = layouts[`${graphLayout}` as GraphLayout]
+      const l =
+        typeof graphLayout === 'string'
+          ? // eslint-disable-next-line security/detect-object-injection
+            layouts[graphLayout]
+          : ({
+              name: CytoscapeGraphLayoutAdapter.LAYOUT_NAME,
+              model: graphModel,
+              algorithm: graphLayout,
+            } as CustomLayoutOptions)
       if (l == null) {
         throw new Error('Layout does not exist')
       }
-      cytoscape.layout(l).run()
+      cytoscape.layout(l as LayoutOptions).run()
     }
   }, 200)
 

@@ -16,7 +16,7 @@ import {
   ZoomOutMap,
 } from '@material-ui/icons'
 import React, { useState, ComponentProps } from 'react'
-import { PresetGraphLayout } from '../../graph'
+import { GraphLayout } from '../../graph'
 import { GraphModel } from '../../graph/GraphModel'
 
 export interface GraphToolbarProps extends Omit<FlexProps, 'flexDirection'> {
@@ -27,7 +27,7 @@ export interface GraphToolbarProps extends Omit<FlexProps, 'flexDirection'> {
     model: GraphModel | ((model2: GraphModel) => GraphModel)
   ) => void
   /** List of possible layouts. These can be obtained from the graph renderer e.g. cytoscapeRenderer.layouts */
-  layouts?: PresetGraphLayout[]
+  layouts?: GraphLayout[]
   /** The direction of the toolbar */
   flexDirection?: 'row' | 'column'
   /** Props passed to all icons */
@@ -176,23 +176,41 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
         onClose={handleCloseSettings}
         anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
       >
-        {layouts.map((l) => (
-          <SelectableMenuItem
-            key={l}
-            onClick={() => {
-              onModelChange(
-                GraphModel.applyLayout(
-                  model,
-                  model.getCurrentLayout().presetLayout(l)
+        {layouts.map((l) =>
+          typeof l === 'string' ? (
+            <SelectableMenuItem
+              key={l}
+              onClick={() => {
+                onModelChange(
+                  GraphModel.applyLayout(
+                    model,
+                    model.getCurrentLayout().presetLayout(l)
+                  )
                 )
-              )
-              handleCloseSettings()
-            }}
-            selected={model.getCurrentLayout().getLayout() === l}
-          >
-            {l.charAt(0).toUpperCase() + l.slice(1)}
-          </SelectableMenuItem>
-        ))}
+                handleCloseSettings()
+              }}
+              selected={model.getCurrentLayout().getLayout() === l}
+            >
+              {l.charAt(0).toUpperCase() + l.slice(1)}
+            </SelectableMenuItem>
+          ) : (
+            <SelectableMenuItem
+              key={l.name}
+              onClick={() => {
+                onModelChange(
+                  GraphModel.applyLayout(
+                    model,
+                    model.getCurrentLayout().customLayout(l)
+                  )
+                )
+                handleCloseSettings()
+              }}
+              selected={model.getCurrentLayout().getLayout() === l}
+            >
+              {l.name.charAt(0).toUpperCase() + l.name.slice(1)}
+            </SelectableMenuItem>
+          )
+        )}
       </Menu>
     </Flex>
   )
