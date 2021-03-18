@@ -8,14 +8,8 @@ import {
 
 export class ContentModel {
   public static fromRaw(data: ModelGraphData): ContentModel {
-    let model = Object.values(data.nodes).reduce(
-      (acc, node) => acc.addNode(node),
-      ContentModel.createEmpty()
-    )
-    model = Object.values(data.edges).reduce(
-      (acc, edge) => acc.addEdge(edge),
-      model
-    )
+    const model = new ContentModel(data.nodes, data.edges)
+    Object.values(model.edges).forEach((e) => model.checkEdgeNodes(e))
     return model
   }
 
@@ -143,9 +137,7 @@ export class ContentModel {
       attributes?: ModelAttributeSet
     }
   ): ContentModel {
-    // check source and target exist
-    this.getExistingNode(edge.source)
-    this.getExistingNode(edge.target)
+    this.checkEdgeNodes(edge)
     if (edge.id != null && this.containsEdge(edge.id)) {
       throw new Error(`Cannot add edge already in graph (${edge.id})`)
     }
@@ -156,6 +148,16 @@ export class ContentModel {
     }
     const edges = { ...this.edges, [newEdge.id]: newEdge }
     return new ContentModel(this.nodes, edges)
+  }
+
+  checkEdgeNodes(
+    edge: Omit<ModelEdge, 'id' | 'attributes'> & {
+      id?: string
+      attributes?: ModelAttributeSet
+    }
+  ): void {
+    this.getExistingNode(edge.source)
+    this.getExistingNode(edge.target)
   }
 
   getEdge(id: string): ModelEdge | undefined {

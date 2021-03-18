@@ -96,27 +96,27 @@ exports[`renders dark 1`] = `
         [
   {
     "id": "e1",
-    "attributes": {},
     "source": "n1",
-    "target": "n2"
+    "target": "n2",
+    "attributes": {}
   },
   {
     "id": "e2",
-    "attributes": {},
     "source": "n1",
-    "target": "n3"
+    "target": "n3",
+    "attributes": {}
   },
   {
     "id": "e3",
-    "attributes": {},
     "source": "n3",
-    "target": "n4"
+    "target": "n4",
+    "attributes": {}
   },
   {
     "id": "e5",
-    "attributes": {},
     "source": "n5",
-    "target": "n5"
+    "target": "n5",
+    "attributes": {}
   }
 ]
       </pre>
@@ -222,27 +222,27 @@ exports[`renders light 1`] = `
         [
   {
     "id": "e1",
-    "attributes": {},
     "source": "n1",
-    "target": "n2"
+    "target": "n2",
+    "attributes": {}
   },
   {
     "id": "e2",
-    "attributes": {},
     "source": "n1",
-    "target": "n3"
+    "target": "n3",
+    "attributes": {}
   },
   {
     "id": "e3",
-    "attributes": {},
     "source": "n3",
-    "target": "n4"
+    "target": "n4",
+    "attributes": {}
   },
   {
     "id": "e5",
-    "attributes": {},
     "source": "n5",
-    "target": "n5"
+    "target": "n5",
+    "attributes": {}
   }
 ]
       </pre>
