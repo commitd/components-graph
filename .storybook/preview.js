@@ -1,5 +1,5 @@
-import { committedLight } from './committed/theme.js'
 import { withTheme } from './committed/withTheme'
+import { DocsContainer } from './components/DocContainer.jsx'
 
 export const decorators = [withTheme]
 export const parameters = {
@@ -15,6 +15,6 @@ export const parameters = {
     },
   },
   docs: {
-    theme: committedLight,
+    container: DocsContainer,
   },
 }
