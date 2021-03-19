@@ -8,6 +8,7 @@ module.exports = {
         configureJSX: true,
       },
     },
+    'storybook-dark-mode',
   ],
   // https://storybook.js.org/docs/react/configure/typescript#mainjs-configuration
   typescript: {

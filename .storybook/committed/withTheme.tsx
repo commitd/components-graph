@@ -1,5 +1,6 @@
+import { ThemeProvider } from '@committed/components'
 import React from 'react'
-import { ThemeProvider, Box } from '@committed/components'
+import { useDarkMode } from 'storybook-dark-mode'
 
 /**
  * Wrap a component with the default ThemeProvider
@@ -7,12 +8,10 @@ import { ThemeProvider, Box } from '@committed/components'
  * @param {*} Story storybook component to wrap
  */
 export const withTheme = (Story) => {
+  const choice = useDarkMode() ? 'dark' : 'light'
   return (
-    <ThemeProvider>
-      {/* Temporary background until themeing in docs is supported */}
-      <Box bgcolor="background.paper" p={3}>
-        <Story />
-      </Box>
+    <ThemeProvider choice={choice}>
+      <Story />
     </ThemeProvider>
   )
 }

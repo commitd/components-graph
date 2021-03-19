@@ -1,5 +1,5 @@
 import { withTheme } from './committed/withTheme'
-import { DocsContainer } from './components/DocContainer.jsx'
+import { DocsContainer } from './components/DocsContainer'
 
 export const decorators = [withTheme]
 export const parameters = {
