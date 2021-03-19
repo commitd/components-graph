@@ -1,30 +1,20 @@
-import { GraphLayout, GraphLayoutAlgorithm, PresetGraphLayout } from './types'
+import { CustomGraphLayout, GraphLayout, PresetGraphLayout } from './types'
 
 export class LayoutModel {
   private readonly layout: GraphLayout
   private readonly invalidated: boolean
-  private readonly algorithm?: GraphLayoutAlgorithm
 
   static createDefault(): LayoutModel {
     return new LayoutModel('force-directed', true)
   }
 
-  constructor(
-    layout: GraphLayout,
-    invalidated = true,
-    algorithm?: GraphLayoutAlgorithm
-  ) {
+  constructor(layout: GraphLayout, invalidated = true) {
     this.layout = layout
     this.invalidated = invalidated
-    this.algorithm = algorithm
   }
 
   getLayout(): GraphLayout {
     return this.layout
-  }
-
-  getLayoutAlgorithm(): GraphLayoutAlgorithm | undefined {
-    return this.algorithm
   }
 
   isDirty(): boolean {
@@ -35,7 +25,7 @@ export class LayoutModel {
     if (!this.invalidated) {
       return this
     } else {
-      return new LayoutModel(this.layout, false, this.algorithm)
+      return new LayoutModel(this.layout, false)
     }
   }
 
@@ -43,15 +33,15 @@ export class LayoutModel {
     if (this.invalidated) {
       return this
     } else {
-      return new LayoutModel(this.layout, true, this.algorithm)
+      return new LayoutModel(this.layout, true)
     }
   }
 
   presetLayout(layout: PresetGraphLayout): LayoutModel {
-    return new LayoutModel(layout, true, undefined)
+    return new LayoutModel(layout, true)
   }
 
-  customLayout(algorithm: GraphLayoutAlgorithm): LayoutModel {
-    return new LayoutModel('custom', true, algorithm)
+  customLayout(layout: CustomGraphLayout): LayoutModel {
+    return new LayoutModel(layout, true)
   }
 }

@@ -1,16 +1,16 @@
 import { Ext, LayoutManipulation, LayoutPositionOptions, Core } from 'cytoscape'
 import { GraphModel } from '../GraphModel'
-import { GraphLayout, GraphLayoutAlgorithm } from '../types'
+import { CustomGraphLayout } from '../types'
 
 export type CustomLayoutOptions = {
   model: GraphModel
-  algorithm: GraphLayoutAlgorithm
+  algorithm: CustomGraphLayout
 }
 
 export class CytoscapeGraphLayoutAdapter implements LayoutManipulation {
   private readonly options: LayoutPositionOptions & CustomLayoutOptions
 
-  static readonly LAYOUT_NAME: GraphLayout = 'custom'
+  static readonly LAYOUT_NAME: string = 'custom'
 
   constructor(options: LayoutPositionOptions & CustomLayoutOptions) {
     this.options = options

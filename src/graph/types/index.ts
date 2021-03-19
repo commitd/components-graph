@@ -96,21 +96,20 @@ export type NodeShape = Css.NodeShape
 export type EdgeStyle = Css.LineStyle
 
 export type PresetGraphLayout = 'force-directed' | 'circle' | 'grid' | 'cola'
-export type CustomGraphLayout = 'custom'
 
-export type GraphLayout = PresetGraphLayout | CustomGraphLayout
-
-export type NodePosition = CyPosition
-
-export interface GraphLayoutAlgorithm {
+export interface CustomGraphLayout {
+  name: string
   runLayout(
     model: GraphModel,
     options: GraphLayoutOptions
   ): Record<string, NodePosition>
-
   // called on continuous layouts to stop them before they finish
   stopLayout(): void
 }
+
+export type GraphLayout = PresetGraphLayout | CustomGraphLayout
+
+export type NodePosition = CyPosition
 
 export interface GraphLayoutOptions {
   boundingBox: BoundingBox

@@ -1,9 +1,10 @@
 import { LayoutModel } from './LayoutModel'
-import { GraphLayout, GraphLayoutAlgorithm, PresetGraphLayout } from './types'
+import { CustomGraphLayout, GraphLayout } from './types'
 
 let layoutModel: LayoutModel
 
-const layoutAlgorithm: GraphLayoutAlgorithm = {
+const layoutAlgorithm: CustomGraphLayout = {
+  name: 'Custom layout',
   runLayout: () => ({}),
   stopLayout: () => {},
 }
@@ -17,16 +18,10 @@ it('Gets layout', () => {
   expect(layoutModel.presetLayout(layout).getLayout()).toBe(layout)
 })
 
-it('Layout algorithm undefined when preset layout specified', () => {
-  const layout: PresetGraphLayout = 'grid'
-  expect(layoutModel.presetLayout(layout).getLayoutAlgorithm()).toBeUndefined()
-})
-
 it('Layout algorithm defined when custom layout specified', () => {
-  expect(layoutModel.customLayout(layoutAlgorithm).getLayoutAlgorithm()).toBe(
+  expect(layoutModel.customLayout(layoutAlgorithm).getLayout()).toBe(
     layoutAlgorithm
   )
-  expect(layoutModel.customLayout(layoutAlgorithm).getLayout()).toBe('custom')
 })
 
 it('Changing the layout invalidates the layout', () => {

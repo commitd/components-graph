@@ -34,6 +34,7 @@ it('should register with cytoscape', () => {
 it('should run layout', () => {
   const model = GraphModel.createEmpty()
   const algorithm = {
+    name: 'layout',
     runLayout: jest.fn().mockImplementation(() => []),
     stopLayout: jest.fn(),
   }
