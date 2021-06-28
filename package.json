@@ -169,7 +169,11 @@
     "uuid": "^8.3.1"
   },
   "lint-staged": {
-    "*.{ts,tsx}": "eslint --cache --fix",
-    "*.{ts,tsx,md,json,mdx}": "prettier --write"
+    "*.{ts,tsx,md,json,mdx}": "prettier --write",
+    "*.{ts,tsx}": [
+      "eslint --cache --fix",
+      "git add",
+      "jest --bail --findRelatedTests"
+    ]
   }
 }
