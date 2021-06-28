@@ -7,6 +7,7 @@ export const commonOptions: LayoutOptions = {
   // true : Animate continuously as the layout is running
   // false : Just show the end result
   // 'end' : Animate with the end result, from the initial positions to the end positions
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   animate: 'end',
 

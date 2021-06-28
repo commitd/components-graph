@@ -14,7 +14,6 @@ export const circle: CircleLayoutOptions = {
   // true : Animate continuously as the layout is running
   // false : Just show the end result
   // 'end' : Animate with the end result, from the initial positions to the end positions
-  // @ts-ignore
   ready: undefined, // callback on layoutready
   stop: undefined, // callback on layoutstop
   //   transform: function (node, position) {

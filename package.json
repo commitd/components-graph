@@ -6,8 +6,10 @@
   "license": "MIT",
   "private": false,
   "repository": "git://github.com/commitd/components-graph",
-  "main": "dist/index.js",
+  "main": "dist/committed-components-graph.cjs.js",
+  "module": "dist/committed-components-graph.esm.js",
   "typings": "dist/index.d.ts",
+  "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
@@ -19,18 +21,21 @@
   },
   "scripts": {
     "clean": "shx rm -rf dist",
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test --passWithNoTests",
-    "lint": "tsdx lint",
-    "prepare": "tsdx build",
+    "build": "rollpkg build --tsconfig ./tsconfig.build.json",
+    "watch": "rollpkg watch",
+    "prepublishOnly": "npm run lint && npm test && npm run build",
+    "lint": "eslint './src/**/*.{ts,tsx}'",
+    "test": "jest",
+    "test:ci": "jest --coverage",
+    "test:watch": "jest --watchAll",
+    "coverage": "npx live-server coverage/lcov-report",
     "size": "size-limit",
     "analyze": "size-limit --why",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook --no-dll",
+    "generate": "plop --plopfile ./generators/plopfile.js",
     "format": "prettier --write '**/{src,test,stories}/**/{*.js,*.ts,*.tsx,*.json,*.md,*.mdx}' example/index.tsx",
-    "deploy-storybook": "storybook-to-ghpages",
-    "generate": "plop --plopfile ./generators/plopfile.js"
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "deploy-storybook": "storybook-to-ghpages"
   },
   "peerDependencies": {
     "@committed/components": "^4.0.1",
@@ -49,26 +54,73 @@
     "semi": false,
     "singleQuote": true
   },
-  "module": "dist/components-graph.esm.js",
   "size-limit": [
     {
-      "path": "dist/components-graph.cjs.production.min.js",
+      "path": "dist/committed-components-graph.cjs.production.js",
       "limit": "200 KB"
     },
     {
-      "path": "dist/components-graph.esm.js",
+      "path": "dist/committed-components-graph.esm.js",
       "limit": "200 KB"
     }
   ],
+  "eslintConfig": {
+    "extends": [
+      "./node_modules/rollpkg/configs/eslint"
+    ],
+    "plugins": [
+      "import"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "settings": {
+      "import/parsers": {
+        "@typescript-eslint/parser": [
+          ".ts",
+          ".tsx"
+        ]
+      },
+      "import/resolver": {
+        "typescript": {
+          "alwaysTryTypes": true
+        }
+      }
+    },
+    "rules": {
+      "import/default": "off",
+      "import/no-default-export": "off",
+      "react/display-name": "off",
+      "import/no-named-as-default-member": "warn"
+    },
+    "ignorePatterns": [
+      "dist",
+      "node_modules",
+      "**/*.stories.tsx",
+      "**/*.test.ts",
+      "**/*.test.tsx"
+    ]
+  },
   "jest": {
-    "testEnvironment": "jsdom",
+    "preset": "rollpkg",
+    "setupFiles": [
+      "./jest.patch-cssom.js"
+    ],
     "collectCoverage": true,
     "testResultsProcessor": "jest-sonar-reporter",
+    "moduleDirectories": [
+      "node_modules",
+      "utils"
+    ],
+    "testRegex": "/src/.*(\\.|/)(test|spec)\\.[jt]sx?$",
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/types/**/*"
+    ],
     "coveragePathIgnorePatterns": [
+      "/src/typings.d.ts",
       "setupTests.tsx",
       ".*/index.ts",
       ".*.test.ts",
-      ".*/stories/.*",
+      ".*.test.tsx",
       ".*.stories.tsx"
     ]
   },
@@ -90,9 +142,9 @@
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
     "babel-loader": "^8.1.0",
-    "eslint-config-prettier": "^6.14.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-security": "^1.4.0",
+    "eslint": "^7.28.0",
+    "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^4.3.0",
     "jest-sonar-reporter": "^2.0.0",
     "plop": "^2.7.4",
@@ -102,12 +154,12 @@
     "react-dom": "^17.0.1",
     "react-is": "^17.0.1",
     "react-test-renderer": "^17.0.1",
+    "rollpkg": "^0.5.7",
     "shx": "^0.3.2",
     "size-limit": "^4.6.2",
     "storybook-dark-mode": "^1.0.7",
-    "tsdx": "^0.14.1",
     "tslib": "^2.0.3",
-    "typescript": "^4.0.3"
+    "typescript": "^4.3.4"
   },
   "dependencies": {
     "@types/n3": "^1.4.4",

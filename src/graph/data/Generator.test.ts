@@ -11,15 +11,15 @@ import {
 
 it('should add node and edge', () => {
   const graph = addRandomEdge(addRandomNode(GraphModel.createEmpty()))
-  expect(graph.nodes.length).toEqual(1)
-  expect(graph.edges.length).toEqual(1)
+  expect(graph.nodes).toHaveLength(1)
+  expect(graph.edges).toHaveLength(1)
 })
 
 it('should be empty', () => {
   const start = GraphModel.createEmpty()
   const middle = addRandomEdge(addRandomNode(start, 10), 5)
-  expect(middle.nodes.length).toEqual(10)
-  expect(middle.edges.length).toEqual(5)
+  expect(middle.nodes).toHaveLength(10)
+  expect(middle.edges).toHaveLength(5)
 
   const end = removeRandomNode(removeRandomEdge(middle, 5), 10)
 

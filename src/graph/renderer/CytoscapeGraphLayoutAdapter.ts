@@ -22,8 +22,10 @@ export class CytoscapeGraphLayoutAdapter implements LayoutManipulation {
     } // can't register if cytoscape unspecified
     cytoscape(
       'layout',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       CytoscapeGraphLayoutAdapter.LAYOUT_NAME,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       CytoscapeGraphLayoutAdapter
     )
@@ -33,6 +35,7 @@ export class CytoscapeGraphLayoutAdapter implements LayoutManipulation {
     if (this.options.algorithm == null) {
       throw new Error('No custom layout algorithm was specified')
     }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const cy: Core = this.options.cy

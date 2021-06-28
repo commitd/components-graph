@@ -1,4 +1,3 @@
-/* eslint-disable security/detect-object-injection */
 import {
   DataFactory,
   NamedNode,
@@ -253,6 +252,7 @@ class GraphBuilder {
     const item = this.nodes[this.toNodeId(t.subject)]
     if (item !== undefined) {
       const decorator = DECORATORS[t.predicate.id]
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       item[decorator] = fromRdf(t.object as Literal)
@@ -301,6 +301,7 @@ export function fromRdfGraph(
   ) => (prefixes[namedNode.value] = prefix)
 
   const parser = new Parser<Triple>(parserOptions)
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore - n3 types incorrect
   const rdfData: Triple[] = parser.parse(
     prefixString + data,

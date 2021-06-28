@@ -8,14 +8,14 @@ beforeEach(() => {
 
 it('Deduplicates added nodes', () => {
   expect(
-    Array.from(selectionModel.addNodes(['n1', 'n2', 'n2']).nodes).length
-  ).toBe(2)
+    Array.from(selectionModel.addNodes(['n1', 'n2', 'n2']).nodes)
+  ).toHaveLength(2)
 })
 
 it('Deduplicates added edges', () => {
   expect(
-    Array.from(selectionModel.addEdges(['e1', 'e2', 'e2']).edges).length
-  ).toBe(2)
+    Array.from(selectionModel.addEdges(['e1', 'e2', 'e2']).edges)
+  ).toHaveLength(2)
 })
 
 it('Adding no nodes does nothing', () => {
@@ -37,13 +37,11 @@ it('Removing no edges does nothing', () => {
 it('Removes nodes', () => {
   expect(
     Array.from(selectionModel.addNodes(['n1', 'n2']).removeNodes(['n1']).nodes)
-      .length
-  ).toBe(1)
+  ).toHaveLength(1)
 })
 
 it('Removes edges', () => {
   expect(
     Array.from(selectionModel.addEdges(['e1', 'e2']).removeEdges(['e1']).edges)
-      .length
-  ).toBe(1)
+  ).toHaveLength(1)
 })

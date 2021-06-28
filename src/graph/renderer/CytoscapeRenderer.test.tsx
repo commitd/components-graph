@@ -92,7 +92,7 @@ it('layout command triggers layout', () => {
   )
 
   expect(cytoscape.layout).toHaveBeenCalledTimes(2)
-  expect(onChange).toBeCalledWith(graphModel.clearCommands())
+  expect(onChange).toHaveBeenCalledWith(graphModel.clearCommands())
 })
 
 it('refit command triggers refit', () => {
@@ -120,7 +120,7 @@ it('refit command triggers refit', () => {
     />
   )
   expect(cytoscape.fit).toHaveBeenCalledTimes(1)
-  expect(onChange).toBeCalledWith(graphModel.clearCommands())
+  expect(onChange).toHaveBeenCalledWith(graphModel.clearCommands())
 })
 
 it('invalidate layout triggers layout', () => {
@@ -151,7 +151,7 @@ it('invalidate layout triggers layout', () => {
     />
   )
 
-  expect(onChange).toBeCalledWith(
+  expect(onChange).toHaveBeenCalledWith(
     GraphModel.applyLayout(graphModel, graphModel.getCurrentLayout().validate())
   )
   expect(cytoscape.layout).toHaveBeenCalledTimes(1)
@@ -180,7 +180,7 @@ it('ZoomIn command triggers zoom', () => {
     />
   )
   expect(cytoscape.zoom).toHaveBeenCalledTimes(2)
-  expect(onChange).toBeCalledWith(graphModel.clearCommands())
+  expect(onChange).toHaveBeenCalledWith(graphModel.clearCommands())
 })
 
 it('ZoomOut command triggers zoom', () => {
@@ -206,5 +206,5 @@ it('ZoomOut command triggers zoom', () => {
     />
   )
   expect(cytoscape.zoom).toHaveBeenCalledTimes(2)
-  expect(onChange).toBeCalledWith(graphModel.clearCommands())
+  expect(onChange).toHaveBeenCalledWith(graphModel.clearCommands())
 })
