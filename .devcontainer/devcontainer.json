@@ -33,6 +33,6 @@
     "mikestead.dotenv",
     "ms-vsliveshare.vsliveshare-pack"
   ],
-  "postCreateCommand": "yarn install",
+  "postCreateCommand": "npm install",
   "remoteUser": "node"
 }

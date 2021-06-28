@@ -23,20 +23,28 @@ jobs:
         with:
           node-version: '12'
 
+      - name: npm 7
+        run: npm i -g npm@7 --registry=https://registry.npmjs.org
+
       - name: Install deps and build (with cache)
+        if: ${{ !env.ACT }}
         uses: bahmutov/npm-install@v1
 
+      - name: Full Install
+        if: ${{ env.ACT }}
+        run: npm install
+
       - name: Lint
-        run: yarn lint
+        run: npm run lint
 
       - name: Test
-        run: yarn test --ci --coverage --maxWorkers=2
+        run: npm test -- --ci --coverage --maxWorkers=2
 
       - name: Build
-        run: yarn build
+        run: npm run build
 
       - name: Build Storybook
-        run: yarn build-storybook --quiet
+        run: npm run build-storybook --quiet
 
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master

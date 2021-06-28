@@ -301,10 +301,10 @@ export function fromRdfGraph(
   ) => (prefixes[namedNode.value] = prefix)
 
   const parser = new Parser<Triple>(parserOptions)
+  // @ts-ignore - n3 types incorrect
   const rdfData: Triple[] = parser.parse(
     prefixString + data,
     null,
-    // @ts-ignore - n3 types incorrect - PR made
     prefixCallback
   )
 

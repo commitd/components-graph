@@ -45,9 +45,9 @@ it('should run layout', () => {
   })
   const eles = {
     nodes: () =>
-      (({
+      ({
         positions,
-      } as unknown) as NodeCollection),
+      } as unknown as NodeCollection),
   } as CollectionArgument
   const adapter = new CytoscapeGraphLayoutAdapter({
     model,
