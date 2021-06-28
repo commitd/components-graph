@@ -67,9 +67,8 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
   ...props
 }) => {
   const [settingsMenuAnchor, setSettingsMenuAnchor] = useState<HTMLElement>()
-  const [settingsLayoutMenuAnchor, setSettingsLayoutMenuAnchor] = useState<
-    HTMLElement
-  >()
+  const [settingsLayoutMenuAnchor, setSettingsLayoutMenuAnchor] =
+    useState<HTMLElement>()
   const handleCloseSettings = (): void => {
     setSettingsMenuAnchor(undefined)
     setSettingsLayoutMenuAnchor(undefined)

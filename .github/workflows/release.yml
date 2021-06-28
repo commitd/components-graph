@@ -19,8 +19,16 @@ jobs:
           node-version: '12'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Install deps and build (with cache)
+      - name: npm 7
+        run: npm i -g npm@7 --registry=https://registry.npmjs.org
+
+      - name: Install with cache
+        if: ${{ !env.ACT }}
         uses: bahmutov/npm-install@v1
+
+      - name: Full Install
+        if: ${{ env.ACT }}
+        run: npm install
 
       - name: Publish Package
         # Publish to NPM public

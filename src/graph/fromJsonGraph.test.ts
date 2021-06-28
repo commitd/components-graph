@@ -95,10 +95,10 @@ it('ContentModel does not support multiple from graphs', () => {
 })
 
 it('ContentModel does not support hyperedges from graphs', () => {
-  const hyperGraph = ({
+  const hyperGraph = {
     nodes: smallGraph.graph?.nodes,
     hyperedges: smallGraph.graph?.edges,
-  } as unknown) as JSONGraph
+  } as unknown as JSONGraph
   expect(() =>
     fromJsonGraph({
       graph: hyperGraph,
