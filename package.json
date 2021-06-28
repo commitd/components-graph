@@ -35,7 +35,8 @@
     "format": "prettier --write '**/{src,test,stories}/**/{*.js,*.ts,*.tsx,*.json,*.md,*.mdx}' example/index.tsx",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "deploy-storybook": "storybook-to-ghpages"
+    "deploy-storybook": "storybook-to-ghpages",
+    "prepare": "husky install"
   },
   "peerDependencies": {
     "@committed/components": "^4.0.1",
@@ -43,12 +44,6 @@
     "@material-ui/icons": "^4.9.1",
     "react": ">= 16.8.0",
     "react-dom": ">= 16.8.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged --pattern '**/*.*(ts|tsx|json|md)'; tsdx lint",
-      "pre-push": "yarn test && yarn build"
-    }
   },
   "prettier": {
     "semi": false,
@@ -130,33 +125,33 @@
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
-    "@size-limit/preset-small-lib": "^4.6.2",
-    "@storybook/addon-essentials": "^6.1.20",
-    "@storybook/addons": "^6.1.20",
-    "@storybook/react": "^6.1.20",
+    "@size-limit/preset-small-lib": "^5.0.1",
+    "@storybook/addon-essentials": "^6.3.1",
+    "@storybook/addons": "^6.3.1",
+    "@storybook/react": "^6.3.1",
     "@storybook/storybook-deployer": "^2.8.7",
     "@testing-library/jest-dom": "^5.11.5",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/react-hooks": "^3.4.2",
-    "@testing-library/user-event": "^12.1.10",
-    "@types/react": "^16.9.53",
-    "@types/react-dom": "^16.9.8",
+    "@testing-library/react": "^12.0.0",
+    "@testing-library/react-hooks": "^7.0.0",
+    "@testing-library/user-event": "^13.1.9",
+    "@types/react": "^17.0.11",
+    "@types/react-dom": "^17.0.8",
     "babel-loader": "^8.1.0",
     "eslint": "^7.28.0",
     "eslint-import-resolver-typescript": "^2.4.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "husky": "^4.3.0",
+    "husky": "^6.0.0",
     "jest-sonar-reporter": "^2.0.0",
+    "lint-staged": "^11.0.0",
     "plop": "^2.7.4",
     "prettier": "^2.1.2",
-    "pretty-quick": "^3.1.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-is": "^17.0.1",
     "react-test-renderer": "^17.0.1",
     "rollpkg": "^0.5.7",
     "shx": "^0.3.2",
-    "size-limit": "^4.6.2",
+    "size-limit": "^5.0.1",
     "storybook-dark-mode": "^1.0.7",
     "tslib": "^2.0.3",
     "typescript": "^4.3.4"
@@ -170,7 +165,11 @@
     "n3": "^1.8.1",
     "rdf-literal": "^1.2.0",
     "react-cytoscapejs": "^1.2.1",
-    "use-debounce": "^5.1.0",
+    "use-debounce": "^7.0.0",
     "uuid": "^8.3.1"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "eslint --cache --fix",
+    "*.{ts,tsx,md,json,mdx}": "prettier --write"
   }
 }
