@@ -103,7 +103,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   options,
 }) => {
   try {
-    // eslint-disable-next-line import/no-named-as-default-member
+    // eslint import/no-named-as-default-member
     cy.use(dblclick)
   } catch (e) {
     // ignore
@@ -132,22 +132,25 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   // prevent rapid selection updates from fighting each other
   // and improve performance overheads by debouncing selection updates
 
-  const triggerLayout = useDebouncedCallback((graphLayout: GraphLayout) => {
-    if (cytoscape != null) {
-      const l =
-        typeof graphLayout === 'string'
-          ? layouts[graphLayout]
-          : ({
-              name: CytoscapeGraphLayoutAdapter.LAYOUT_NAME,
-              model: graphModel,
-              algorithm: graphLayout,
-            } as CustomLayoutOptions)
-      if (l == null) {
-        throw new Error('Layout does not exist')
+  const triggerLayout: (layout: GraphLayout) => void = useDebouncedCallback(
+    (graphLayout: GraphLayout) => {
+      if (cytoscape != null) {
+        const l =
+          typeof graphLayout === 'string'
+            ? layouts[graphLayout]
+            : ({
+                name: CytoscapeGraphLayoutAdapter.LAYOUT_NAME,
+                model: graphModel,
+                algorithm: graphLayout,
+              } as CustomLayoutOptions)
+        if (l == null) {
+          throw new Error('Layout does not exist')
+        }
+        cytoscape.layout(l as LayoutOptions).run()
       }
-      cytoscape.layout(l as LayoutOptions).run()
-    }
-  }, 200)
+    },
+    200
+  )
 
   const pendingSelection = useRef<SelectionModel>(selection)
 
@@ -163,7 +166,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   const updateSelection = useCallback(
     (updater: (s: SelectionModel) => SelectionModel) => {
       pendingSelection.current = updater(pendingSelection.current)
-      selectionUpdate.callback()
+      selectionUpdate()
     },
     [pendingSelection, selectionUpdate]
   )
@@ -178,7 +181,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   )
 
   const updateLayout = useCallback(() => {
-    triggerLayout.callback(layout)
+    triggerLayout(layout)
   }, [triggerLayout, layout])
   const selectNode = useCallback(
     (e: EventObject) => {
@@ -242,7 +245,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
 
   useEffect(() => {
     if (dirty) {
-      triggerLayout.callback(layout)
+      triggerLayout(layout)
       onChange(
         GraphModel.applyLayout(
           graphModel,
@@ -274,7 +277,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
           })
           break
         case 'Layout':
-          triggerLayout.callback(layout)
+          triggerLayout(layout)
           break
         case 'Refit':
           cytoscape.fit()

@@ -22,9 +22,7 @@ jest.mock('react-cytoscapejs', () => {
 // Remove the debounce, to simplify tests
 jest.mock('use-debounce', () => {
   return {
-    useDebouncedCallback: (fn: any) => ({
-      callback: fn,
-    }),
+    useDebouncedCallback: (fn: any) => fn,
   }
 })
 
