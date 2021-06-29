@@ -6,11 +6,12 @@ import { GraphModel } from '../../graph/GraphModel'
 import { cytoscapeRenderer } from '../../graph/renderer/CytoscapeRenderer'
 import { NodeViewer } from './NodeViewer'
 import { ModelNode } from '../../graph'
+import { Button } from '@committed/components'
+import { useBoolean } from '@committed/hooks'
 
 export default {
   title: 'Components/NodeViewer',
   component: NodeViewer,
-  argTypes: {},
 } as Meta
 
 export const Default: Story = () => {
@@ -31,8 +32,54 @@ export const Default: Story = () => {
   )
   return (
     <>
-      <NodeViewer node={node} onClose={() => setNode(undefined)} />
+      <NodeViewer
+        open={node != null}
+        node={node}
+        onOpenChange={() => setNode(undefined)}
+      />
       {graph}
+    </>
+  )
+}
+
+export const WithAttributes: Story = () => {
+  const [open, { setTrue: setOpen, setFalse: setClosed }] = useBoolean(false)
+  const node: ModelNode = {
+    id: 'test',
+    label: 'example node',
+    attributes: {
+      employer: 'Committed',
+    },
+  }
+  return (
+    <>
+      <Button onClick={setOpen}>Open</Button>
+      <NodeViewer open={open} node={node} onOpenChange={setClosed} />
+    </>
+  )
+}
+
+export const NoAttributes: Story = () => {
+  const [open, { setTrue: setOpen, setFalse: setClosed }] = useBoolean(false)
+  const node: ModelNode = {
+    id: 'test',
+    label: 'example node',
+    attributes: {},
+  }
+  return (
+    <>
+      <Button onClick={setOpen}>Open</Button>
+      <NodeViewer open={open} node={node} onOpenChange={setClosed} />
+    </>
+  )
+}
+
+export const NoNode: Story = () => {
+  const [open, { setTrue: setOpen, setFalse: setClosed }] = useBoolean(false)
+  return (
+    <>
+      <Button onClick={setOpen}>Open</Button>
+      <NodeViewer open={open} onOpenChange={setClosed} />
     </>
   )
 }

@@ -1,4 +1,3 @@
-import { Theme } from '@committed/components'
 import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
 import { Graph } from '../'
@@ -42,10 +41,10 @@ export const TypedDecoration: React.FC = () => {
     new GraphModel(ContentModel.fromRaw(exampleGraphData), {
       decoratorModel: DecoratorModel.createDefault({
         nodeDecorators: [
-          (node: ModelNode, theme: Theme): Partial<NodeDecoration> => {
+          (node: ModelNode): Partial<NodeDecoration> => {
             const type = node.attributes['type']
-            if (type === 'person') return { color: theme.palette.info.main }
-            if (type === 'place') return { color: theme.palette.success.main }
+            if (type === 'person') return { color: '$colors$info' }
+            if (type === 'place') return { color: '$colors$success' }
             return { color: '#00FF00' }
           },
         ],
@@ -65,42 +64,42 @@ export const CustomIcons: React.FC = () => {
             id: 'chris',
             attributes: {},
             label: 'Chris Flatley',
-            icon: 'https://committed.software/static/chris-e5738250e4525dd9c6783ea3802c814f.jpg',
+            icon: 'https://committed.io/static/chris-4f65af02b0d026c76bfbac1aa90461c3.jpg',
             size: 100,
           },
           stuart: {
             id: 'stuart',
             attributes: {},
             label: 'Stuart Hendren',
-            icon: 'https://committed.software/static/stuart-faed1d5684aa9dd6d7cc20fff9e34e8e.png',
+            icon: 'https://committed.io/static/stuart-c12a4df0a720f9252abb8279ffa9f7c8.png',
             size: 100,
           },
           jon: {
             id: 'jon',
             attributes: {},
             label: 'Jon Elliot',
-            icon: 'https://committed.software/static/jon-809f2f941386ebb56949c0b3f5dae221.png',
+            icon: 'https://committed.io/static/jon-4f56f1e3f4369e4d115d3a88195a2f4a.png',
             size: 100,
           },
           steve: {
             id: 'steve',
             attributes: {},
             label: 'Steven Taylor',
-            icon: 'https://committed.software/static/steve-70f3e007ab54a82ef7c7ab8a7989ebc3.jpg',
+            icon: 'https://committed.io/static/steve-282e9f5032489e7a4274ee5eec6fd206.jpg',
             size: 100,
           },
           matt: {
             id: 'matt',
             attributes: {},
             label: 'Matt Copas',
-            icon: 'https://committed.software/static/matt-2db182f3e2a621017e7ef4cffda2ee3f.jpg',
+            icon: 'https://committed.io/static/matt-e622c816a3d4f6c831346da257ed6500.jpg',
             size: 100,
           },
           kristian: {
             id: 'kristian',
             attributes: {},
             label: 'Kristian Aspinall',
-            icon: 'https://committed.software/static/kristian-4508fcd63e07690867e4c39b51bdd685.jpg',
+            icon: 'https://committed.io/static/kristian-d0ae8e222bf08ea15acba90d5a41b2aa.jpg',
             size: 100,
           },
         },

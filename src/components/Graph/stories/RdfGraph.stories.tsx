@@ -1,4 +1,4 @@
-import { Alert, Flex } from '@committed/components'
+import { Alert, AlertContent, AlertTitle, Flex } from '@committed/components'
 import { Meta, Story } from '@storybook/react'
 import React, { useState, useEffect } from 'react'
 import { Graph } from '..'
@@ -145,13 +145,14 @@ const StoryTemplate: Story<{ rdf: string }> = ({ rdf }) => {
   return (
     <>
       {alert && (
-        <Alert color="error" title={'RDF Error'}>
-          {alert}
+        <Alert severity="error">
+          <AlertTitle>RDF Error</AlertTitle>
+          <AlertContent>{alert}</AlertContent>
         </Alert>
       )}
       <Flex>
         <GraphToolbar
-          flexDirection="column"
+          direction="column"
           model={model}
           onModelChange={setModel}
           layouts={cytoscapeRenderer.layouts}
@@ -163,7 +164,11 @@ const StoryTemplate: Story<{ rdf: string }> = ({ rdf }) => {
           options={{ height: 600 }}
           onViewNode={setNode}
         />
-        <NodeViewer node={node} onClose={() => setNode(undefined)} />
+        <NodeViewer
+          open={node != undefined}
+          node={node}
+          onOpenChange={() => setNode(undefined)}
+        />
       </Flex>
     </>
   )

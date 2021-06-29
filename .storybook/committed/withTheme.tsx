@@ -1,4 +1,4 @@
-import { ThemeProvider } from '@committed/components'
+import { ThemeProvider, lightTheme, darkTheme } from '@committed/components'
 import React from 'react'
 import { useDarkMode } from 'storybook-dark-mode'
 
@@ -9,6 +9,8 @@ import { useDarkMode } from 'storybook-dark-mode'
  */
 export const withTheme = (Story) => {
   const choice = useDarkMode() ? 'dark' : 'light'
+  document.body.classList.remove(darkTheme)
+  document.body.classList.remove(lightTheme)
   return (
     <ThemeProvider choice={choice}>
       <Story />

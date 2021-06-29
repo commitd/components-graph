@@ -1,4 +1,3 @@
-import { createCommittedThemes, Theme } from '@committed/components'
 import { DecoratorModel } from './DecoratorModel'
 import {
   EdgeDecoration,
@@ -8,8 +7,6 @@ import {
   NodeDecoration,
   NodeDecorator,
 } from './types'
-
-const themes = createCommittedThemes()
 
 let decoratorModel: DecoratorModel
 
@@ -79,28 +76,26 @@ beforeEach(() => {
 })
 
 it('Create default sets default node decoration for light theme', () => {
-  expect(decoratorModel.getDefaultNodeDecorator()(themes.light))
-    .toMatchInlineSnapshot(`
+  expect(decoratorModel.getDefaultNodeDecorator()()).toMatchInlineSnapshot(`
     Object {
-      "color": "#FFBB00",
+      "color": "$colors$brandYellow9",
       "opacity": 1,
       "shape": "ellipse",
       "size": 25,
-      "strokeColor": "#515151",
+      "strokeColor": "$colors$textSecondary",
       "strokeSize": 2,
     }
   `)
 })
 
 it('Create default sets default node decoration for dark theme', () => {
-  expect(decoratorModel.getDefaultNodeDecorator()(themes.dark))
-    .toMatchInlineSnapshot(`
+  expect(decoratorModel.getDefaultNodeDecorator()()).toMatchInlineSnapshot(`
     Object {
-      "color": "#FFBB00",
+      "color": "$colors$brandYellow9",
       "opacity": 1,
       "shape": "ellipse",
       "size": 25,
-      "strokeColor": "#E1E1E1",
+      "strokeColor": "$colors$textSecondary",
       "strokeSize": 2,
     }
   `)
@@ -109,7 +104,7 @@ it('Create default sets default node decoration for dark theme', () => {
 it('Can supply partial decorator for default', () => {
   const decoration = DecoratorModel.createDefault({
     nodeDefaults: { color: '#123456', size: 10 },
-  }).getDefaultNodeDecorator()(themes.light)
+  }).getDefaultNodeDecorator()()
 
   expect(decoration.color).toEqual('#123456')
   expect(decoration.size).toEqual(10)
@@ -119,16 +114,16 @@ it('Can supply partial decorator for default', () => {
       "opacity": 1,
       "shape": "ellipse",
       "size": 10,
-      "strokeColor": "#515151",
+      "strokeColor": "$colors$textSecondary",
       "strokeSize": 2,
     }
   `)
 })
 
 it('Returns item id as a label', () => {
-  expect(
-    DecoratorModel.idAsLabelNode(nodeWithoutDecoration, themes.light).label
-  ).toBe(nodeWithDecoration.id)
+  expect(DecoratorModel.idAsLabelNode(nodeWithoutDecoration).label).toBe(
+    nodeWithDecoration.id
+  )
 })
 
 it('Does not alter non-decoration node properties', () => {
@@ -142,7 +137,7 @@ it('Does not alter non-decoration node properties', () => {
 it('Does not applies default decoration to unstyled node', () => {
   const decorationOverrides = decoratorModel
     .getDecoratedNodes([nodeWithoutDecoration])[0]
-    .getDecorationOverrides(themes.light)
+    .getDecorationOverrides()
   expect(decorationOverrides.color).toBeUndefined()
   expect(decorationOverrides.opacity).toBeUndefined()
   expect(decorationOverrides.shape).toBeUndefined()
@@ -154,7 +149,7 @@ it('Does not applies default decoration to unstyled node', () => {
 it('Node specific decoration overrides default decoration', () => {
   const decorationOverrides = decoratorModel
     .getDecoratedNodes([nodeWithDecoration])[0]
-    .getDecorationOverrides(themes.light)
+    .getDecorationOverrides()
 
   expect(decorationOverrides.color).toBe(nodeWithDecoration.color)
   expect(decorationOverrides.opacity).toBe(nodeWithDecoration.opacity)
@@ -169,7 +164,7 @@ it('Decorator node decoration overrides default decoration', () => {
     nodeDecorators: [nodeDecorator],
   })
     .getDecoratedNodes([nodeWithoutDecoration])[0]
-    .getDecorationOverrides(themes.light)
+    .getDecorationOverrides()
 
   expect(decorationOverrides.color).toBe(nodeDecoratorDecoration.color)
   expect(decorationOverrides.opacity).toBe(nodeDecoratorDecoration.opacity)
@@ -188,7 +183,7 @@ it('Node specific decoration overrides both decorator default decoration and dec
     nodeDecorators: [nodeDecorator],
   })
     .getDecoratedNodes([nodeWithDecoration])[0]
-    .getDecorationOverrides(themes.light)
+    .getDecorationOverrides()
   expect(decorationOverrides.color).toBe(nodeWithDecoration.color)
   expect(decorationOverrides.opacity).toBe(nodeWithDecoration.opacity)
   expect(decorationOverrides.shape).toBe(nodeWithDecoration.shape)
@@ -198,10 +193,9 @@ it('Node specific decoration overrides both decorator default decoration and dec
 })
 
 it('Create default sets default edge decoration for light theme', () => {
-  expect(decoratorModel.getDefaultEdgeDecorator()(themes.light))
-    .toMatchInlineSnapshot(`
+  expect(decoratorModel.getDefaultEdgeDecorator()()).toMatchInlineSnapshot(`
     Object {
-      "color": "#515151",
+      "color": "$colors$textSecondary",
       "opacity": 1,
       "size": 2,
       "sourceArrow": false,
@@ -212,10 +206,9 @@ it('Create default sets default edge decoration for light theme', () => {
 })
 
 it('Create default sets default edge decoration for dark theme', () => {
-  expect(decoratorModel.getDefaultEdgeDecorator()(themes.dark))
-    .toMatchInlineSnapshot(`
+  expect(decoratorModel.getDefaultEdgeDecorator()()).toMatchInlineSnapshot(`
     Object {
-      "color": "#E1E1E1",
+      "color": "$colors$textSecondary",
       "opacity": 1,
       "size": 2,
       "sourceArrow": false,
@@ -227,17 +220,17 @@ it('Create default sets default edge decoration for dark theme', () => {
 
 it('Can supply partial decorator function for default', () => {
   const decoration = DecoratorModel.createDefault({
-    edgeDefaults: (theme: Theme) => ({
-      color: theme.palette.info.light,
+    edgeDefaults: () => ({
+      color: '$colors$success',
       size: 10,
     }),
-  }).getDefaultEdgeDecorator()(themes.light)
+  }).getDefaultEdgeDecorator()()
 
-  expect(decoration.color).toEqual(themes.light.palette.info.light)
+  expect(decoration.color).toEqual('$colors$success')
   expect(decoration.size).toEqual(10)
   expect(decoration).toMatchInlineSnapshot(`
     Object {
-      "color": "#B3ECFF",
+      "color": "$colors$success",
       "opacity": 1,
       "size": 10,
       "sourceArrow": false,
@@ -248,9 +241,9 @@ it('Can supply partial decorator function for default', () => {
 })
 
 it('Returns item id as a label', () => {
-  expect(
-    DecoratorModel.idAsLabelNodeEdge(edgeWithoutDecoration, themes.light).label
-  ).toBe(edgeWithoutDecoration.id)
+  expect(DecoratorModel.idAsLabelNodeEdge(edgeWithoutDecoration).label).toBe(
+    edgeWithoutDecoration.id
+  )
 })
 
 it('Does not alter non-decoration edge properties', () => {
@@ -267,7 +260,7 @@ it('Does not alter non-decoration edge properties', () => {
 it('Does not apply default decoration to unstyled edge', () => {
   const decorationOverrides = decoratorModel
     .getDecoratedEdges([edgeWithoutDecoration])[0]
-    .getDecorationOverrides(themes.light)
+    .getDecorationOverrides()
 
   expect(decorationOverrides.color).toBeUndefined()
   expect(decorationOverrides.opacity).toBeUndefined()
@@ -292,7 +285,7 @@ it('Edge specific decoration overrides default decoration', () => {
 it('Includes edge specific decoration in edge decoration overrides', () => {
   const decorationOverrides = decoratorModel
     .getDecoratedEdges([edgeWithDecoration])[0]
-    .getDecorationOverrides(themes.light)
+    .getDecorationOverrides()
 
   expect(decorationOverrides.color).toBe(edgeWithDecoration.color)
   expect(decorationOverrides.opacity).toBe(edgeWithDecoration.opacity)
@@ -307,7 +300,7 @@ it('Decorator edge decoration overrides default decoration', () => {
     edgeDecorators: [edgeDecorator],
   })
     .getDecoratedEdges([edgeWithoutDecoration])[0]
-    .getDecorationOverrides(themes.light)
+    .getDecorationOverrides()
 
   expect(decorationOverrides.color).toBe(edgeDecoratorDecoration.color)
   expect(decorationOverrides.opacity).toBe(edgeDecoratorDecoration.opacity)
@@ -326,7 +319,7 @@ it('Edge specific decoration overrides both decorator default decoration and dec
     edgeDecorators: [edgeDecorator],
   })
     .getDecoratedEdges([edgeWithDecoration])[0]
-    .getDecorationOverrides(themes.light)
+    .getDecorationOverrides()
   expect(decorationOverrides.color).toBe(edgeWithDecoration.color)
   expect(decorationOverrides.opacity).toBe(edgeWithDecoration.opacity)
   expect(decorationOverrides.size).toBe(edgeWithDecoration.size)

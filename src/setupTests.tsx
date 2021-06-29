@@ -1,30 +1,16 @@
 import { ThemeProvider } from '@committed/components'
-import { StylesProvider } from '@material-ui/styles'
 import '@testing-library/jest-dom/extend-expect'
 import { render, RenderOptions, RenderResult } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { GenerateId } from 'jss'
 import React from 'react'
 import { ModelNode, ModelEdge, ContentModel, GraphModel } from '.'
 
-const generateClassName: GenerateId = (rule, styleSheet) => {
-  const prefix =
-    styleSheet === undefined || styleSheet.options.classNamePrefix === undefined
-      ? ''
-      : styleSheet.options.classNamePrefix
-  return `${prefix}-${rule.key}`
-}
-
 const LightTheme: React.FC = ({ children }) => (
-  <StylesProvider generateClassName={generateClassName}>
-    <ThemeProvider choice="light">{children}</ThemeProvider>
-  </StylesProvider>
+  <ThemeProvider choice="light">{children}</ThemeProvider>
 )
 
 const DarkTheme: React.FC = ({ children }) => (
-  <StylesProvider generateClassName={generateClassName}>
-    <ThemeProvider choice="dark">{children}</ThemeProvider>
-  </StylesProvider>
+  <ThemeProvider choice="dark">{children}</ThemeProvider>
 )
 
 export const renderPlain = render

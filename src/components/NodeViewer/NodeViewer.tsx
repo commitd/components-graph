@@ -1,20 +1,16 @@
 import {
-  DialogProps,
   Dialog,
-  TextField,
-  DialogTitle,
-  Flex,
   DialogContent,
-  DialogActions,
-  Button,
+  DialogTitle,
+  Input,
 } from '@committed/components'
 import React from 'react'
 import { ModelNode } from '../../graph'
 import { EmptyState } from '../EmptyState'
 
-export type NodeModalProps = Omit<DialogProps, 'open'> & {
+type NodeModalProps = React.ComponentProps<typeof Dialog> & {
+  /** The node to show */
   node?: ModelNode
-  onClose: () => void
 }
 
 /**
@@ -22,42 +18,32 @@ export type NodeModalProps = Omit<DialogProps, 'open'> & {
  */
 export const NodeViewer: React.FC<NodeModalProps> = ({
   node,
-  onClose,
-  ...modalProps
-}) => {
+  ...props
+}: NodeModalProps) => {
   return (
-    <Dialog
-      onClose={onClose}
-      open={node != null}
-      fullWidth
-      maxWidth="sm"
-      transitionDuration={0}
-      {...modalProps}
-    >
-      {node != null ? (
-        <>
-          <DialogTitle>{node.label}</DialogTitle>
-          <DialogContent>
+    <Dialog {...props}>
+      <DialogContent>
+        {node != null ? (
+          <>
+            <DialogTitle>{node.label}</DialogTitle>
             {Object.keys(node.attributes).length === 0 ? (
-              <EmptyState message="No attributes to view." />
+              <EmptyState message="No attributes to view" />
             ) : null}
-            <Flex flexDirection="column" gap={3}>
-              {Object.entries(node.attributes).map(
-                ([attributeId, attributeValue]) => (
-                  <TextField
-                    key={attributeId}
-                    value={attributeValue}
-                    label={attributeId}
-                  />
-                )
-              )}
-            </Flex>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={onClose}>Close</Button>
-          </DialogActions>
-        </>
-      ) : null}
+            {Object.entries(node.attributes).map(
+              ([attributeId, attributeValue]) => (
+                <Input
+                  key={attributeId}
+                  value={attributeValue as string}
+                  label={attributeId}
+                  readOnly
+                />
+              )
+            )}
+          </>
+        ) : (
+          <EmptyState message="No node selected" />
+        )}
+      </DialogContent>
     </Dialog>
   )
 }

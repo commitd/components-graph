@@ -1,58 +1,100 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
-  Box,
-  Flex,
-  FlexProps,
+  CSS,
+  CSSProps,
   IconButton,
-  IconButtonProps,
   Menu,
-  MenuItem,
+  MenuContent,
+  MenuItemCheckbox,
+  MenuRadioGroup,
+  MenuRadioItem,
+  MenuTrigger,
+  MenuTriggerItem,
+  StitchesVariants,
+  styled,
 } from '@committed/components'
 import {
-  Check,
-  Settings,
-  Timeline,
-  ZoomIn,
-  ZoomOut,
-  ZoomOutMap,
-} from '@material-ui/icons'
-import React, { ComponentProps, forwardRef, useState } from 'react'
+  mdiArrowExpandAll as refitPath,
+  mdiChartTimelineVariant as layoutPath,
+  mdiCog as settingPath,
+  mdiMagnifyMinus as zoomOutPath,
+  mdiMagnifyPlus as zoomInPath,
+} from '@mdi/js'
+import React, { ComponentProps } from 'react'
 import { GraphLayout } from '../../graph'
 import { GraphModel } from '../../graph/GraphModel'
 
-export interface GraphToolbarProps extends Omit<FlexProps, 'flexDirection'> {
-  /** Declarative definition of graph state */
-  model: GraphModel
-  /** The graph model change callback */
-  onModelChange: (
-    model: GraphModel | ((model2: GraphModel) => GraphModel)
-  ) => void
-  /** List of possible layouts. These can be obtained from the graph renderer e.g. cytoscapeRenderer.layouts */
-  layouts?: GraphLayout[]
-  /** The direction of the toolbar */
-  flexDirection?: 'row' | 'column'
-  /** Props passed to all icons */
-  iconProps?: Omit<IconButtonProps, 'onClick'>
+function capitalize(key: string) {
+  return key.charAt(0).toUpperCase() + key.slice(1)
 }
 
-const SelectableMenuItem: React.FC<
-  ComponentProps<typeof MenuItem> & { selected: boolean }
-> = forwardRef(({ selected, children, ...itemProps }, ref) => {
-  return (
-    <MenuItem {...itemProps} ref={ref}>
-      <Flex>
-        <Box mr={2}>
-          <Check
-            style={{
-              visibility: selected ? 'inherit' : 'hidden',
-            }}
-          />
-        </Box>
-        {children}
-      </Flex>
-    </MenuItem>
-  )
+function getCurrentLayout(model: GraphModel): string {
+  const curr = model.getCurrentLayout().getLayout()
+  if (typeof curr === 'string') {
+    return curr
+  } else {
+    return curr.name
+  }
+}
+const StyledToolbar = styled('div', {
+  display: 'flex',
+  variants: {
+    direction: {
+      row: {
+        flexDirection: 'row',
+      },
+      column: {
+        flexDirection: 'column',
+      },
+    },
+    align: {
+      start: { justifyContent: 'flex-start' },
+      end: { justifyContent: 'flex-end' },
+    },
+    overlay: {
+      true: {
+        position: 'absolute',
+        zIndex: '1',
+      },
+    },
+  },
+  defaultVariants: {
+    direction: 'column',
+    align: 'start',
+  },
+  compoundVariants: [
+    {
+      overlay: true,
+      direction: 'row',
+      align: 'start',
+      css: { top: 0, left: 0 },
+    },
+    {
+      overlay: true,
+      direction: 'row',
+      align: 'end',
+      css: { top: 0, right: 0 },
+    },
+    { overlay: true, direction: 'column', align: 'start', css: { top: 0 } },
+    { overlay: true, direction: 'column', align: 'end', css: { bottom: 0 } },
+  ],
 })
-SelectableMenuItem.displayName = 'SelectableMenuItem'
+
+export type GraphToolbarProps = CSSProps &
+  StitchesVariants<typeof StyledToolbar> & {
+    /** Declarative definition of graph state */
+    model: GraphModel
+    /** The graph model change callback */
+    onModelChange: (
+      model: GraphModel | ((model2: GraphModel) => GraphModel)
+    ) => void
+    /** List of possible layouts. These can be obtained from the graph renderer e.g. cytoscapeRenderer.layouts */
+    layouts?: GraphLayout[]
+    /** Props passed to all icons */
+    iconStyle?: CSS
+    buttonVariant?: ComponentProps<typeof IconButton>['variant']
+  }
 
 /**
  * GraphToolbar component adds controls for zoom, layout and refit.
@@ -62,17 +104,27 @@ SelectableMenuItem.displayName = 'SelectableMenuItem'
 export const GraphToolbar: React.FC<GraphToolbarProps> = ({
   model,
   onModelChange,
-  iconProps,
+  iconStyle,
   layouts = [],
+  buttonVariant = 'tertiary',
+  css,
   ...props
 }) => {
-  const [settingsMenuAnchor, setSettingsMenuAnchor] = useState<HTMLElement>()
-  const [settingsLayoutMenuAnchor, setSettingsLayoutMenuAnchor] =
-    useState<HTMLElement>()
-  const handleCloseSettings = (): void => {
-    setSettingsMenuAnchor(undefined)
-    setSettingsLayoutMenuAnchor(undefined)
-  }
+  const layoutMap = layouts.reduce<
+    Record<string, (m: GraphModel) => GraphModel>
+  >((prev, curr) => {
+    if (typeof curr === 'string') {
+      prev[curr] = (m) =>
+        GraphModel.applyLayout(m, m.getCurrentLayout().presetLayout(curr))
+    } else {
+      prev[curr.name] = (m) =>
+        GraphModel.applyLayout(m, m.getCurrentLayout().customLayout(curr))
+    }
+    return prev
+  }, {})
+
+  const currentLayout = getCurrentLayout(model)
+
   const handleToggleHideNodeLabels = (): void => {
     onModelChange(
       GraphModel.applyDecoration(
@@ -93,124 +145,87 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
       )
     )
   }
+
+  const handleSelectLayout = (newLayout: string): void => {
+    onModelChange(layoutMap[newLayout](model))
+  }
+
   return (
-    <Flex {...props}>
+    <StyledToolbar css={css as any} {...props}>
       <IconButton
+        variant={buttonVariant}
         aria-label="zoom-in"
         title="Zoom in"
-        {...iconProps}
+        path={zoomInPath}
+        css={iconStyle as any}
         onClick={() => onModelChange(model.pushCommand({ type: 'ZoomIn' }))}
-      >
-        <ZoomIn />
-      </IconButton>
+      />
       <IconButton
+        variant={buttonVariant}
         aria-label="zoom-out"
         title="Zoom out"
-        {...iconProps}
+        path={zoomOutPath}
+        css={iconStyle as any}
         onClick={() => onModelChange(model.pushCommand({ type: 'ZoomOut' }))}
-      >
-        <ZoomOut />
-      </IconButton>
+      />
       <IconButton
+        variant={buttonVariant}
         aria-label="layout"
         title="Layout"
-        {...iconProps}
+        path={layoutPath}
+        css={iconStyle as any}
         onClick={() => onModelChange(model.pushCommand({ type: 'Layout' }))}
-      >
-        <Timeline />
-      </IconButton>
+      />
       <IconButton
+        variant={buttonVariant}
         aria-label="refit"
         title="Refit"
-        {...iconProps}
+        path={refitPath}
+        css={iconStyle as any}
         onClick={() => onModelChange(model.pushCommand({ type: 'Refit' }))}
-      >
-        <ZoomOutMap />
-      </IconButton>
-      <IconButton
-        aria-label="settings"
-        title="Settings"
-        {...iconProps}
-        onClick={(e) => setSettingsMenuAnchor(e.currentTarget)}
-      >
-        <Settings />
-      </IconButton>
-      <Menu
-        anchorEl={settingsMenuAnchor}
-        keepMounted
-        open={Boolean(settingsMenuAnchor)}
-        onClose={handleCloseSettings}
-      >
-        <SelectableMenuItem
-          selected={model.getDecorators().isHideNodeLabels()}
-          onClick={() => {
-            handleCloseSettings()
-            handleToggleHideNodeLabels()
-          }}
-        >
-          Hide node labels
-        </SelectableMenuItem>
-        <SelectableMenuItem
-          selected={model.getDecorators().isHideEdgeLabels()}
-          onClick={() => {
-            handleCloseSettings()
-            handleToggleHideEdgeLabels()
-          }}
-        >
-          Hide edge labels
-        </SelectableMenuItem>
-        {layouts.length > 0 ? (
-          <SelectableMenuItem
-            selected={false}
-            onClick={(e) => setSettingsLayoutMenuAnchor(e.currentTarget)}
+      />
+      <Menu>
+        <MenuTrigger>
+          <IconButton
+            variant={buttonVariant}
+            aria-label="settings"
+            title="Settings"
+            path={settingPath}
+            css={iconStyle as any}
+          />
+        </MenuTrigger>
+        <MenuContent>
+          <MenuItemCheckbox
+            checked={model.getDecorators().isHideNodeLabels()}
+            onCheckedChange={handleToggleHideNodeLabels}
           >
-            Graph Layout...
-          </SelectableMenuItem>
-        ) : null}
+            Hide node labels
+          </MenuItemCheckbox>
+          <MenuItemCheckbox
+            checked={model.getDecorators().isHideEdgeLabels()}
+            onCheckedChange={handleToggleHideEdgeLabels}
+          >
+            Hide edge labels
+          </MenuItemCheckbox>
+          {Object.keys(layoutMap).length > 0 ? (
+            <Menu>
+              <MenuTriggerItem>Graph Layout</MenuTriggerItem>
+              <MenuContent>
+                <MenuRadioGroup
+                  value={currentLayout}
+                  onValueChange={handleSelectLayout}
+                >
+                  {Object.keys(layoutMap).map((l) => (
+                    <MenuRadioItem key={l} value={l}>
+                      {capitalize(l)}
+                    </MenuRadioItem>
+                  ))}
+                </MenuRadioGroup>
+              </MenuContent>
+            </Menu>
+          ) : null}
+        </MenuContent>
       </Menu>
-      <Menu
-        anchorEl={settingsLayoutMenuAnchor}
-        keepMounted
-        open={Boolean(settingsLayoutMenuAnchor)}
-        onClose={handleCloseSettings}
-        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-      >
-        {layouts.map((l) =>
-          typeof l === 'string' ? (
-            <SelectableMenuItem
-              key={l}
-              onClick={() => {
-                onModelChange(
-                  GraphModel.applyLayout(
-                    model,
-                    model.getCurrentLayout().presetLayout(l)
-                  )
-                )
-                handleCloseSettings()
-              }}
-              selected={model.getCurrentLayout().getLayout() === l}
-            >
-              {l.charAt(0).toUpperCase() + l.slice(1)}
-            </SelectableMenuItem>
-          ) : (
-            <SelectableMenuItem
-              key={l.name}
-              onClick={() => {
-                onModelChange(
-                  GraphModel.applyLayout(
-                    model,
-                    model.getCurrentLayout().customLayout(l)
-                  )
-                )
-                handleCloseSettings()
-              }}
-              selected={model.getCurrentLayout().getLayout() === l}
-            >
-              {l.name.charAt(0).toUpperCase() + l.name.slice(1)}
-            </SelectableMenuItem>
-          )
-        )}
-      </Menu>
-    </Flex>
+    </StyledToolbar>
   )
 }

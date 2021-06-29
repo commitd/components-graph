@@ -1,4 +1,4 @@
-import { Box, Flex } from '@committed/components'
+import { Box, Column } from '@committed/components'
 import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
 import { Graph } from '.'
@@ -9,26 +9,23 @@ import { exampleModel } from './stories/StoryUtil'
 export default {
   title: 'Components/Graph',
   component: Graph,
-  decorators: [
-    (story) => <div style={{ height: '50vh', padding: '16px' }}>{story()}</div>,
-  ],
   parameters: {
-    layout: 'fullscreen',
+    layout: 'padded',
   },
 } as Meta
 
 export const Sandbox: React.FC = () => {
   const [model, setModel] = useState(exampleModel)
   return (
-    <Flex flexDirection="column" height={1}>
-      <Box mb={2}>
+    <Column css={{ height: '90vh' }}>
+      <Box css={{ mb: '$2' }}>
         <GraphDebugControl
           model={model}
           onChange={setModel}
           onReset={() => setModel(exampleModel)}
         />
       </Box>
-      <Box flex={1}>
+      <Box css={{ flex: '1' }}>
         <Graph
           model={model}
           onModelChange={setModel}
@@ -36,6 +33,6 @@ export const Sandbox: React.FC = () => {
           options={{ height: 'full-height' }}
         />
       </Box>
-    </Flex>
+    </Column>
   )
 }

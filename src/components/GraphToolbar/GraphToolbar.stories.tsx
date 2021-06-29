@@ -7,26 +7,73 @@ import { addRandomEdge, addRandomNode } from '../../graph/data/Generator'
 import { GraphModel } from '../../graph/GraphModel'
 import { cytoscapeRenderer } from '../../graph/renderer/CytoscapeRenderer'
 import { ContentModel, CustomGraphLayout, DecoratedNode } from '../../graph'
+import { useArgs } from '@storybook/addons'
+
+function isFunction(
+  modelChange: GraphModel | ((model: GraphModel) => GraphModel)
+): modelChange is (model: GraphModel) => GraphModel {
+  return typeof modelChange === 'function'
+}
 
 export default {
   title: 'Components/GraphToolbar',
   component: GraphToolbar,
-  argTypes: {},
+  argTypes: {
+    direction: {
+      control: {
+        type: 'radio',
+        options: ['row', 'column'],
+      },
+      description: 'The direction of the toolbar.',
+    },
+    align: {
+      control: {
+        type: 'radio',
+        options: ['start', 'end'],
+      },
+      description: 'Align items to the start or end of the toolbar.',
+    },
+    overlay: {
+      control: {
+        type: 'boolean',
+      },
+      description: 'Select to overlay the toolbar on the graph.',
+    },
+  },
 } as Meta
 
-export const Default: Story<{ flexDirection?: 'row' | 'column' }> = ({
-  flexDirection = 'row',
+export const Default: Story = ({
+  model: startModel,
+  onModelChange,
+  ...args
 }) => {
   const [model, setModel] = useState(
-    addRandomEdge(addRandomNode(GraphModel.createEmpty(), 20), 15)
+    () =>
+      startModel ??
+      addRandomEdge(addRandomNode(GraphModel.createEmpty(), 20), 15)
   )
+
+  const handleModelChange = (
+    modelChange: GraphModel | ((model: GraphModel) => GraphModel)
+  ) => {
+    if (isFunction(modelChange)) {
+      onModelChange(modelChange(model))
+    }
+    setModel(modelChange)
+  }
+
   return (
-    <Flex flexDirection={flexDirection === 'row' ? 'column' : 'row'}>
+    <Flex
+      css={{
+        position: 'relative',
+        flexDirection: args.direction === 'row' ? 'column' : 'row',
+      }}
+    >
       <GraphToolbar
-        flexDirection={flexDirection}
-        model={model}
-        onModelChange={setModel}
+        {...args}
         layouts={cytoscapeRenderer.layouts}
+        model={model}
+        onModelChange={handleModelChange}
       />
       <Graph
         model={model}
@@ -76,57 +123,57 @@ const Template: Story<
     Partial<{
       layouts: GraphToolbarProps['layouts']
       model: GraphToolbarProps['model']
+      withGraph: boolean
     }>
-> = ({ flexDirection = 'row', ...props }) => {
+> = ({ direction = 'row', css, withGraph = true, ...props }) => {
   const [model, setModel] = useState(
     addRandomEdge(addRandomNode(GraphModel.createEmpty(), 20), 15)
   )
   return (
-    <Flex flexDirection={flexDirection === 'row' ? 'column' : 'row'}>
+    <Flex
+      css={{
+        position: 'relative',
+        flexDirection: direction === 'row' ? 'column' : 'row',
+      }}
+    >
       <GraphToolbar
-        flexDirection={flexDirection}
+        {...props}
+        direction={direction}
+        css={css as any}
         model={model}
         onModelChange={setModel}
         layouts={cytoscapeRenderer.layouts}
-        {...props}
       />
-      <Graph
-        model={model}
-        onModelChange={setModel}
-        renderer={cytoscapeRenderer}
-        options={{ height: 600 }}
-      />
+      {withGraph && (
+        <Graph
+          model={model}
+          onModelChange={setModel}
+          renderer={cytoscapeRenderer}
+          options={{ height: 600 }}
+        />
+      )}
     </Flex>
   )
 }
 
 export const Vertical = Template.bind({})
 Vertical.args = {
-  flexDirection: 'column',
+  direction: 'column',
 }
 
 export const Horizontal = Template.bind({})
-Horizontal.args = { flexDirection: 'row' }
+Horizontal.args = { direction: 'row' }
 
 export const Right = Template.bind({})
-Right.args = { flexDirection: 'row', justifyContent: 'flex-end' }
-
-export const Bottom = Template.bind({})
-Bottom.args = {
-  flexDirection: 'column',
-  justifyContent: 'flex-end',
-}
+Right.args = { direction: 'row', align: 'end' }
 
 export const Overlayed = Template.bind({})
 Overlayed.args = {
-  flexDirection: 'row',
-  position: 'absolute',
-  top: '32px',
-  zIndex: '1',
+  overlay: true,
 }
 
 export const IconProps = Template.bind({})
-IconProps.args = { iconProps: { color: 'secondary' } }
+IconProps.args = { iconStyle: { color: '$success' } }
 
 export const CustomLayout: Story = () => {
   const [model, setModel] = useState(
@@ -172,9 +219,8 @@ export const CustomLayout: Story = () => {
     )
   }, [])
   return (
-    <Flex flexDirection="column">
+    <Flex css={{ flexDirection: 'row' }}>
       <GraphToolbar
-        flexDirection="row"
         model={model}
         onModelChange={setModel}
         layouts={[...cytoscapeRenderer.layouts, typesLayout]}
