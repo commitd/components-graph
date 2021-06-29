@@ -24,11 +24,11 @@ const Template: React.FC<{ flexDirection: 'row' | 'column' }> = ({
   )
 }
 
-export const Vertical: React.FC = () => {
+const Vertical: React.FC = () => {
   return <Template flexDirection="column" />
 }
 
-export const Horizontal: React.FC = () => {
+const Horizontal: React.FC = () => {
   return <Template flexDirection="row" />
 }
 
@@ -38,7 +38,7 @@ it('renders light', () => {
 })
 
 it('renders dark', () => {
-  const { asFragment } = renderDark(<Horizontal />)
+  const { asFragment } = renderDark(<Vertical />)
   expect(asFragment()).toMatchSnapshot()
 })
 

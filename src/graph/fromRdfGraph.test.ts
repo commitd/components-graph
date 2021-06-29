@@ -4,8 +4,8 @@ import { ModelNode } from './types'
 
 it('Create from ttl string', () => {
   const contentModel = fromRdfGraph(sample)
-  expect(Object.keys(contentModel.nodes).length).toBe(16)
-  expect(Object.keys(contentModel.edges).length).toBe(13)
+  expect(Object.keys(contentModel.nodes)).toHaveLength(16)
+  expect(Object.keys(contentModel.edges)).toHaveLength(13)
 
   const node = contentModel.getNode(
     'http://example.org/data/transaction/123'
@@ -31,8 +31,8 @@ it('Create from ttl string', () => {
 
 it('Create from ttl string using prefixes', () => {
   const contentModel = fromRdfGraph(sample, { usePrefix: true })
-  expect(Object.keys(contentModel.nodes).length).toBe(16)
-  expect(Object.keys(contentModel.edges).length).toBe(13)
+  expect(Object.keys(contentModel.nodes)).toHaveLength(16)
+  expect(Object.keys(contentModel.edges)).toHaveLength(13)
 
   const node = contentModel.getNode('txn:123') as ModelNode
   const processedAt = node?.attributes['log:processedAt'] as LiteralObject
@@ -85,8 +85,8 @@ it('Can parse simple example by adding missing prefixes', () => {
       '': '',
     },
   })
-  expect(Object.keys(contentModel.nodes).length).toBe(7)
-  expect(Object.keys(contentModel.edges).length).toBe(5)
+  expect(Object.keys(contentModel.nodes)).toHaveLength(7)
+  expect(Object.keys(contentModel.edges)).toHaveLength(5)
 
   const node = contentModel.getNode(':John') as ModelNode
   expect(node.attributes['type']).toBe(':Man')
@@ -121,8 +121,8 @@ it('Can parse simple example adding nodes for type', () => {
       xsd: 'http://www.w3.org/2001/XMLSchema#',
     },
   })
-  expect(Object.keys(contentModel.nodes).length).toBe(12)
-  expect(Object.keys(contentModel.edges).length).toBe(12)
+  expect(Object.keys(contentModel.nodes)).toHaveLength(12)
+  expect(Object.keys(contentModel.edges)).toHaveLength(12)
 
   expect(contentModel.getNode('John')).toBeDefined()
   expect(contentModel.getNode('Man')).toBeDefined()

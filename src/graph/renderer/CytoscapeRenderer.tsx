@@ -11,6 +11,7 @@ import cy, {
   use,
   EventObject,
 } from 'cytoscape'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 import ccola from 'cytoscape-cola'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -102,6 +103,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   options,
 }) => {
   try {
+    // eslint-disable-next-line import/no-named-as-default-member
     cy.use(dblclick)
   } catch (e) {
     // ignore
@@ -134,8 +136,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
     if (cytoscape != null) {
       const l =
         typeof graphLayout === 'string'
-          ? // eslint-disable-next-line security/detect-object-injection
-            layouts[graphLayout]
+          ? layouts[graphLayout]
           : ({
               name: CytoscapeGraphLayoutAdapter.LAYOUT_NAME,
               model: graphModel,

@@ -15,7 +15,7 @@ import {
   ZoomOut,
   ZoomOutMap,
 } from '@material-ui/icons'
-import React, { useState, ComponentProps } from 'react'
+import React, { ComponentProps, forwardRef, useState } from 'react'
 import { GraphLayout } from '../../graph'
 import { GraphModel } from '../../graph/GraphModel'
 
@@ -36,7 +36,7 @@ export interface GraphToolbarProps extends Omit<FlexProps, 'flexDirection'> {
 
 const SelectableMenuItem: React.FC<
   ComponentProps<typeof MenuItem> & { selected: boolean }
-> = React.forwardRef(({ selected, children, ...itemProps }, ref) => {
+> = forwardRef(({ selected, children, ...itemProps }, ref) => {
   return (
     <MenuItem {...itemProps} ref={ref}>
       <Flex>

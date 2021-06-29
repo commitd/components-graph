@@ -31,14 +31,14 @@ it('missing returns undefined', () => {
 })
 
 it('Applies content changes', () => {
-  expect(graphModel.nodes.length).toBe(0)
-  expect(graphModel.edges.length).toBe(0)
+  expect(graphModel.nodes).toHaveLength(0)
+  expect(graphModel.edges).toHaveLength(0)
   const newModel = GraphModel.applyContent(
     graphModel,
     graphModel.getCurrentContent().addNode(node1).addNode(node2).addEdge(edge1)
   )
-  expect(newModel.nodes.length).toBe(2)
-  expect(newModel.edges.length).toBe(1)
+  expect(newModel.nodes).toHaveLength(2)
+  expect(newModel.edges).toHaveLength(1)
 })
 
 it('Selection change updates selected nodes', () => {
@@ -49,7 +49,7 @@ it('Selection change updates selected nodes', () => {
     ),
     new SelectionModel([node1.id, node2.id], [edge1.id])
   )
-  expect(withDataSelected.selectedNodes.length).toBe(2)
+  expect(withDataSelected.selectedNodes).toHaveLength(2)
 })
 
 it('Selection change updates selected edges', () => {
@@ -64,24 +64,24 @@ it('Selection change updates selected edges', () => {
     ),
     new SelectionModel([node1.id, node2.id], [edge1.id])
   )
-  expect(withDataSelected.selectedEdges.length).toBe(1)
+  expect(withDataSelected.selectedEdges).toHaveLength(1)
 })
 
 it('Removed nodes and edges are removed from selection', () => {
-  expect(graphModel.selectedNodes.length).toBe(0)
-  expect(graphModel.selectedEdges.length).toBe(0)
+  expect(graphModel.selectedNodes).toHaveLength(0)
+  expect(graphModel.selectedEdges).toHaveLength(0)
   const withDataSelected = GraphModel.applySelection(
     exampleGraph,
     new SelectionModel([node1.id, node2.id], [edge1.id])
   )
-  expect(withDataSelected.selectedNodes.length).toBe(2)
-  expect(withDataSelected.selectedEdges.length).toBe(1)
+  expect(withDataSelected.selectedNodes).toHaveLength(2)
+  expect(withDataSelected.selectedEdges).toHaveLength(1)
   const removedData = GraphModel.applyContent(
     withDataSelected,
     ContentModel.createEmpty()
   )
-  expect(removedData.selectedNodes.length).toBe(0)
-  expect(removedData.selectedEdges.length).toBe(0)
+  expect(removedData.selectedNodes).toHaveLength(0)
+  expect(removedData.selectedEdges).toHaveLength(0)
 })
 
 it('Selection of non-existing nodes and edges is ignored', () => {
@@ -89,8 +89,8 @@ it('Selection of non-existing nodes and edges is ignored', () => {
     graphModel,
     new SelectionModel([node1.id, node2.id], [edge1.id])
   )
-  expect(newModel.selectedNodes.length).toBe(0)
-  expect(newModel.selectedEdges.length).toBe(0)
+  expect(newModel.selectedNodes).toHaveLength(0)
+  expect(newModel.selectedEdges).toHaveLength(0)
 })
 
 it('Applies layout', () => {
@@ -171,7 +171,7 @@ it('Clears commands', () => {
   const model = new GraphModel(ContentModel.createEmpty(), {
     commandQueue: [{ type: 'Layout' }],
   })
-  expect(model.clearCommands().getCommands().length).toBe(0)
+  expect(model.clearCommands().getCommands()).toHaveLength(0)
 })
 
 it('Clearing empty queue does nothing', () => {

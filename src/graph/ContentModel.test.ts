@@ -11,8 +11,8 @@ beforeEach(() => {
 })
 
 it('has no data when created empty', () => {
-  expect(Object.keys(contentModel.nodes).length).toBe(0)
-  expect(Object.keys(contentModel.edges).length).toBe(0)
+  expect(Object.keys(contentModel.nodes)).toHaveLength(0)
+  expect(Object.keys(contentModel.edges)).toHaveLength(0)
 })
 
 it('Removing non-existing nodes is idempotent', () => {
@@ -85,7 +85,7 @@ it('Doesnt contain non-existing edge', () => {
 
 it('Add fully specified node', () => {
   contentModel = contentModel.addNode(node1)
-  expect(Object.keys(contentModel.nodes).length).toBe(1)
+  expect(Object.keys(contentModel.nodes)).toHaveLength(1)
   expect(contentModel.getNode(node1.id)).toStrictEqual(node1)
 })
 
@@ -97,7 +97,7 @@ it('Throws if trying to add existing node', () => {
 it('Add fully unspecified node', () => {
   contentModel = contentModel.addNode({})
   const newNode = Object.values(contentModel.nodes)[0]
-  expect(Object.keys(contentModel.nodes).length).toBe(1)
+  expect(Object.keys(contentModel.nodes)).toHaveLength(1)
   expect(newNode.id).toBeTruthy()
 })
 
@@ -142,13 +142,13 @@ it('Remove node attribute', () => {
 it('Remove node', () => {
   contentModel = contentModel.addNode(node1).removeNode(node1.id)
   expect(contentModel.getNode(node1.id)).toBeFalsy()
-  expect(Object.keys(contentModel.nodes).length).toBe(0)
+  expect(Object.keys(contentModel.nodes)).toHaveLength(0)
 })
 
 it('Add fully specified edge with supporting nodes', () => {
   contentModel = contentModel.addNode(node1).addNode(node2).addEdge(edge1)
-  expect(Object.keys(contentModel.nodes).length).toBe(2)
-  expect(Object.keys(contentModel.edges).length).toBe(1)
+  expect(Object.keys(contentModel.nodes)).toHaveLength(2)
+  expect(Object.keys(contentModel.edges)).toHaveLength(1)
   expect(contentModel.getEdge(edge1.id)).toStrictEqual(edge1)
 })
 
@@ -165,8 +165,8 @@ it('Add fully unspecified edge with supporting nodes', () => {
     source: node1.id,
     target: node2.id,
   })
-  expect(Object.keys(contentModel.nodes).length).toBe(2)
-  expect(Object.keys(contentModel.edges).length).toBe(1)
+  expect(Object.keys(contentModel.nodes)).toHaveLength(2)
+  expect(Object.keys(contentModel.edges)).toHaveLength(1)
   const newEdge = Object.values(contentModel.edges)[0]
   expect(newEdge.id).toBeTruthy()
 })
@@ -232,7 +232,7 @@ it('Remove edge', () => {
     .addEdge(edge1)
     .removeEdge(edge1.id)
   expect(contentModel.getEdge(edge1.id)).toBeFalsy()
-  expect(Object.keys(contentModel.edges).length).toBe(0)
+  expect(Object.keys(contentModel.edges)).toHaveLength(0)
 })
 
 it('Removing node with edges also removes edges', () => {
@@ -243,8 +243,8 @@ it('Removing node with edges also removes edges', () => {
     .removeNode(node1.id)
   expect(contentModel.getEdge(node1.id)).toBeFalsy()
   expect(contentModel.getEdge(edge1.id)).toBeFalsy()
-  expect(Object.keys(contentModel.nodes).length).toBe(1)
-  expect(Object.keys(contentModel.edges).length).toBe(0)
+  expect(Object.keys(contentModel.nodes)).toHaveLength(1)
+  expect(Object.keys(contentModel.edges)).toHaveLength(0)
 })
 
 it('Adding edge with same source and target', () => {
@@ -252,8 +252,8 @@ it('Adding edge with same source and target', () => {
   contentModel = contentModel
     .addNode(node1)
     .addEdge({ id: edgeId, source: node1.id, target: node1.id })
-  expect(Object.keys(contentModel.nodes).length).toBe(1)
-  expect(Object.keys(contentModel.edges).length).toBe(1)
+  expect(Object.keys(contentModel.nodes)).toHaveLength(1)
+  expect(Object.keys(contentModel.edges)).toHaveLength(1)
   expect(contentModel.getNode(node1.id)).toBeTruthy()
   expect(contentModel.getEdge(edgeId)).toBeTruthy()
   const edge = contentModel.getEdge(edgeId)
@@ -268,18 +268,18 @@ it('Gets all edges linked to node', () => {
     .addEdge(edge1)
     .addEdge({ id: 'edgeid', source: node2.id, target: node2.id })
     .addEdge({ id: 'edgeid2', source: node1.id, target: node1.id })
-  expect(Object.keys(contentModel.nodes).length).toBe(2)
-  expect(Object.keys(contentModel.edges).length).toBe(3)
+  expect(Object.keys(contentModel.nodes)).toHaveLength(2)
+  expect(Object.keys(contentModel.edges)).toHaveLength(3)
   const edges = contentModel.getEdgesLinkedToNode(node1.id)
-  expect(edges.length).toBe(2)
+  expect(edges).toHaveLength(2)
   expect(edges[0].source || edges[0].target).toBe(node1.id)
   expect(edges[1].source || edges[1].target).toBe(node1.id)
 })
 
 it('Create from raw empty', () => {
   contentModel = ContentModel.fromRaw({ nodes: {}, edges: {} })
-  expect(Object.keys(contentModel.nodes).length).toBe(0)
-  expect(Object.keys(contentModel.edges).length).toBe(0)
+  expect(Object.keys(contentModel.nodes)).toHaveLength(0)
+  expect(Object.keys(contentModel.edges)).toHaveLength(0)
 })
 
 it('Create from raw valid values', () => {
@@ -287,8 +287,8 @@ it('Create from raw valid values', () => {
     nodes: { [node1.id]: node1, [node2.id]: node2 },
     edges: { [edge1.id]: edge1 },
   })
-  expect(Object.keys(contentModel.nodes).length).toBe(2)
-  expect(Object.keys(contentModel.edges).length).toBe(1)
+  expect(Object.keys(contentModel.nodes)).toHaveLength(2)
+  expect(Object.keys(contentModel.edges)).toHaveLength(1)
 })
 
 it('Throws creating with missing edge target', () => {

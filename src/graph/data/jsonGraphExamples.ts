@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2014 Anthony Bargnesi, Anselmo DiFabio, William Hayes
 // https://github.com/jsongraph/jsongraph.rb
 
