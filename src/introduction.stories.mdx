@@ -1,4 +1,5 @@
 import { Meta } from '@storybook/addon-docs/blocks'
+import { useDarkMode } from 'storybook-dark-mode'
 import { useState } from 'react'
 import {
   addRandomEdge,
@@ -14,7 +15,7 @@ import { Row, ThemeProvider } from '@committed/components'
 
 # Committed Components Graph
 
-[![Committed Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fcommitted.software%2Fbadge)](https://committed.io)
+[![Committed Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fcommitted.io%2Fbadge)](https://committed.io)
 ![Build Status](https://github.com/commitd/components-graph/workflows/build/badge.svg?branch=main)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=commitd_components-graph&metric=alert_status&token=aa002ca75e2f3a6d028af9074bceeda1ffa2f9f7)](https://sonarcloud.io/dashboard?id=commitd_components-graph)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=commitd_components-graph&metric=coverage&token=aa002ca75e2f3a6d028af9074bceeda1ffa2f9f7)](https://sonarcloud.io/dashboard?id=commitd_components-graph)
@@ -22,41 +23,50 @@ import { Row, ThemeProvider } from '@committed/components'
 
 A graph visualisation to be used in Committed products. It supports custom decoration, different layouts and user interactions.
 
-<ThemeProvider>
+<>
   {React.createElement(() => {
+    const choice = useDarkMode() ? 'dark' : 'light'
     const [model, setModel] = React.useState(
       addRandomEdge(addRandomNode(GraphModel.createEmpty(), 20), 15)
     )
     return (
-      <Row bgcolor="background.default" mb={3} style={{ border: '2px solid' }}>
-        <GraphToolbar
-          flexDirection="column"
-          model={model}
-          onModelChange={setModel}
-        />
-        <Graph
-          model={model}
-          onModelChange={setModel}
-          renderer={cytoscapeRenderer}
-          options={{ height: 600 }}
-        />
-      </Row>
+      <ThemeProvider choice={choice} local={true}>
+        <Row
+          css={{
+            backgroundColor: '$background',
+            mb: '$3',
+            border: '2px solid',
+          }}
+        >
+          <GraphToolbar
+            flexDirection="column"
+            model={model}
+            onModelChange={setModel}
+          />
+          <Graph
+            model={model}
+            onModelChange={setModel}
+            renderer={cytoscapeRenderer}
+            options={{ height: 600 }}
+          />
+        </Row>
+      </ThemeProvider>
     )
   })}
-</ThemeProvider>
+</>
 
 ## 🚀 Quickstart
 
-For use with [`@committed/components`](https://github.com/commitd/components),
+For use with [`@committed/components`](https://components.committed.software),
 
 ```bash
-yarn add @committed/components-graph
+npm add @committed/components-graph
 ```
 
 add any missing peer dependencies
 
 ```bash
-yarn add @committed/components @material-ui/core @material-ui/icons react react-dom
+npm add @committed/components@beta react react-dom
 ```
 
 ### Usage
@@ -102,22 +112,22 @@ ReactDOM.render(<App />, document.getElementById('root'))
 
 ## 💻 Development
 
-On first use run `yarn install` in both the root folder and the example folder.
+On first use run `npm install` in both the root folder and the example folder.
 
 The main build is currently performed using:
 
 ```bash
-yarn build
+npm build
 ```
 
 For development use
 
 ```bash
-yarn start
+npm start
 ```
 
 the same commands can be run in the example folder to run a usage example.
 
 ## ©️ License
 
-[MIT](/LICENSE) - © Committed Software 2020 https://committed.io
+[MIT](/LICENSE) - © Committed Software 2020-2021 https://committed.io

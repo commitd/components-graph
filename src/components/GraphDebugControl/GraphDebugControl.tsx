@@ -1,12 +1,12 @@
-import { Box, Button, Flex, MenuItem, TextField } from '@committed/components'
+import { Box, Button, Flex, Select, SelectItem } from '@committed/components'
 import React from 'react'
-import { GraphModel } from '../../graph/GraphModel'
 import {
   addRandomEdge,
   addRandomNode,
   removeRandomEdge,
   removeRandomNode,
 } from '../../graph/data/Generator'
+import { GraphModel } from '../../graph/GraphModel'
 import { PresetGraphLayout } from '../../graph/types'
 
 export interface GraphDebugControlProps {
@@ -22,7 +22,7 @@ export const GraphDebugControl: React.FC<GraphDebugControlProps> = ({
 }) => {
   return (
     <div>
-      <Flex flexWrap="wrap" gap={2}>
+      <Flex css={{ flexWrap: 'wrap', gap: '$2' }}>
         <Button onClick={() => onChange(addRandomNode(model, 1))}>
           Add Node
         </Button>
@@ -59,30 +59,31 @@ export const GraphDebugControl: React.FC<GraphDebugControlProps> = ({
         >
           Layout
         </Button>
-        <Button onClick={onReset}>Reset</Button>
+        <Button onClick={onReset} destructive>
+          Reset
+        </Button>
       </Flex>
-      <Box mt={2}>
-        <TextField
-          select
+      <Box css={{ mt: '$2' }}>
+        <Select
           label="Layout"
-          value={model.getCurrentLayout().getLayout()}
-          onChange={(e) =>
+          value={model.getCurrentLayout().getLayout().toString()}
+          onValueChange={(newValue) =>
             onChange(
               GraphModel.applyLayout(
                 model,
                 model
                   .getCurrentLayout()
-                  .presetLayout(e.target.value as PresetGraphLayout)
+                  .presetLayout(newValue as PresetGraphLayout)
               )
             )
           }
         >
           {['force-directed', 'circle', 'grid', 'cola'].map((l) => (
-            <MenuItem key={l} value={l}>
+            <SelectItem key={l} value={l}>
               {l}
-            </MenuItem>
+            </SelectItem>
           ))}
-        </TextField>
+        </Select>
       </Box>
     </div>
   )

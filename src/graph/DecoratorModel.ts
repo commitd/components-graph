@@ -1,4 +1,3 @@
-import { colors, Theme } from '@committed/components'
 import {
   DecoratedEdge,
   DecoratedNode,
@@ -90,13 +89,13 @@ export class DecoratorModel {
     NodeDecoration,
     NodeDecoration
   > {
-    return (theme: Theme) => ({
+    return () => ({
       ...DecoratorModel.DEFAULT_NODE_DECORATION,
       ...{
-        strokeColor: theme.palette.text.secondary,
-        color: colors.committedYellow[500],
+        strokeColor: '$colors$textSecondary',
+        color: '$colors$brandYellow9',
       },
-      ...DecoratorModel.wrapDecorator(this.nodeDefaults)(theme),
+      ...DecoratorModel.wrapDecorator(this.nodeDefaults)(),
     })
   }
 
@@ -109,12 +108,12 @@ export class DecoratorModel {
     EdgeDecoration,
     EdgeDecoration
   > {
-    return (theme: Theme) => ({
+    return () => ({
       ...DecoratorModel.DEFAULT_EDGE_DECORATION,
       ...{
-        color: theme.palette.text.secondary,
+        color: '$colors$textSecondary',
       },
-      ...DecoratorModel.wrapDecorator(this.edgeDefaults)(theme),
+      ...DecoratorModel.wrapDecorator(this.edgeDefaults)(),
     })
   }
 
@@ -125,8 +124,7 @@ export class DecoratorModel {
   getDecoratedNodes(modelNodes: ModelNode[]): DecoratedNode[] {
     return Object.values(modelNodes).map((node) => {
       return {
-        getDecorationOverrides: (theme: Theme) =>
-          this.getNodeDecorationOverrides(node, theme),
+        getDecorationOverrides: () => this.getNodeDecorationOverrides(node),
         ...node,
       }
     })
@@ -139,8 +137,7 @@ export class DecoratorModel {
   getDecoratedEdges(modelEdges: ModelEdge[]): DecoratedEdge[] {
     return Object.values(modelEdges).map((edge) => {
       return {
-        getDecorationOverrides: (theme: Theme) =>
-          this.getEdgeDecorationOverrides(edge, theme),
+        getDecorationOverrides: () => this.getEdgeDecorationOverrides(edge),
         ...edge,
       }
     })
@@ -279,15 +276,12 @@ export class DecoratorModel {
     return decorators.filter((d) => d !== decorator)
   }
 
-  private getNodeDecorationOverrides(
-    node: ModelNode,
-    theme: Theme
-  ): Partial<NodeDecoration> {
+  private getNodeDecorationOverrides(node: ModelNode): Partial<NodeDecoration> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, attributes, ...nodeStyle } = node
     const decor = Object.assign(
       {},
-      ...this.nodeDecorators.map((d) => d(node, theme))
+      ...this.nodeDecorators.map((d) => d(node))
     ) as Partial<NodeDecoration>
     const labelOverride = this.nodeLabelsHidden ? { label: '' } : undefined
     return {
@@ -297,15 +291,12 @@ export class DecoratorModel {
     }
   }
 
-  private getEdgeDecorationOverrides(
-    edge: ModelEdge,
-    theme: Theme
-  ): Partial<EdgeDecoration> {
+  private getEdgeDecorationOverrides(edge: ModelEdge): Partial<EdgeDecoration> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, attributes, source, target, ...edgeStyle } = edge
     const decor = Object.assign(
       {},
-      ...this.edgeDecorators.map((d) => d(edge, theme))
+      ...this.edgeDecorators.map((d) => d(edge))
     ) as Partial<EdgeDecoration>
     const labelOverride = this.edgeLabelsHidden ? { label: '' } : undefined
     return {

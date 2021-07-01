@@ -14,7 +14,15 @@ import cy, {
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 import ccola from 'cytoscape-cola'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  CSSProperties,
+} from 'react'
+import tinycolor from 'tinycolor2'
 import CytoscapeComponent from 'react-cytoscapejs'
 import { useDebouncedCallback } from 'use-debounce'
 import { GraphModel } from '../GraphModel'
@@ -103,7 +111,8 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   options,
 }) => {
   try {
-    // eslint import/no-named-as-default-member
+    // dblclick can only be registed on the cy.use, not the global use.
+    // eslint-disable-next-line import/no-named-as-default-member
     cy.use(dblclick)
   } catch (e) {
     // ignore
@@ -125,7 +134,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   const selection = graphModel.getSelection()
   const [cytoscape, setCytoscape] = useState<cytoscape.Core>()
   const layoutStart = useRef<number>()
-  const theme = useTheme()
+  const [theme, resolveThemeToken] = useTheme()
   const dirty = graphModel.getCurrentLayout().isDirty()
   const layout = graphModel.getCurrentLayout().getLayout()
 
@@ -287,9 +296,43 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
       }
     })
     onChange(graphModel.clearCommands())
-    // TODO check for correct dependecy list
+    // TODO check for correct dependency list
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commands])
+
+  const resolveThemeValue = useCallback(
+    <T extends string | number>(val: T): T => {
+      if (val === undefined) {
+        return val
+      }
+
+      if (typeof val === 'string') {
+        const resolved = resolveThemeToken(val)
+        if (resolved.startsWith('hsl')) {
+          return `#${tinycolor(resolved).toHex()}` as T
+        } else {
+          return resolved as T
+        }
+      }
+      return val
+    },
+    [resolveThemeToken]
+  )
+
+  const resolveThemedObject = useCallback(
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    <T extends object>(obj: T): T => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      return Object.keys(obj).reduce(function (result, key) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
+        if (obj[key] !== undefined) result[key] = resolveThemeValue(obj[key])
+        return result
+      }, {} as T)
+    },
+    [resolveThemeValue]
+  )
 
   const elements = useMemo(
     () => [
@@ -299,8 +342,9 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
           label: n.label,
           model: n,
         }
-        const { label, ...style } =
-          toNodeCyStyle(n.getDecorationOverrides(theme)) ?? {}
+        const { label, ...style } = resolveThemedObject(
+          toNodeCyStyle(n.getDecorationOverrides()) ?? {}
+        )
         return {
           data: { ...node, label },
           style,
@@ -316,8 +360,9 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
           selected: selection.edges.has(e.id),
           model: e,
         }
-        const { label, ...style } =
-          toEdgeCyStyle(e.getDecorationOverrides(theme)) ?? {}
+        const { label, ...style } = resolveThemedObject(
+          toEdgeCyStyle(e.getDecorationOverrides()) ?? {}
+        )
         return {
           data: { ...edge, label },
           style,
@@ -325,20 +370,18 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
         }
       }),
     ],
-    [nodes, edges, selection, theme]
+    [nodes, edges, resolveThemedObject, selection.nodes, selection.edges]
   )
 
   const defaultNodeStyles: Stylesheet = useMemo(() => {
-    const nodeDefaults = graphModel.getDecorators().getDefaultNodeDecorator()(
-      theme
-    )
+    const nodeDefaults = graphModel.getDecorators().getDefaultNodeDecorator()()
     return {
       selector: 'node',
-      style: {
+      style: resolveThemedObject({
         label: 'data(label)',
         // label styles
-        'text-background-color': theme.palette.background.paper,
-        color: theme.palette.text.primary,
+        'text-background-color': '$colors$paper',
+        color: '$colors$text',
         'text-background-opacity': 0.7,
         'text-margin-y': -4,
         'text-background-shape': 'roundrectangle',
@@ -355,25 +398,22 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
             : strokeSize
         },
         ...toNodeCyStyle(nodeDefaults),
-      },
+      }),
     }
-  }, [graphModel, theme])
+  }, [graphModel, resolveThemedObject])
 
   const defaultEdgeStyles: Stylesheet = useMemo(() => {
-    const edgeDefaults = graphModel.getDecorators().getDefaultEdgeDecorator()(
-      theme
-    )
+    const edgeDefaults = graphModel.getDecorators().getDefaultEdgeDecorator()()
     return {
       selector: 'edge',
-      style: {
+      style: resolveThemedObject({
         label: 'data(label)',
         // label styles
-        'text-background-color': theme.palette.background.paper,
-        color: theme.palette.text.primary,
+        'text-background-color': '$colors$paper',
+        color: '$colors$text',
         'text-background-opacity': 0.7,
         'text-margin-y': -4,
         'text-background-shape': 'roundrectangle',
-
         'target-arrow-shape': 'triangle',
         'target-endpoint': 'outside-to-node-or-label',
         width: (e: EdgeSingular) => {
@@ -385,9 +425,15 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
             : size
         },
         ...toEdgeCyStyle(edgeDefaults),
-      },
+      }),
     }
-  }, [graphModel, theme])
+  }, [graphModel, resolveThemedObject])
+
+  if (theme === undefined) {
+    // Wait for theme to be defined
+    return null
+  }
+
   return (
     <CytoscapeComponent
       elements={elements}
@@ -397,7 +443,9 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
             ? '100%'
             : options.width,
         height: options.height === 'full-height' ? '100%' : options.height,
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: resolveThemeValue(
+          '$colors$paper'
+        ) as CSSProperties['backgroundColor'],
         overflow: 'hidden',
       }}
       cy={(cyCore): void => {

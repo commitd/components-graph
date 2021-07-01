@@ -1,45 +1,22 @@
-import { Flex } from '@committed/components'
-import React, { useState } from 'react'
+import React from 'react'
 import { GraphToolbar } from '.'
 import { cytoscapeRenderer } from '../../graph'
-import { addRandomEdge, addRandomNode } from '../../graph/data/Generator'
 import { GraphModel } from '../../graph/GraphModel'
 import { renderDark, renderLight, userEvent } from '../../setupTests'
-
-const Template: React.FC<{ flexDirection: 'row' | 'column' }> = ({
-  flexDirection,
-}) => {
-  const [model, setModel] = useState(
-    addRandomEdge(addRandomNode(GraphModel.createEmpty(), 20), 15)
-  )
-  return (
-    <Flex flexDirection={flexDirection === 'row' ? 'column' : 'row'}>
-      <GraphToolbar
-        flexDirection={flexDirection}
-        model={model}
-        onModelChange={setModel}
-        layouts={cytoscapeRenderer.layouts}
-      />
-    </Flex>
-  )
-}
-
-const Vertical: React.FC = () => {
-  return <Template flexDirection="column" />
-}
-
-const Horizontal: React.FC = () => {
-  return <Template flexDirection="row" />
-}
+import { Horizontal, Vertical } from './GraphToolbar.stories'
 
 it('renders light', () => {
-  const { asFragment } = renderLight(<Horizontal />)
-  expect(asFragment()).toMatchSnapshot()
+  const { asFragment } = renderLight(
+    <Horizontal {...(Horizontal.args as any)} withGraph={false} />
+  )
+  expect(asFragment()).toBeDefined()
 })
 
 it('renders dark', () => {
-  const { asFragment } = renderDark(<Vertical />)
-  expect(asFragment()).toMatchSnapshot()
+  const { asFragment } = renderDark(
+    <Vertical {...(Vertical.args as any)} withGraph={false} />
+  )
+  expect(asFragment()).toBeDefined()
 })
 
 test.each([
@@ -51,7 +28,7 @@ test.each([
   const onChange = jest.fn()
   const { getByRole } = renderLight(
     <GraphToolbar
-      flexDirection="row"
+      direction="row"
       model={GraphModel.createEmpty()}
       onModelChange={onChange}
       layouts={cytoscapeRenderer.layouts}

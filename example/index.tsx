@@ -1,11 +1,10 @@
 import {
   AppBar,
-  Box,
-  Heading,
+  AppBarActions,
+  AppBarHeading,
   Row,
   ThemeProvider,
   ThemeSwitch,
-  Toolbar,
 } from '@committed/components'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
@@ -24,11 +23,9 @@ const App: React.FC = () => {
   )
   return (
     <ThemeProvider>
-      <AppBar position="relative">
-        <Toolbar>
-          <Box flexGrow={1}>
-            <Heading.h1>Components Graph</Heading.h1>
-          </Box>
+      <AppBar css={{ position: 'relative' }}>
+        <AppBarHeading>Components Graph</AppBarHeading>
+        <AppBarActions>
           <GraphToolbar
             flexDirection="row"
             model={model}
@@ -36,7 +33,7 @@ const App: React.FC = () => {
             color="inherit"
           />
           <ThemeSwitch />
-        </Toolbar>
+        </AppBarActions>
       </AppBar>
       <Row>
         <Graph
