@@ -167,7 +167,6 @@
     "*.{ts,tsx,md,json,mdx}": "prettier --write",
     "*.{ts,tsx}": [
       "eslint --cache --fix",
-      "git add",
       "jest --bail --findRelatedTests"
     ]
   }
