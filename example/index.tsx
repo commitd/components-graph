@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   AppBar,
   AppBarActions,
@@ -15,7 +18,7 @@ import {
   Graph,
   GraphModel,
   GraphToolbar,
-} from '../dist'
+} from '../dist/committed-components-graph.cjs.js'
 
 const App: React.FC = () => {
   const [model, setModel] = React.useState(

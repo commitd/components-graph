@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "0.0.0-development",
   "name": "@committed/components-graph",
   "description": "Committed Graph Component",
   "author": "Committed",
@@ -33,13 +33,15 @@
     "analyze": "size-limit --why",
     "generate": "plop --plopfile ./generators/plopfile.js",
     "format": "prettier --write '**/{src,test,stories}/**/{*.js,*.ts,*.tsx,*.json,*.md,*.mdx}' example/index.tsx",
+    "format:check": "prettier --check '**/{src,test,stories}/**/{*.js,*.ts,*.tsx,*.json,*.md,*.mdx}' example/index.tsx",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "deploy-storybook": "storybook-to-ghpages",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "semantic-release": "semantic-release"
   },
   "peerDependencies": {
-    "@committed/components": "5.0.0-beta.7",
+    "@committed/components": ">= 5.0.0",
     "react": ">= 16.8.0",
     "react-dom": ">= 16.8.0"
   },
@@ -47,16 +49,6 @@
     "semi": false,
     "singleQuote": true
   },
-  "size-limit": [
-    {
-      "path": "dist/committed-components-graph.cjs.production.js",
-      "limit": "200 KB"
-    },
-    {
-      "path": "dist/committed-components-graph.esm.js",
-      "limit": "200 KB"
-    }
-  ],
   "eslintConfig": {
     "extends": [
       "./node_modules/rollpkg/configs/eslint"
@@ -117,9 +109,36 @@
       ".*.stories.tsx"
     ]
   },
+  "lint-staged": {
+    "*.{ts,tsx,md,json,mdx}": "prettier --write",
+    "*.{ts,tsx}": [
+      "eslint --cache --fix",
+      "jest --bail --findRelatedTests"
+    ]
+  },
+  "release": {
+    "branches": [
+      "main",
+      {
+        "name": "beta",
+        "prerelease": true
+      }
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
   "devDependencies": {
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
     "@committed/components": "5.0.0-beta.9",
-    "@size-limit/preset-small-lib": "^5.0.1",
     "@storybook/addon-essentials": "^6.3.1",
     "@storybook/addons": "^6.3.1",
     "@storybook/react": "^6.3.1",
@@ -131,6 +150,8 @@
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.8",
     "@types/tinycolor2": "^1.4.2",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.28.0",
     "eslint-import-resolver-typescript": "^2.4.0",
     "eslint-plugin-react-hooks": "^4.2.0",
@@ -144,8 +165,8 @@
     "react-is": "^17.0.1",
     "react-test-renderer": "^17.0.1",
     "rollpkg": "^0.5.7",
+    "semantic-release": "^17.4.4",
     "shx": "^0.3.2",
-    "size-limit": "^5.0.1",
     "storybook-dark-mode": "^1.0.7",
     "tslib": "^2.0.3",
     "typescript": "^4.3.4"
@@ -162,12 +183,5 @@
     "tinycolor2": "^1.4.2",
     "use-debounce": "^7.0.0",
     "uuid": "^8.3.1"
-  },
-  "lint-staged": {
-    "*.{ts,tsx,md,json,mdx}": "prettier --write",
-    "*.{ts,tsx}": [
-      "eslint --cache --fix",
-      "jest --bail --findRelatedTests"
-    ]
   }
 }

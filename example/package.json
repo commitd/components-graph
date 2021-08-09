@@ -15,11 +15,7 @@
     "react-dom": "../node_modules/react-dom/profiling",
     "scheduler/tracing": "../node_modules/scheduler/tracing-profiling",
     "@committed/components": "../node_modules/@committed/components",
-    "@material-ui/core": "../node_modules/@material-ui/core",
-    "@material-ui/icons": "../node_modules/@material-ui/icons",
-    "@material-ui/styles": "../node_modules/@material-ui/styles",
-    "@material-ui/system": "../node_modules/@material-ui/system",
-    "@material-ui/utils": "../node_modules/@material-ui/utils",
+    "@committed/components-graph": "../dist/committed-components-graph.cjs.js",
     "react-cytoscapejs": "../node_modules/react-cytoscapejs"
   },
   "devDependencies": {
