@@ -12,6 +12,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=commitd_components-graph&metric=alert_status&token=aa002ca75e2f3a6d028af9074bceeda1ffa2f9f7)](https://sonarcloud.io/dashboard?id=commitd_components-graph)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=commitd_components-graph&metric=coverage&token=aa002ca75e2f3a6d028af9074bceeda1ffa2f9f7)](https://sonarcloud.io/dashboard?id=commitd_components-graph)
 ![GitHub repo size](https://img.shields.io/github/repo-size/commitd/components-graph)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 A graph visualisation to be used in Committed products. It supports custom decoration, different layouts and user interactions.
 
