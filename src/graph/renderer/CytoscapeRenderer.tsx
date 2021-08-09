@@ -64,6 +64,8 @@ export interface CyGraphRendererOptions extends GraphRendererOptions {
 
 use(CytoscapeGraphLayoutAdapter.register)
 use(ccola)
+// eslint-disable-next-line import/no-named-as-default-member
+cy.use(dblclick)
 
 const toNodeCyStyle = (d: Partial<NodeDecoration>): Css.Node | undefined => {
   const s: Css.Node = {
@@ -110,14 +112,6 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   onViewNode,
   options,
 }) => {
-  try {
-    // dblclick can only be registed on the cy.use, not the global use.
-    // eslint-disable-next-line import/no-named-as-default-member
-    cy.use(dblclick)
-  } catch (e) {
-    // ignore
-  }
-
   const layouts: Record<PresetGraphLayout | 'custom', LayoutOptions> = {
     'force-directed': forceDirected,
     circle,
