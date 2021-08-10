@@ -1,5 +1,5 @@
 import { useTheme } from '@committed/components'
-import {
+import cy, {
   Css,
   EdgeCollection,
   EdgeDataDefinition,
@@ -111,6 +111,13 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   onViewNode,
   options,
 }) => {
+  try {
+    // This should not be needed but when used externally it seems to be required.
+    // eslint-disable-next-line import/no-named-as-default-member
+    cy.use(dblclick)
+  } catch (e) {
+    // ignore
+  }
   const layouts: Record<PresetGraphLayout | 'custom', LayoutOptions> = {
     'force-directed': forceDirected,
     circle,
@@ -242,6 +249,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   useCyListener(cytoscape, layoutStopping, 'layoutstop')
   useEffect(() => {
     if (cytoscape != null && cytoscape.dblclick) cytoscape.dblclick()
+    if (cytoscape != null && !cytoscape.dblclick) use(dblclick)
   }, [cytoscape])
   useCyListener(cytoscape, dblclickNode, 'dblclick', 'node')
 
