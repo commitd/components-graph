@@ -1,5 +1,5 @@
 import { useTheme } from '@committed/components'
-import cy, {
+import {
   Css,
   EdgeCollection,
   EdgeDataDefinition,
@@ -64,8 +64,7 @@ export interface CyGraphRendererOptions extends GraphRendererOptions {
 
 use(CytoscapeGraphLayoutAdapter.register)
 use(ccola)
-// eslint-disable-next-line import/no-named-as-default-member
-cy.use(dblclick)
+use(dblclick)
 
 const toNodeCyStyle = (d: Partial<NodeDecoration>): Css.Node | undefined => {
   const s: Css.Node = {
@@ -242,7 +241,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   useCyListener(cytoscape, layoutStarting, 'layoutstart')
   useCyListener(cytoscape, layoutStopping, 'layoutstop')
   useEffect(() => {
-    if (cytoscape != null) cytoscape.dblclick()
+    if (cytoscape != null && cytoscape.dblclick) cytoscape.dblclick()
   }, [cytoscape])
   useCyListener(cytoscape, dblclickNode, 'dblclick', 'node')
 
