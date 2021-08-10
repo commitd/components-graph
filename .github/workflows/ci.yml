@@ -195,7 +195,7 @@ jobs:
       - name: Checkout Commit
         uses: actions/checkout@v2
         with:
-          token: ${{ secrets.GH_TOKEN_SEMANTIC_RELEASE }}
+          token: ${{ secrets.SEMANTIC_RELEASE_GITHUB_TOKEN }}
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
