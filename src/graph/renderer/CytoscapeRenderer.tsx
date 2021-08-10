@@ -64,7 +64,6 @@ export interface CyGraphRendererOptions extends GraphRendererOptions {
 
 use(CytoscapeGraphLayoutAdapter.register)
 use(ccola)
-use(dblclick)
 
 const toNodeCyStyle = (d: Partial<NodeDecoration>): Css.Node | undefined => {
   const s: Css.Node = {
