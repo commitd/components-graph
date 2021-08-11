@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
+    "clean": "shx rm -rf .parcel-cache dist",
     "start": "parcel serve index.html",
     "build": "parcel build index.html"
   },
@@ -14,8 +15,7 @@
     "react-dom": "../node_modules/react-dom/profiling",
     "scheduler/tracing": "../node_modules/scheduler/tracing-profiling",
     "@committed/components": "../node_modules/@committed/components",
-    "@committed/components-graph": "../dist/committed-components-graph.cjs.js",
-    "react-cytoscapejs": "../node_modules/react-cytoscapejs"
+    "@committed/components-graph": "../dist/committed-components-graph.cjs.js"
   },
   "devDependencies": {
     "@types/react": "^16.9.11",

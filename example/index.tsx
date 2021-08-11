@@ -18,22 +18,27 @@ import {
   Graph,
   GraphModel,
   GraphToolbar,
+  ModelNode,
+  NodeViewer,
 } from '../dist/committed-components-graph.cjs.js'
 
 const App: React.FC = () => {
   const [model, setModel] = React.useState(
     addRandomEdge(addRandomNode(GraphModel.createEmpty(), 20), 15)
   )
+
+  const [node, setNode] = React.useState<ModelNode | undefined>()
   return (
     <ThemeProvider>
-      <AppBar css={{ position: 'relative' }}>
+      <AppBar>
         <AppBarHeading>Components Graph</AppBarHeading>
-        <AppBarActions>
+        <AppBarActions css={{ display: 'flex' }}>
           <GraphToolbar
-            flexDirection="row"
+            direction="row"
             model={model}
             onModelChange={setModel}
-            color="inherit"
+            iconStyle={{ color: '$brandContrast' }}
+            layouts={cytoscapeRenderer.layouts}
           />
           <ThemeSwitch />
         </AppBarActions>
@@ -43,9 +48,15 @@ const App: React.FC = () => {
           model={model}
           onModelChange={setModel}
           renderer={cytoscapeRenderer}
-          options={{ height: 600 }}
+          options={{ height: 800 }}
+          onViewNode={setNode}
         />
       </Row>
+      <NodeViewer
+        open={node != null}
+        node={node}
+        onOpenChange={() => setNode(undefined)}
+      />
     </ThemeProvider>
   )
 }
