@@ -1,29 +1,29 @@
 import { useTheme } from '@committed/components'
-import cy, {
+import {
   Css,
   EdgeCollection,
   EdgeDataDefinition,
   EdgeSingular,
+  EventObject,
   LayoutOptions,
   NodeCollection,
   NodeDataDefinition,
   Stylesheet,
   use,
-  EventObject,
 } from 'cytoscape'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 import ccola from 'cytoscape-cola'
 import React, {
+  CSSProperties,
   useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
-  CSSProperties,
 } from 'react'
-import tinycolor from 'tinycolor2'
 import CytoscapeComponent from 'react-cytoscapejs'
+import tinycolor from 'tinycolor2'
 import { useDebouncedCallback } from 'use-debounce'
 import { GraphModel } from '../GraphModel'
 import { circle } from '../layouts/Circle'
@@ -43,7 +43,6 @@ import {
   CustomLayoutOptions,
   CytoscapeGraphLayoutAdapter,
 } from './CytoscapeGraphLayoutAdapter'
-import dblclick from 'cytoscape-dblclick'
 import { useCyListener } from './useCyListener'
 
 export interface CyGraphRendererOptions extends GraphRendererOptions {
@@ -64,6 +63,27 @@ export interface CyGraphRendererOptions extends GraphRendererOptions {
 
 use(CytoscapeGraphLayoutAdapter.register)
 use(ccola)
+
+const dblClick = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let clicked: any | null = null
+  return (evt: EventObject) => {
+    if (clicked && clicked === evt.target) {
+      clicked = null
+      evt.preventDefault()
+      evt.stopPropagation()
+      evt.target.emit('dblclick', [evt])
+    } else {
+      clicked = evt.target
+      setTimeout(() => {
+        if (clicked && clicked === evt.target) {
+          clicked = null
+          evt.target.emit('dblclick:timeout', [evt])
+        }
+      }, 500)
+    }
+  }
+}
 
 const toNodeCyStyle = (d: Partial<NodeDecoration>): Css.Node | undefined => {
   const s: Css.Node = {
@@ -110,13 +130,6 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   onViewNode,
   options,
 }) => {
-  try {
-    // This should not be needed but when used externally it seems to be required.
-    // eslint-disable-next-line import/no-named-as-default-member
-    cy.use(dblclick)
-  } catch (e) {
-    // ignore
-  }
   const layouts: Record<PresetGraphLayout | 'custom', LayoutOptions> = {
     'force-directed': forceDirected,
     circle,
@@ -228,6 +241,18 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
       console.debug(`Layout took ${Date.now() - layoutStart.current}ms`)
     }
   }, [])
+
+  useCyListener(cytoscape, updateLayout, 'add remove', 'edge')
+  useCyListener(cytoscape, updateLayout, 'resize', 'edge')
+  useCyListener(cytoscape, selectNode, 'select', 'node')
+  useCyListener(cytoscape, unselectNode, 'unselect', 'node')
+  useCyListener(cytoscape, selectEdge, 'select', 'edge')
+  useCyListener(cytoscape, unselectEdge, 'unselect', 'edge')
+  useCyListener(cytoscape, layoutStarting, 'layoutstart')
+  useCyListener(cytoscape, layoutStopping, 'layoutstop')
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const dblClickCallback = useCallback(dblClick(), [])
+
   const dblclickNode = useCallback(
     (e: EventObject) => {
       const selectedNodes = e.target as NodeCollection
@@ -238,18 +263,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
     },
     [handleViewNode]
   )
-  useCyListener(cytoscape, updateLayout, 'add remove', 'edge')
-  useCyListener(cytoscape, updateLayout, 'resize', 'edge')
-  useCyListener(cytoscape, selectNode, 'select', 'node')
-  useCyListener(cytoscape, unselectNode, 'unselect', 'node')
-  useCyListener(cytoscape, selectEdge, 'select', 'edge')
-  useCyListener(cytoscape, unselectEdge, 'unselect', 'edge')
-  useCyListener(cytoscape, layoutStarting, 'layoutstart')
-  useCyListener(cytoscape, layoutStopping, 'layoutstop')
-  useEffect(() => {
-    if (cytoscape != null && cytoscape.dblclick) cytoscape.dblclick()
-    if (cytoscape != null && !cytoscape.dblclick) use(dblclick)
-  }, [cytoscape])
+  useCyListener(cytoscape, dblClickCallback, 'click', 'node')
   useCyListener(cytoscape, dblclickNode, 'dblclick', 'node')
 
   useEffect(() => {
