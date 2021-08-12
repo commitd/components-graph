@@ -55,9 +55,6 @@ const rdfsLabel = DataFactory.namedNode(
   'http://www.w3.org/2000/01/rdf-schema#label'
 )
 
-// n3 types are outof date have mane a PR
-type PrefixCallback = (prefix: string, prefixNode: NamedNode) => void
-
 export interface LiteralObject {
   value: string
   /** a valid rdf:datatype */
@@ -295,18 +292,12 @@ export function fromRdfGraph(
   )
 
   const prefixes: Record<string, string> = {}
-  const prefixCallback: PrefixCallback = (
-    prefix: string,
-    namedNode: NamedNode
-  ) => (prefixes[namedNode.value] = prefix)
 
   const parser = new Parser<Triple>(parserOptions)
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore - n3 types incorrect
   const rdfData: Triple[] = parser.parse(
     prefixString + data,
     null,
-    prefixCallback
+    (prefix, namedNode) => (prefixes[namedNode.value] = prefix)
   )
 
   const builderOptions = {
