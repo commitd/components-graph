@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { useTheme } from '@committed/components'
 import {
   Css,
@@ -45,6 +48,26 @@ import {
 } from './CytoscapeGraphLayoutAdapter'
 import { useCyListener } from './useCyListener'
 
+/**
+ * Call to initialize the additional modules.
+ */
+/*
+ * This is a work-around - the modules do not seem to be registered when using as a library so must be called by the lib user.
+ * Should be able to remove but may be a bundling issue.
+ */
+export function initializeCytoscape(
+  cyuse: (module: cytoscape.Ext) => void
+): void {
+  try {
+    cyuse(CytoscapeGraphLayoutAdapter.register)
+    cyuse(ccola)
+  } catch {
+    // Ignore multiple attempts to initialize
+  }
+}
+
+initializeCytoscape(use)
+
 export interface CyGraphRendererOptions extends GraphRendererOptions {
   renderOptions: Pick<
     React.ComponentProps<typeof CytoscapeComponent>,
@@ -60,9 +83,6 @@ export interface CyGraphRendererOptions extends GraphRendererOptions {
     | 'wheelSensitivity'
   >
 }
-
-use(CytoscapeGraphLayoutAdapter.register)
-use(ccola)
 
 const dblClick = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
