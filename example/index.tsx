@@ -18,9 +18,13 @@ import {
   Graph,
   GraphModel,
   GraphToolbar,
+  initializeCytoscape,
   ModelNode,
   NodeViewer,
 } from '../dist/committed-components-graph.cjs.js'
+import { use } from 'cytoscape'
+
+initializeCytoscape(use)
 
 const App: React.FC = () => {
   const [model, setModel] = React.useState(

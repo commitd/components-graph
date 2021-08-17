@@ -81,8 +81,13 @@ import {
   GraphModel,
   GraphToolbar,
   cytoscapeRenderer,
+  initializeCytoscape,
 } from '@committed/components-graph'
 import { Row, ThemeProvider } from '@committed/components'
+
+// If using the cytoscape renderer, just once in your application add
+import { use } from 'cytoscape'
+initializeCytoscape(use)
 
 const App: React.FC = () => {
   const [model, setModel] = React.useState(
