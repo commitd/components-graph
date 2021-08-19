@@ -43,8 +43,9 @@ import {
   PresetGraphLayout,
 } from '../types'
 import {
-  CustomLayoutOptions,
-  CytoscapeGraphLayoutAdapter,
+  CUSTOM_LAYOUT_NAME,
+  CytoscapeGraphLayoutAdapterOptions,
+  register,
 } from './CytoscapeGraphLayoutAdapter'
 import { useCyListener } from './useCyListener'
 
@@ -59,7 +60,7 @@ export function initializeCytoscape(
   cyuse: (module: cytoscape.Ext) => void
 ): void {
   try {
-    cyuse(CytoscapeGraphLayoutAdapter.register)
+    cyuse(register)
     cyuse(ccola)
   } catch {
     // Ignore multiple attempts to initialize
@@ -156,10 +157,10 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
     grid,
     cola,
     custom: {
-      name: CytoscapeGraphLayoutAdapter.LAYOUT_NAME,
+      name: CUSTOM_LAYOUT_NAME,
       model: graphModel,
       algorithm: graphModel.getCurrentLayout().getLayout(),
-    } as CustomLayoutOptions & LayoutOptions,
+    } as CytoscapeGraphLayoutAdapterOptions & LayoutOptions,
   }
   const nodes = graphModel.nodes
   const edges = graphModel.edges
@@ -180,14 +181,14 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
           typeof graphLayout === 'string'
             ? layouts[graphLayout]
             : ({
-                name: CytoscapeGraphLayoutAdapter.LAYOUT_NAME,
+                name: CUSTOM_LAYOUT_NAME,
                 model: graphModel,
                 algorithm: graphLayout,
-              } as CustomLayoutOptions)
+              } as CytoscapeGraphLayoutAdapterOptions)
         if (l == null) {
           throw new Error('Layout does not exist')
         }
-        cytoscape.layout(l as LayoutOptions).run()
+        cytoscape.layout(l).run()
       }
     },
     200
