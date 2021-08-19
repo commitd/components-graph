@@ -21,6 +21,7 @@
   },
   "scripts": {
     "clean": "shx rm -rf dist",
+    "commit": "cz",
     "build": "rollpkg build --tsconfig ./tsconfig.build.json",
     "watch": "rollpkg watch",
     "lint": "eslint './src/**/*.{ts,tsx}'",

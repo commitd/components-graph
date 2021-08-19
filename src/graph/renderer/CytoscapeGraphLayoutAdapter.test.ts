@@ -1,17 +1,22 @@
+import { CollectionArgument, NodeCollection } from 'cytoscape'
 import { GraphModel } from '../GraphModel'
 import {
-  CustomLayoutOptions,
+  CUSTOM_LAYOUT_NAME,
   CytoscapeGraphLayoutAdapter,
+  CytoscapeGraphLayoutAdapterManipulation,
+  CytoscapeGraphLayoutAdapterOptions,
+  register,
 } from './CytoscapeGraphLayoutAdapter'
-import { CollectionArgument, NodeCollection } from 'cytoscape'
 
 it('should not throw if cytoscape undefined', () => {
-  expect(CytoscapeGraphLayoutAdapter.register).not.toThrow()
+  const cyUseMock = jest.fn()
+  expect(() => register(cyUseMock)).not.toThrow()
 })
 
-it('should throw if no algorigthm defined', () => {
-  const adapter = new CytoscapeGraphLayoutAdapter(
-    {} as cytoscape.LayoutPositionOptions & CustomLayoutOptions
+it('should throw if no algorithm defined', () => {
+  const adapter = {} as CytoscapeGraphLayoutAdapterManipulation
+  CytoscapeGraphLayoutAdapter.bind(adapter)(
+    {} as CytoscapeGraphLayoutAdapterOptions
   )
   expect(() => {
     adapter.run()
@@ -21,12 +26,12 @@ it('should throw if no algorigthm defined', () => {
 it('should register with cytoscape', () => {
   const cyMock = jest.fn()
 
-  CytoscapeGraphLayoutAdapter.register(cyMock)
+  register(cyMock)
 
   expect(cyMock).toHaveBeenCalled()
   expect(cyMock).toHaveBeenCalledWith(
     'layout',
-    CytoscapeGraphLayoutAdapter.LAYOUT_NAME,
+    CUSTOM_LAYOUT_NAME,
     CytoscapeGraphLayoutAdapter
   )
 })
@@ -49,7 +54,8 @@ it('should run layout', () => {
         positions,
       } as unknown as NodeCollection),
   } as CollectionArgument
-  const adapter = new CytoscapeGraphLayoutAdapter({
+  const adapter = {} as CytoscapeGraphLayoutAdapterManipulation
+  CytoscapeGraphLayoutAdapter.bind(adapter)({
     model,
     algorithm,
     eles,

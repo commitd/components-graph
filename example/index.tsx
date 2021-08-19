@@ -9,12 +9,15 @@ import {
   ThemeProvider,
   ThemeSwitch,
 } from '@committed/components'
+import { use } from 'cytoscape'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import {
   addRandomEdge,
   addRandomNode,
+  CustomGraphLayout,
   cytoscapeRenderer,
+  DecoratedNode,
   Graph,
   GraphModel,
   GraphToolbar,
@@ -22,9 +25,50 @@ import {
   ModelNode,
   NodeViewer,
 } from '../dist/committed-components-graph.cjs.js'
-import { use } from 'cytoscape'
 
 initializeCytoscape(use)
+
+const sortedLayout: CustomGraphLayout = {
+  name: 'Data Structure',
+  runLayout: (model: GraphModel): Record<string, cytoscape.Position> => {
+    const paddingTop = 50
+    const paddingLeft = 50
+    const columnWidth = 250
+    const rowHeight = 75
+    const byLabel: Record<string, DecoratedNode[]> = model.nodes.reduce<
+      Record<string, DecoratedNode[]>
+    >((acc, next) => {
+      acc[(next.label ?? 'unknown') as string] = (
+        acc[(next.label ?? 'unknown') as string] ?? []
+      ).concat(next)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      return acc
+    }, {})
+    const sortedByLabel: DecoratedNode[][] = Object.keys(byLabel)
+      .sort((a, b) => a.localeCompare(b))
+      .map((label): DecoratedNode[] => byLabel[label])
+
+    let column = 0
+    return sortedByLabel.reduce<Record<string, cytoscape.Position>>(
+      (acc, nodes) => {
+        let row = 0
+        nodes.forEach((n) => {
+          acc[n.id] = {
+            x: column * columnWidth + paddingLeft,
+            y: row * rowHeight + paddingTop,
+          }
+          row++
+        })
+
+        column++
+        return acc
+      },
+      {}
+    )
+  },
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  stopLayout: () => {},
+}
 
 const App: React.FC = () => {
   const [model, setModel] = React.useState(
@@ -42,7 +86,7 @@ const App: React.FC = () => {
             model={model}
             onModelChange={setModel}
             iconStyle={{ color: '$brandContrast' }}
-            layouts={cytoscapeRenderer.layouts}
+            layouts={[...cytoscapeRenderer.layouts, sortedLayout]}
           />
           <ThemeSwitch />
         </AppBarActions>
