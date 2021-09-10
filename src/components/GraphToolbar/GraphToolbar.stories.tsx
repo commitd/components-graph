@@ -15,6 +15,14 @@ function isFunction(
   return typeof modelChange === 'function'
 }
 
+const empty = {
+  zoom: false,
+  layout: false,
+  refit: false,
+  hide: false,
+  size: false,
+}
+
 export default {
   title: 'Components/GraphToolbar',
   component: GraphToolbar,
@@ -172,6 +180,12 @@ Overlayed.args = {
   overlay: true,
 }
 
+export const SizeBy = Template.bind({})
+SizeBy.args = {
+  ...empty,
+  size: true,
+}
+
 export const IconProps = Template.bind({})
 IconProps.args = { iconStyle: { color: '$success' } }
 
@@ -234,3 +248,6 @@ export const CustomLayout: Story = () => {
     </Flex>
   )
 }
+
+export const Empty = Template.bind({})
+Empty.args = empty

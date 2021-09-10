@@ -241,7 +241,7 @@ it('Can supply partial decorator function for default', () => {
 })
 
 it('Returns item id as a label', () => {
-  expect(DecoratorModel.idAsLabelNodeEdge(edgeWithoutDecoration).label).toBe(
+  expect(DecoratorModel.idAsLabelEdge(edgeWithoutDecoration).label).toBe(
     edgeWithoutDecoration.id
   )
 })
@@ -326,4 +326,79 @@ it('Edge specific decoration overrides both decorator default decoration and dec
   expect(decorationOverrides.sourceArrow).toBe(edgeWithDecoration.sourceArrow)
   expect(decorationOverrides.targetArrow).toBe(edgeWithDecoration.targetArrow)
   expect(decorationOverrides.style).toBe(edgeWithDecoration.style)
+})
+
+it('Can add and remove node decorators', () => {
+  let decorationOverrides = DecoratorModel.createDefault().addNodeDecorator(
+    DecoratorModel.idAsLabelNode
+  )
+
+  expect(
+    decorationOverrides.isNodeDecoratorSet(DecoratorModel.idAsLabelNode)
+  ).toBe(true)
+
+  decorationOverrides = decorationOverrides.removeNodeDecorator(
+    DecoratorModel.idAsLabelNode
+  )
+  expect(
+    decorationOverrides.isNodeDecoratorSet(DecoratorModel.idAsLabelNode)
+  ).toBe(false)
+})
+
+it('Can add and remove edge decorators', () => {
+  let decorationOverrides = DecoratorModel.createDefault().addEdgeDecorator(
+    DecoratorModel.idAsLabelEdge
+  )
+
+  expect(
+    decorationOverrides.isEdgeDecoratorSet(DecoratorModel.idAsLabelEdge)
+  ).toBe(true)
+
+  decorationOverrides = decorationOverrides.removeEdgeDecorator(
+    DecoratorModel.idAsLabelEdge
+  )
+  expect(
+    decorationOverrides.isEdgeDecoratorSet(DecoratorModel.idAsLabelEdge)
+  ).toBe(false)
+})
+
+it('Can add decorator and remove node decorators by id', () => {
+  const nodeDecorator: NodeDecorator = (_e: ModelNode) => ({})
+  nodeDecorator.id = 'nodeDecorator'
+
+  let decorationOverrides =
+    DecoratorModel.createDefault().addNodeDecorator(nodeDecorator)
+
+  expect(decorationOverrides.isNodeDecoratorSet(nodeDecorator)).toBe(true)
+  expect(decorationOverrides.getNodeDecoratorIds()).toContain('nodeDecorator')
+
+  decorationOverrides =
+    decorationOverrides.removeNodeDecoratorById('nodeDecorator')
+  expect(decorationOverrides.isNodeDecoratorSet(nodeDecorator)).toBe(false)
+})
+
+it('Can add decorator and remove edge decorators by id', () => {
+  const edgeDecorator: EdgeDecorator = (_e: ModelEdge) => ({})
+  edgeDecorator.id = 'edgeDecorator'
+
+  let decorationOverrides =
+    DecoratorModel.createDefault().addEdgeDecorator(edgeDecorator)
+
+  expect(decorationOverrides.isEdgeDecoratorSet(edgeDecorator)).toBe(true)
+  expect(decorationOverrides.getEdgeDecoratorIds()).toContain('edgeDecorator')
+
+  decorationOverrides =
+    decorationOverrides.removeEdgeDecoratorById('edgeDecorator')
+  expect(decorationOverrides.isEdgeDecoratorSet(edgeDecorator)).toBe(false)
+})
+
+it('Removing missing decorator causes no error', () => {
+  let decorationOverrides = DecoratorModel.createDefault()
+    .removeNodeDecorator(DecoratorModel.idAsLabelNode)
+    .removeNodeDecoratorById('test')
+    .removeEdgeDecorator(DecoratorModel.idAsLabelEdge)
+    .removeEdgeDecoratorById('test')
+
+  expect(decorationOverrides.getNodeDecoratorIds()).toHaveLength(0)
+  expect(decorationOverrides.getEdgeDecoratorIds()).toHaveLength(0)
 })

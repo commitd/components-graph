@@ -1,13 +1,18 @@
 import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
 import { Graph } from '../'
-import { ContentModel, DecoratorModel, GraphModel } from '../../../graph'
 import {
+  ContentModel,
+  DecoratorModel,
+  GraphModel,
+  ModelNode,
+  NodeDecoration,
   addRandomEdge,
+  addRandomNode,
   addRandomNodeColors,
   addRandomNodeShapes,
-} from '../../../graph/data/Generator'
-import { ModelNode, NodeDecoration } from '../../../graph/types'
+  sizeNodeBy,
+} from '../../../graph'
 import { exampleGraphData } from './exampleData'
 import { Template } from './StoryUtil'
 
@@ -50,6 +55,28 @@ export const TypedDecoration: React.FC = () => {
         ],
       }),
     })
+  )
+
+  return <Template model={model} onModelChange={setModel} />
+}
+
+export const AttributeDecoration: React.FC = () => {
+  const [model, setModel] = useState(
+    new GraphModel(
+      addRandomEdge(
+        addRandomNode(GraphModel.createEmpty(), 20),
+        15
+      ).getCurrentContent(),
+      {
+        decoratorModel: DecoratorModel.createDefault({
+          nodeDecorators: [
+            sizeNodeBy((node: ModelNode) => {
+              return [node.label?.length || 8, [8, 30]]
+            }),
+          ],
+        }),
+      }
+    )
   )
 
   return <Template model={model} onModelChange={setModel} />

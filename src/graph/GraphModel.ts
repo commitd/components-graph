@@ -6,6 +6,7 @@ import {
   DecoratedEdge,
   DecoratedNode,
   GraphCommand,
+  ModelAttributeTypes,
   ModelEdge,
   ModelNode,
 } from './types'
@@ -163,6 +164,14 @@ export class GraphModel {
       return edge
     }
     return this.decoratorModel.getDecoratedEdges([edge])[0]
+  }
+
+  getNodeAttributes(): ModelAttributeTypes {
+    return this.contentModel.getNodeAttributes()
+  }
+
+  getEdgeAttributes(): ModelAttributeTypes {
+    return this.contentModel.getEdgeAttributes()
   }
 
   getCurrentLayout(): LayoutModel {

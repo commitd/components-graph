@@ -36,7 +36,7 @@ export class DecoratorModel {
     return { label: item.id }
   }
 
-  static readonly idAsLabelNodeEdge: EdgeDecorator = (item) => {
+  static readonly idAsLabelEdge: EdgeDecorator = (item) => {
     return { label: item.id }
   }
 
@@ -170,6 +170,61 @@ export class DecoratorModel {
       this.nodeLabelsHidden,
       this.edgeLabelsHidden
     )
+  }
+
+  private getDecoratorIds<T extends NodeDecorator | EdgeDecorator>(
+    decorators: T[]
+  ): string[] {
+    return decorators
+      .map((decorator) => decorator.id)
+      .filter((id) => id !== undefined) as string[]
+  }
+
+  getNodeDecoratorIds(): string[] {
+    return this.getDecoratorIds(this.nodeDecorators)
+  }
+
+  getEdgeDecoratorIds(): string[] {
+    return this.getDecoratorIds(this.edgeDecorators)
+  }
+
+  private getDecoratorById<T extends NodeDecorator | EdgeDecorator>(
+    decoratorId: string,
+    decorators: T[]
+  ): T | undefined {
+    return decorators.find((decorator) => decorator.id === decoratorId)
+  }
+
+  removeNodeDecoratorById(decoratorId: string): DecoratorModel {
+    const decorator = this.getDecoratorById(decoratorId, this.nodeDecorators)
+    if (decorator === undefined) {
+      return this
+    } else {
+      return new DecoratorModel(
+        this.removeDecorator<NodeDecorator>(decorator, this.nodeDecorators),
+        this.nodeDefaults,
+        this.edgeDecorators,
+        this.edgeDefaults,
+        this.nodeLabelsHidden,
+        this.edgeLabelsHidden
+      )
+    }
+  }
+
+  removeEdgeDecoratorById(decoratorId: string): DecoratorModel {
+    const decorator = this.getDecoratorById(decoratorId, this.edgeDecorators)
+    if (decorator === undefined) {
+      return this
+    } else {
+      return new DecoratorModel(
+        this.nodeDecorators,
+        this.nodeDefaults,
+        this.removeDecorator<EdgeDecorator>(decorator, this.edgeDecorators),
+        this.edgeDefaults,
+        this.nodeLabelsHidden,
+        this.edgeLabelsHidden
+      )
+    }
   }
 
   /** Toggle a decorator on or off */
