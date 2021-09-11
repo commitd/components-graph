@@ -6,37 +6,20 @@ import {
   IconButton,
   Menu,
   MenuContent,
-  MenuItemCheckbox,
-  MenuRadioGroup,
-  MenuRadioItem,
   MenuTrigger,
-  MenuTriggerItem,
   styled,
   VariantProps,
 } from '@committed/components'
-import {
-  mdiArrowExpandAll as refitPath,
-  mdiChartTimelineVariant as layoutPath,
-  mdiCog as settingPath,
-  mdiMagnifyMinus as zoomOutPath,
-  mdiMagnifyPlus as zoomInPath,
-} from '@mdi/js'
-import React, { ComponentProps, useCallback, useMemo } from 'react'
+import { mdiCog as settingPath } from '@mdi/js'
+import React, { ComponentProps, useMemo } from 'react'
 import { GraphLayout, GraphModel } from '../../graph'
+import { GraphLayoutOptions } from './GraphLayoutOptions'
+import { GraphLayoutRun } from './GraphLayoutRun'
+import { Hide } from './Hide'
+import { Refit } from './Refit'
 import { SizeBy } from './SizeBy'
+import { Zoom } from './Zoom'
 
-function capitalize(key: string) {
-  return key.charAt(0).toUpperCase() + key.slice(1)
-}
-
-function getCurrentLayout(model: GraphModel): string {
-  const curr = model.getCurrentLayout().getLayout()
-  if (typeof curr === 'string') {
-    return curr
-  } else {
-    return curr.name
-  }
-}
 const StyledToolbar = styled('div', {
   display: 'flex',
   variants: {
@@ -120,74 +103,12 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
   css,
   ...props
 }) => {
-  const layoutMap = useMemo(
-    () =>
-      layouts.reduce<Record<string, (m: GraphModel) => GraphModel>>(
-        (prev, curr) => {
-          if (typeof curr === 'string') {
-            prev[curr] = (m) =>
-              GraphModel.applyLayout(m, m.getCurrentLayout().presetLayout(curr))
-          } else {
-            prev[curr.name] = (m) =>
-              GraphModel.applyLayout(m, m.getCurrentLayout().customLayout(curr))
-          }
-          return prev
-        },
-        {}
-      ),
-    [layouts]
-  )
-
-  const currentLayout = getCurrentLayout(model)
-
-  const handleToggleHideNodeLabels = useCallback((): void => {
-    onModelChange(
-      GraphModel.applyDecoration(
-        model,
-        model
-          .getDecorators()
-          .hideNodeLabels(!model.getDecorators().isHideNodeLabels())
-      )
-    )
-  }, [model, onModelChange])
-
-  const handleToggleHideEdgeLabels = useCallback((): void => {
-    onModelChange(
-      GraphModel.applyDecoration(
-        model,
-        model
-          .getDecorators()
-          .hideEdgeLabels(!model.getDecorators().isHideEdgeLabels())
-      )
-    )
-  }, [model, onModelChange])
-
-  const handleSelectLayout = useCallback(
-    (newLayout: string): void => {
-      onModelChange(layoutMap[newLayout](model))
-    },
-    [layoutMap, model, onModelChange]
-  )
-
   const menuItems = useMemo(() => {
     const items = []
 
     if (hide) {
       items.push(
-        <MenuItemCheckbox
-          key="hideNodeLabels"
-          checked={model.getDecorators().isHideNodeLabels()}
-          onCheckedChange={handleToggleHideNodeLabels}
-        >
-          Hide node labels
-        </MenuItemCheckbox>,
-        <MenuItemCheckbox
-          key="hideEdgeLabels"
-          checked={model.getDecorators().isHideEdgeLabels()}
-          onCheckedChange={handleToggleHideEdgeLabels}
-        >
-          Hide edge labels
-        </MenuItemCheckbox>
+        <Hide key="hide" model={model} onModelChange={onModelChange} />
       )
     }
 
@@ -197,80 +118,43 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
       )
     }
 
-    if (Object.keys(layoutMap).length > 0) {
+    if (layout && layouts.length > 0) {
       items.push(
-        <Menu key="layouts">
-          <MenuTriggerItem>Graph Layout</MenuTriggerItem>
-          <MenuContent>
-            <MenuRadioGroup
-              value={currentLayout}
-              onValueChange={handleSelectLayout}
-            >
-              {Object.keys(layoutMap).map((l) => (
-                <MenuRadioItem key={l} value={l}>
-                  {capitalize(l)}
-                </MenuRadioItem>
-              ))}
-            </MenuRadioGroup>
-          </MenuContent>
-        </Menu>
+        <GraphLayoutOptions
+          key="layouts"
+          model={model}
+          onModelChange={onModelChange}
+          layouts={layouts}
+        />
       )
     }
-    return items
-  }, [
-    currentLayout,
-    handleSelectLayout,
-    handleToggleHideEdgeLabels,
-    handleToggleHideNodeLabels,
-    hide,
-    layoutMap,
-    model,
-    onModelChange,
-    size,
-  ])
+    return items.filter((item) => item !== null)
+  }, [hide, layout, layouts, model, onModelChange, size])
 
   return (
     <StyledToolbar css={css as any} {...props}>
       {zoom && (
-        <>
-          <IconButton
-            variant={buttonVariant}
-            aria-label="zoom-in"
-            title="Zoom in"
-            path={zoomInPath}
-            css={iconStyle as any}
-            onClick={() => onModelChange(model.pushCommand({ type: 'ZoomIn' }))}
-          />
-          <IconButton
-            variant={buttonVariant}
-            aria-label="zoom-out"
-            title="Zoom out"
-            path={zoomOutPath}
-            css={iconStyle as any}
-            onClick={() =>
-              onModelChange(model.pushCommand({ type: 'ZoomOut' }))
-            }
-          />
-        </>
+        <Zoom
+          variant={buttonVariant}
+          css={iconStyle as any}
+          model={model}
+          onModelChange={onModelChange}
+        />
       )}
       {layouts.length > 0 && layout && (
-        <IconButton
+        <GraphLayoutRun
           variant={buttonVariant}
-          aria-label="layout"
-          title="Layout"
-          path={layoutPath}
           css={iconStyle as any}
-          onClick={() => onModelChange(model.pushCommand({ type: 'Layout' }))}
+          model={model}
+          onModelChange={onModelChange}
         />
       )}
       {refit && (
-        <IconButton
+        <Refit
           variant={buttonVariant}
-          aria-label="refit"
-          title="Refit"
-          path={refitPath}
           css={iconStyle as any}
-          onClick={() => onModelChange(model.pushCommand({ type: 'Refit' }))}
+          model={model}
+          onModelChange={onModelChange}
         />
       )}
       {menuItems.length > 0 && (

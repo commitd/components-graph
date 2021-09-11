@@ -3,10 +3,7 @@ import { renderLight, screen, userEvent } from '../../setupTests'
 import { SizeBy } from './GraphToolbar.stories'
 
 it('Can select to size by', () => {
-  const { asFragment } = renderLight(
-    <SizeBy {...(SizeBy.args as any)} withGraph={false} />
-  )
-  expect(asFragment()).toBeDefined()
+  renderLight(<SizeBy {...(SizeBy.args as any)} withGraph={false} />)
 
   userEvent.tab()
   userEvent.keyboard('{enter}')

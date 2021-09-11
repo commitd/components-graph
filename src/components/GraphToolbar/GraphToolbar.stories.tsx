@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { Story, Meta } from '@storybook/react'
-import { GraphToolbar, GraphToolbarProps } from '.'
 import { Flex } from '@committed/components'
-import { Graph } from '../Graph'
+import { Meta, Story } from '@storybook/react'
+import React, { useEffect, useState } from 'react'
+import { GraphToolbar, GraphToolbarProps } from '.'
+import { ContentModel, CustomGraphLayout, DecoratedNode } from '../../graph'
 import { addRandomEdge, addRandomNode } from '../../graph/data/Generator'
 import { GraphModel } from '../../graph/GraphModel'
 import { cytoscapeRenderer } from '../../graph/renderer/CytoscapeRenderer'
-import { ContentModel, CustomGraphLayout, DecoratedNode } from '../../graph'
-import { useArgs } from '@storybook/addons'
+import { Graph } from '../Graph'
 
 function isFunction(
   modelChange: GraphModel | ((model: GraphModel) => GraphModel)
@@ -133,7 +132,13 @@ const Template: Story<
       model: GraphToolbarProps['model']
       withGraph: boolean
     }>
-> = ({ direction = 'row', css, withGraph = true, ...props }) => {
+> = ({
+  direction = 'row',
+  css,
+  withGraph = true,
+  layouts = cytoscapeRenderer.layouts,
+  ...props
+}) => {
   const [model, setModel] = useState(
     addRandomEdge(addRandomNode(GraphModel.createEmpty(), 20), 15)
   )
@@ -145,12 +150,12 @@ const Template: Story<
       }}
     >
       <GraphToolbar
-        {...props}
         direction={direction}
         css={css as any}
         model={model}
         onModelChange={setModel}
-        layouts={cytoscapeRenderer.layouts}
+        layouts={layouts}
+        {...props}
       />
       {withGraph && (
         <Graph
@@ -180,10 +185,34 @@ Overlayed.args = {
   overlay: true,
 }
 
+export const Zoom = Template.bind({})
+Zoom.args = {
+  ...empty,
+  zoom: true,
+}
+
+export const Layout = Template.bind({})
+Layout.args = {
+  ...empty,
+  layout: true,
+}
+
+export const Refit = Template.bind({})
+Refit.args = {
+  ...empty,
+  refit: true,
+}
+
 export const SizeBy = Template.bind({})
 SizeBy.args = {
   ...empty,
   size: true,
+}
+
+export const Hide = Template.bind({})
+Hide.args = {
+  ...empty,
+  hide: true,
 }
 
 export const IconProps = Template.bind({})
