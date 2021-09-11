@@ -3,7 +3,7 @@ import { GraphToolbar } from '.'
 import { cytoscapeRenderer } from '../../graph'
 import { GraphModel } from '../../graph/GraphModel'
 import { renderDark, renderLight, userEvent } from '../../setupTests'
-import { Horizontal, Vertical } from './GraphToolbar.stories'
+import { Horizontal, Vertical, Empty } from './GraphToolbar.stories'
 
 it('renders light', () => {
   const { asFragment } = renderLight(
@@ -38,4 +38,11 @@ test.each([
   userEvent.click(getByRole('button', { name: pattern }))
   const newModel = onChange.mock.calls[0][0] as GraphModel
   expect(newModel.getCommands()[0]).toEqual({ type: command })
+})
+
+it('renders empty', () => {
+  const { asFragment } = renderDark(
+    <Empty {...(Empty.args as any)} withGraph={false} />
+  )
+  expect(asFragment()).toBeDefined()
 })

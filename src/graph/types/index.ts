@@ -19,6 +19,8 @@ export type ModelAttributeSet = Record<string, ModelAttributeValue>
 
 export type ModelAttributeValue = unknown
 
+export type ModelAttributeTypes = Record<string, Set<string>>
+
 export type ModelGraphData = {
   nodes: Record<string, ModelNode>
   edges: Record<string, ModelEdge>
@@ -80,9 +82,15 @@ export type DecoratedNode = ModelNode & NodeDecorationCreator
 
 export type DecoratedEdge = ModelEdge & EdgeDecorationCreator
 
-export type NodeDecorator = (node: ModelNode) => Partial<NodeDecoration>
+export type NodeDecorator = {
+  (node: ModelNode): Partial<NodeDecoration>
+  id?: string
+}
 
-export type EdgeDecorator = (edge: ModelEdge) => Partial<EdgeDecoration>
+export type EdgeDecorator = {
+  (edge: ModelEdge): Partial<EdgeDecoration>
+  id?: string
+}
 
 export type NodeShape = Css.NodeShape
 

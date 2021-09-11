@@ -300,3 +300,45 @@ it('Throws creating with missing edge target', () => {
       }))
   ).toThrow()
 })
+
+it('has no attributes when empty', () => {
+  expect(Object.keys(contentModel.getNodeAttributes())).toHaveLength(0)
+  expect(Object.keys(contentModel.getEdgeAttributes())).toHaveLength(0)
+})
+
+it('Can get node attributes', () => {
+  contentModel = contentModel
+    .addNode(node1)
+    .addNodeAttribute(node1.id, attribute, attributeValue)
+    .addNode(node2)
+    .addNodeAttribute(node2.id, attribute, 10)
+
+  const existingAttributeId = Object.keys(node1.attributes)[0]
+
+  const attributeTypes = contentModel.getNodeAttributes()
+  const attributeIds = Object.keys(attributeTypes)
+  expect(attributeIds).toHaveLength(2)
+  expect(attributeIds).toContain(attribute)
+  expect(attributeIds).toContain(existingAttributeId)
+
+  expect(attributeTypes[attribute].size).toBe(2)
+  expect(attributeTypes[attribute].has('string')).toBeTruthy()
+  expect(attributeTypes[attribute].has('number')).toBeTruthy()
+
+  expect(attributeTypes[existingAttributeId].size).toBe(1)
+  expect(attributeTypes[attribute].has('string')).toBeTruthy()
+})
+
+it('Can get edge attributes', () => {
+  contentModel = contentModel.addNode(node1).addNode(node2).addEdge(edge1)
+
+  const attributeTypes = contentModel.getEdgeAttributes()
+  const attributeIds = Object.keys(attributeTypes)
+
+  const existingAttributeId = Object.keys(edge1.attributes)[0]
+  expect(attributeIds).toHaveLength(1)
+  expect(attributeIds).toContain(Object.keys(edge1.attributes)[0])
+
+  expect(attributeTypes[existingAttributeId].size).toBe(1)
+  expect(attributeTypes[existingAttributeId].has('string')).toBeTruthy()
+})

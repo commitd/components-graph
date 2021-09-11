@@ -134,7 +134,7 @@ const StoryTemplate: Story<{ rdf: string }> = ({ rdf }) => {
         )
       )
       setAlert(undefined)
-    } catch (error) {
+    } catch (error: any) {
       setModel(GraphModel.createWithContent(ContentModel.createEmpty()))
       setAlert(error.message)
     }

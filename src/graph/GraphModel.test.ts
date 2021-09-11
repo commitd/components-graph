@@ -136,7 +136,7 @@ it('Gets latest decoration', () => {
       shape: 'ellipse',
       strokeSize: 2,
     },
-    [DecoratorModel.idAsLabelNodeEdge],
+    [DecoratorModel.idAsLabelEdge],
     {
       color: 'yellow',
       label: 'Node 1',
@@ -176,4 +176,33 @@ it('Clears commands', () => {
 
 it('Clearing empty queue does nothing', () => {
   expect(graphModel.clearCommands()).toBe(graphModel)
+})
+
+it('has no attributes when empty', () => {
+  expect(Object.keys(graphModel.getNodeAttributes())).toHaveLength(0)
+  expect(Object.keys(graphModel.getEdgeAttributes())).toHaveLength(0)
+})
+
+it('Can get node attributes', () => {
+  graphModel = GraphModel.applyContent(
+    graphModel,
+    graphModel.getCurrentContent().addNode(node1).addNode(node2).addEdge(edge1)
+  )
+
+  const attributeTypes = graphModel.getNodeAttributes()
+  const attributeIds = Object.keys(attributeTypes)
+  expect(attributeIds).toHaveLength(1)
+  expect(attributeIds).toContain(Object.keys(node1.attributes)[0])
+})
+
+it('Can get edge attributes', () => {
+  graphModel = GraphModel.applyContent(
+    graphModel,
+    graphModel.getCurrentContent().addNode(node1).addNode(node2).addEdge(edge1)
+  )
+
+  const attributeTypes = graphModel.getEdgeAttributes()
+  const attributeIds = Object.keys(attributeTypes)
+  expect(attributeIds).toHaveLength(1)
+  expect(attributeIds).toContain(Object.keys(edge1.attributes)[0])
 })

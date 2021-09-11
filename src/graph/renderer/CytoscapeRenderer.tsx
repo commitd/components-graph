@@ -164,6 +164,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   }
   const nodes = graphModel.nodes
   const edges = graphModel.edges
+
   const selection = graphModel.getSelection()
   const [cytoscape, setCytoscape] = useState<cytoscape.Core>()
   const layoutStart = useRef<number>()
@@ -377,12 +378,11 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
           label: n.label,
           model: n,
         }
-        const { label, ...style } = resolveThemedObject(
+        const { label } = resolveThemedObject(
           toNodeCyStyle(n.getDecorationOverrides()) ?? {}
         )
         return {
           data: { ...node, label },
-          style,
           selected: selection.nodes.has(n.id),
         }
       }),
@@ -395,12 +395,11 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
           selected: selection.edges.has(e.id),
           model: e,
         }
-        const { label, ...style } = resolveThemedObject(
+        const { label } = resolveThemedObject(
           toEdgeCyStyle(e.getDecorationOverrides()) ?? {}
         )
         return {
           data: { ...edge, label },
-          style,
           classes: 'bezier',
         }
       }),
@@ -437,6 +436,21 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
     }
   }, [graphModel, resolveThemedObject])
 
+  const nodeStyles: Stylesheet[] = useMemo(() => {
+    return nodes
+      .map((n) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { label, ...style } = resolveThemedObject(
+          toNodeCyStyle(n.getDecorationOverrides()) ?? {}
+        )
+        return {
+          selector: `node#${n.id}`,
+          style,
+        }
+      })
+      .filter((s) => Object.keys(s.style).length > 0)
+  }, [nodes, resolveThemedObject])
+
   const defaultEdgeStyles: Stylesheet = useMemo(() => {
     const edgeDefaults = graphModel.getDecorators().getDefaultEdgeDecorator()()
     return {
@@ -464,6 +478,21 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
     }
   }, [graphModel, resolveThemedObject])
 
+  const edgeStyles: Stylesheet[] = useMemo(() => {
+    return edges
+      .map((n) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { label, ...style } = resolveThemedObject(
+          toEdgeCyStyle(n.getDecorationOverrides()) ?? {}
+        )
+        return {
+          selector: `edge#${n.id}`,
+          style,
+        }
+      })
+      .filter((s) => Object.keys(s.style).length > 0)
+  }, [edges, resolveThemedObject])
+
   if (theme === undefined) {
     // Wait for theme to be defined
     return null
@@ -486,7 +515,12 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
       cy={(cyCore): void => {
         setCytoscape(cyCore)
       }}
-      stylesheet={[defaultNodeStyles, defaultEdgeStyles]}
+      stylesheet={[
+        defaultNodeStyles,
+        ...nodeStyles,
+        defaultEdgeStyles,
+        ...edgeStyles,
+      ]}
       {...options.renderOptions}
     />
   )

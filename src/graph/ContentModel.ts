@@ -1,8 +1,10 @@
 import { v4 } from 'uuid'
 import {
   ModelAttributeSet,
+  ModelAttributeTypes,
   ModelEdge,
   ModelGraphData,
+  ModelItem,
   ModelNode,
 } from './types'
 
@@ -225,5 +227,24 @@ export class ContentModel {
     const withoutEdge = { ...this.edges }
     delete withoutEdge[`${id}`]
     return new ContentModel(this.nodes, withoutEdge)
+  }
+
+  private getAttributes(items: ModelItem[]): ModelAttributeTypes {
+    return items.reduce<ModelAttributeTypes>((attributeTypes, item) => {
+      Object.entries(item.attributes).forEach((a) => {
+        const attributeType = attributeTypes[a[0]] ?? new Set<string>()
+        attributeType.add(typeof a[1])
+        attributeTypes[a[0]] = attributeType
+      })
+      return attributeTypes
+    }, {})
+  }
+
+  getNodeAttributes(): ModelAttributeTypes {
+    return this.getAttributes(Object.values(this.nodes))
+  }
+
+  getEdgeAttributes(): ModelAttributeTypes {
+    return this.getAttributes(Object.values(this.edges))
   }
 }

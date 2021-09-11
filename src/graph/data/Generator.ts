@@ -16,6 +16,8 @@ export const randomNode = (model: ContentModel): ModelNode | undefined => {
   return randomItem(nodes)
 }
 
+const randomNumber = (): number => Math.ceil(Math.random() * 100)
+
 const randomEdge = (model: ContentModel): ModelEdge | undefined => {
   const edges = Object.values(model.edges)
   if (edges.length === 0) {
@@ -41,12 +43,14 @@ export const addRandomNode = (
   for (let i = 0; i < count; i++) {
     const firstName = randomItem(names)
     const lastName = randomItem(names)
+    const age = randomNumber()
     content = content.addNode({
       label: `${firstName} ${lastName}`,
       ...(typeof options === 'function' ? options() : options),
       attributes: {
         firstName,
         lastName,
+        age,
       },
     })
   }
