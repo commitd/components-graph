@@ -41,7 +41,7 @@
     "semantic-release": "semantic-release"
   },
   "peerDependencies": {
-    "@committed/components": ">= 5.0.0",
+    "@committed/components": ">= 6.0.0",
     "react": ">= 16.8.0",
     "react-dom": ">= 16.8.0"
   },
@@ -138,7 +138,7 @@
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
-    "@committed/components": ">=6.2.0",
+    "@committed/components": "^6.3.0",
     "@storybook/addon-docs": "^6.3.8",
     "@storybook/addon-essentials": "^6.3.8",
     "@storybook/addons": "^6.3.8",
