@@ -69,6 +69,14 @@ export function initializeCytoscape(
 
 initializeCytoscape(use)
 
+function toSelector(prefix: 'node' | 'edge', id: string): string {
+  if (id.match(/[:#^$/\\()|?+*[\]{},.]/g)) {
+    return `[id="${id}"]`
+  } else {
+    return `${prefix}#${id}`
+  }
+}
+
 export interface CyGraphRendererOptions extends GraphRendererOptions {
   renderOptions: Pick<
     React.ComponentProps<typeof CytoscapeComponent>,
@@ -444,7 +452,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
           toNodeCyStyle(n.getDecorationOverrides()) ?? {}
         )
         return {
-          selector: `node#${n.id}`,
+          selector: toSelector('node', n.id),
           style,
         }
       })
@@ -480,13 +488,13 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
 
   const edgeStyles: Stylesheet[] = useMemo(() => {
     return edges
-      .map((n) => {
+      .map((e) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { label, ...style } = resolveThemedObject(
-          toEdgeCyStyle(n.getDecorationOverrides()) ?? {}
+          toEdgeCyStyle(e.getDecorationOverrides()) ?? {}
         )
         return {
-          selector: `edge#${n.id}`,
+          selector: toSelector('edge', e.id),
           style,
         }
       })
