@@ -6,6 +6,15 @@
   "module": "dist/committed-components-graph-react.esm.js",
   "typings": "dist/index.d.ts",
   "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
   "scripts": {
     "clean": "shx rm -rf dist",
     "build": "rollpkg build --noStats --tsconfig ./tsconfig.build.json",

@@ -1,0 +1,47 @@
+{
+  "name": "@committed/components-graph",
+  "version": "0.0.0-development",
+  "description": "Committed Graph Component",
+  "author": "Committed",
+  "license": "MIT",
+  "private": false,
+  "repository": "git://github.com/commitd/components-graph",
+  "main": "dist/committed-components-graph.cjs.js",
+  "module": "dist/committed-components-graph.esm.js",
+  "typings": "dist/index.d.ts",
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "dependencies": {
+    "@committed/components-graph-data": "*",
+    "@committed/components-graph-react": "*",
+    "typescript": "^4.4.4"
+  },
+  "devDependencies": {
+    "rollpkg": "^0.5.7"
+  },
+  "scripts": {
+    "clean": "shx rm -rf dist",
+    "build": "rollpkg build --noStats --tsconfig ./tsconfig.build.json",
+    "watch": "rollpkg watch",
+    "lint": "eslint './src/**/*.{ts,tsx}'",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/commitd/components-graph.git"
+  },
+  "author": "Committed",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/commitd/components-graph/issues"
+  },
+  "homepage": "https://github.com/commitd/components-graph#readme"
+}

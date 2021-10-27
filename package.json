@@ -111,7 +111,6 @@
   "lint-staged": {
     "*.{ts,tsx,md,json,mdx}": "prettier --write",
     "*.{ts,tsx}": [
-      "eslint --cache --fix",
       "jest --bail --findRelatedTests"
     ]
   },
@@ -186,6 +185,7 @@
   },
   "workspaces": [
     "packages/data",
-    "packages/react"
+    "packages/react",
+    "packages/all"
   ]
 }
