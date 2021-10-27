@@ -20,7 +20,7 @@
     "build": "rollpkg build --noStats --tsconfig ./tsconfig.build.json",
     "watch": "rollpkg watch",
     "lint": "eslint './src/**/*.{ts,tsx}'",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test:ci": "jest --coverage",
     "test:watch": "jest --watchAll",
     "coverage": "npx live-server coverage/lcov-report"
