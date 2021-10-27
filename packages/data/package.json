@@ -15,6 +15,11 @@
   "engines": {
     "node": ">=10"
   },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "jest --bail"
+    ]
+  },
   "scripts": {
     "clean": "shx rm -rf dist",
     "build": "rollpkg build --noStats --tsconfig ./tsconfig.build.json",
@@ -23,6 +28,7 @@
     "test": "jest --passWithNoTests",
     "test:ci": "jest --coverage",
     "test:watch": "jest --watchAll",
+    "precommit": "lint-staged",
     "coverage": "npx live-server coverage/lcov-report"
   },
   "repository": {
@@ -35,10 +41,5 @@
     "url": "https://github.com/commitd/components-graph/issues"
   },
   "homepage": "https://github.com/commitd/components-graph#readme",
-  "dependencies": {
-    "typescript": "^4.4.4"
-  },
-  "devDependencies": {
-    "rollpkg": "^0.5.7"
-  }
+  "dependencies": {}
 }

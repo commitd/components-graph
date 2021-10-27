@@ -15,6 +15,36 @@
   "engines": {
     "node": ">=10"
   },
+  "jest": {
+    "preset": "rollpkg",
+    "setupFiles": [
+      "../../jest.patch-cssom.js"
+    ],
+    "collectCoverage": true,
+    "testResultsProcessor": "jest-sonar-reporter",
+    "moduleDirectories": [
+      "node_modules",
+      "utils"
+    ],
+    "testRegex": "/src/.*(\\.|/)(test|spec)\\.[jt]sx?$",
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/types/**/*"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/src/typings.d.ts",
+      "setupTests.tsx",
+      ".*/index.ts",
+      ".*.test.ts",
+      ".*.test.tsx",
+      ".*.stories.tsx"
+    ]
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "jest --bail"
+    ]
+  },
   "scripts": {
     "clean": "shx rm -rf dist",
     "build": "rollpkg build --noStats --tsconfig ./tsconfig.build.json",
@@ -23,6 +53,7 @@
     "test": "jest --passWithNoTests",
     "test:ci": "jest --coverage",
     "test:watch": "jest --watchAll",
+    "precommit": "lint-staged",
     "coverage": "npx live-server coverage/lcov-report"
   },
   "repository": {
@@ -37,9 +68,16 @@
   "homepage": "https://github.com/commitd/components-graph#readme",
   "dependencies": {
     "@committed/components-graph-data": "*",
-    "typescript": "^4.4.4"
-  },
-  "devDependencies": {
-    "rollpkg": "^0.5.7"
+    "@types/n3": "^1.10.3",
+    "@types/react-cytoscapejs": "^1.1.2",
+    "@types/uuid": "^8.3.0",
+    "cytoscape-cola": "^2.4.0",
+    "n3": "^1.11.1",
+    "rdf-literal": "^1.2.0",
+    "react-cytoscapejs": "^1.2.1",
+    "tinycolor2": "^1.4.2",
+    "typescript": "^4.4.4",
+    "use-debounce": "^7.0.0",
+    "uuid": "^8.3.1"
   }
 }

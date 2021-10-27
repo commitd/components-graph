@@ -19,19 +19,21 @@
   "engines": {
     "node": ">=10"
   },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "jest --bail"
+    ]
+  },
   "dependencies": {
     "@committed/components-graph-data": "*",
-    "@committed/components-graph-react": "*",
-    "typescript": "^4.4.4"
-  },
-  "devDependencies": {
-    "rollpkg": "^0.5.7"
+    "@committed/components-graph-react": "*"
   },
   "scripts": {
     "clean": "shx rm -rf dist",
     "build": "rollpkg build --noStats --tsconfig ./tsconfig.build.json",
     "watch": "rollpkg watch",
     "lint": "eslint './src/**/*.{ts,tsx}'",
+    "precommit": "lint-staged",
     "test": "jest --passWithNoTests"
   },
   "repository": {
