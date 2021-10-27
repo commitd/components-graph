@@ -22,10 +22,9 @@
   "scripts": {
     "clean": "shx rm -rf dist",
     "commit": "cz",
-    "build": "rollpkg build --tsconfig ./tsconfig.build.json",
-    "watch": "rollpkg watch",
-    "lint": "eslint './src/**/*.{ts,tsx}'",
-    "test": "jest",
+    "build": "npm run build -ws",
+    "lint": "npm run lint -ws",
+    "test": "npm run test -ws",
     "test:ci": "jest --coverage",
     "test:watch": "jest --watchAll",
     "coverage": "npx live-server coverage/lcov-report",
@@ -184,5 +183,9 @@
     "tinycolor2": "^1.4.2",
     "use-debounce": "^7.0.0",
     "uuid": "^8.3.1"
-  }
+  },
+  "workspaces": [
+    "packages/data",
+    "packages/react"
+  ]
 }
