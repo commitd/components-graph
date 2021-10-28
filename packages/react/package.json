@@ -50,11 +50,10 @@
     "build": "rollpkg build --noStats --tsconfig ./tsconfig.build.json",
     "watch": "rollpkg watch",
     "lint": "eslint './src/**/*.{ts,tsx}'",
-    "test": "jest --passWithNoTests",
+    "test": "jest",
     "test:ci": "jest --coverage",
     "test:watch": "jest --watchAll",
-    "precommit": "lint-staged",
-    "coverage": "npx live-server coverage/lcov-report"
+    "precommit": "lint-staged"
   },
   "repository": {
     "type": "git",

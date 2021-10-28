@@ -28,14 +28,13 @@
     "test": "jest --passWithNoTests",
     "test:ci": "jest --coverage",
     "test:watch": "jest --watchAll",
-    "precommit": "lint-staged",
-    "coverage": "npx live-server coverage/lcov-report"
+    "precommit": "lint-staged"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/commitd/components-graph.git"
   },
-  "author": "",
+  "author": "Committed",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/commitd/components-graph/issues"

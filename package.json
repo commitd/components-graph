@@ -24,9 +24,9 @@
     "commit": "cz",
     "build": "npm run build -ws",
     "lint": "npm run lint -ws",
-    "test": "npm run test -ws",
-    "test:ci": "jest --coverage",
-    "test:watch": "jest --watchAll",
+    "test": "jest --passWithNoTests",
+    "test:ci": "jest --coverage --passWithNoTests",
+    "test:watch": "jest --watch --passWithNoTests",
     "coverage": "npx live-server coverage/lcov-report",
     "size": "size-limit",
     "analyze": "size-limit --why",
@@ -109,6 +109,42 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
+  "jest": {
+    "preset": "rollpkg",
+    "projects": [
+      "<rootDir>/packages/graph",
+      "<rootDir>/packages/react",
+      "<rootDir>/packages/all"
+    ],
+    "coverageReporters": [
+      [
+        "json",
+        {
+          "file": ".nyc_output/coverage.json"
+        }
+      ],
+      "lcov"
+    ],
+    "collectCoverage": true,
+    "testResultsProcessor": "jest-sonar-reporter",
+    "moduleDirectories": [
+      "node_modules",
+      "utils"
+    ],
+    "testRegex": "/src/.*(\\.|/)(test|spec)\\.[jt]sx?$",
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/types/**/*"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/src/typings.d.ts",
+      "setupTests.tsx",
+      ".*/index.ts",
+      ".*.test.ts",
+      ".*.test.tsx",
+      ".*.stories.tsx"
+    ]
+  },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
@@ -142,7 +178,6 @@
     "react-test-renderer": "^17.0.1",
     "resize-observer-polyfill": "^1.5.1",
     "rollpkg": "^0.5.7",
-    "semantic-release": "^17.4.4",
     "shx": "^0.3.2",
     "storybook-dark-mode": "^1.0.8",
     "tslib": "^2.0.3",

@@ -5,7 +5,6 @@
   "author": "Committed",
   "license": "MIT",
   "private": false,
-  "repository": "git://github.com/commitd/components-graph",
   "main": "dist/committed-components-graph.cjs.js",
   "module": "dist/committed-components-graph.esm.js",
   "typings": "dist/index.d.ts",
@@ -21,11 +20,11 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "jest --bail"
+      "jest --passWithNoTests --bail"
     ]
   },
   "dependencies": {
-    "@committed/components-graph-data": "*",
+    "@committed/graph": "*",
     "@committed/components-graph-react": "*"
   },
   "scripts": {
@@ -34,14 +33,14 @@
     "watch": "rollpkg watch",
     "lint": "eslint './src/**/*.{ts,tsx}'",
     "precommit": "lint-staged",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "test:ci": "jest --coverage --passWithNoTests",
+    "test:watch": "jest --watch --passWithNoTests"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/commitd/components-graph.git"
   },
-  "author": "Committed",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/commitd/components-graph/issues"
   },
