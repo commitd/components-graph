@@ -1,9 +1,9 @@
 {
-  "name": "@committed/components-graph-data",
+  "name": "@committed/graph",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/committed-components-graph-data.cjs.js",
-  "module": "dist/committed-components-graph-data.esm.js",
+  "main": "dist/committed-graph.cjs.js",
+  "module": "dist/committed-graph.esm.js",
   "typings": "dist/index.d.ts",
   "sideEffects": false,
   "publishConfig": {
@@ -17,7 +17,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "jest --bail"
+      "jest --bail --passWithNoTests"
     ]
   },
   "scripts": {
