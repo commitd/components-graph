@@ -68,9 +68,6 @@
   "homepage": "https://github.com/commitd/components-graph#readme",
   "dependencies": {
     "@committed/components-graph-data": "*",
-    "@types/n3": "^1.10.3",
-    "@types/react-cytoscapejs": "^1.1.2",
-    "@types/uuid": "^8.3.0",
     "cytoscape-cola": "^2.4.0",
     "n3": "^1.11.1",
     "rdf-literal": "^1.2.0",
