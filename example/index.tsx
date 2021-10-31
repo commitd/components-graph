@@ -24,7 +24,7 @@ import {
   initializeCytoscape,
   ModelNode,
   NodeViewer,
-} from '../dist/committed-components-graph.cjs.js'
+} from '@committed/components-graph'
 
 initializeCytoscape(use)
 
