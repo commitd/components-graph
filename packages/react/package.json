@@ -56,7 +56,7 @@
     "precommit": "lint-staged",
     "storybook": "start-storybook -p 6006 -h 0.0.0.0",
     "storybook:build": "build-storybook",
-    "storybook:deploy": "storybook-to-ghpages"
+    "storybook:deploy": "storybook-to-ghpages --ci"
   },
   "repository": {
     "type": "git",
