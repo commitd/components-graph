@@ -1,13 +1,16 @@
-import React, { useState } from 'react'
-import { Story, Meta } from '@storybook/react'
-import { Graph } from '../Graph'
-import { addRandomEdge, addRandomNode } from '../../graph/data/Generator'
-import { GraphModel } from '../../graph/GraphModel'
-import { cytoscapeRenderer } from '../../graph/renderer/CytoscapeRenderer'
-import { NodeViewer } from './NodeViewer'
-import { ModelNode } from '../../graph'
 import { Button } from '@committed/components'
+import {
+  addRandomEdge,
+  addRandomNode,
+  GraphModel,
+  ModelNode,
+} from '@committed/graph'
 import { useBoolean } from '@committed/hooks'
+import { Meta, Story } from '@storybook/react'
+import React, { useState } from 'react'
+import { cytoscapeRenderer } from '../../graph/renderer/CytoscapeRenderer'
+import { Graph } from '../Graph'
+import { NodeViewer } from './NodeViewer'
 
 export default {
   title: 'Components/NodeViewer',

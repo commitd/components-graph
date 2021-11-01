@@ -1,6 +1,6 @@
-import { Box, Row, Button, Heading, Monospace } from '@committed/components'
+import { Box, Button, Heading, Monospace, Row } from '@committed/components'
+import { addRandomEdge, addRandomNode } from '@committed/graph'
 import React from 'react'
-import { addRandomEdge, addRandomNode } from '../data'
 import { GraphRenderer, GraphRendererOptions } from '../types'
 
 const Renderer: GraphRenderer<GraphRendererOptions>['render'] = ({

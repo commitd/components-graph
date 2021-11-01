@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import { CustomGraphLayout, GraphModel } from '@committed/graph'
 import {
   Core,
   Ext,
@@ -7,8 +8,6 @@ import {
   LayoutManipulation,
   LayoutPositionOptions,
 } from 'cytoscape'
-import { GraphModel } from '../GraphModel'
-import { CustomGraphLayout } from '../types'
 
 export type CytoscapeGraphLayoutAdapterOptions = LayoutPositionOptions & {
   name: string

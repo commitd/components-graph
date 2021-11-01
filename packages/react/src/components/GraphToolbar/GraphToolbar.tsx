@@ -10,9 +10,10 @@ import {
   styled,
   VariantProps,
 } from '@committed/components'
+import { GraphModel } from '@committed/graph'
 import { mdiCog as settingPath } from '@mdi/js'
 import React, { ComponentProps, useMemo } from 'react'
-import { GraphLayout, GraphModel } from '../../graph'
+import { GraphLayout } from '../../graph'
 import { GraphLayoutOptions } from './GraphLayoutOptions'
 import { GraphLayoutRun } from './GraphLayoutRun'
 import { Hide } from './Hide'

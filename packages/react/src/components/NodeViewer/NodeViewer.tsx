@@ -4,8 +4,8 @@ import {
   DialogTitle,
   Input,
 } from '@committed/components'
+import { ModelNode } from '@committed/graph'
 import React from 'react'
-import { ModelNode } from '../../graph'
 import { EmptyState } from '../EmptyState'
 
 type NodeModalProps = React.ComponentProps<typeof Dialog> & {

@@ -1,5 +1,5 @@
+import { GraphModel } from '@committed/graph'
 import { CollectionArgument, NodeCollection } from 'cytoscape'
-import { GraphModel } from '../GraphModel'
 import {
   CUSTOM_LAYOUT_NAME,
   CytoscapeGraphLayoutAdapter,

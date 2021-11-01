@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { CSSProps, IconButton } from '@committed/components'
+import { GraphModel } from '@committed/graph'
 import { mdiChartTimelineVariant as layoutPath } from '@mdi/js'
 import React from 'react'
-import { GraphModel } from '../../graph'
 
 export type GraphLayoutRunProps = React.ComponentProps<typeof IconButton> &
   CSSProps & {

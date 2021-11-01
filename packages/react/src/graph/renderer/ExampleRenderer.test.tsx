@@ -1,3 +1,4 @@
+import { GraphModel } from '@committed/graph'
 import React from 'react'
 import { Graph } from '../../components'
 import {
@@ -6,7 +7,6 @@ import {
   renderLight,
   userEvent,
 } from '../../setupTests'
-import { GraphModel } from '../GraphModel'
 import { exampleRenderer } from './ExampleRenderer'
 
 let graphModel: GraphModel

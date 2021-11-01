@@ -9,8 +9,8 @@ import {
   MenuTriggerItem,
   VariantProps,
 } from '@committed/components'
+import { GraphModel, sizeNodeByAttribute } from '@committed/graph'
 import React, { useCallback, useMemo } from 'react'
-import { GraphModel, sizeNodeByAttribute } from '../../graph'
 
 function capitalize(key: string) {
   return key.charAt(0).toUpperCase() + key.slice(1)

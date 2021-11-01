@@ -1,18 +1,18 @@
-import { Meta } from '@storybook/react'
-import React, { useState } from 'react'
-import { Graph } from '../'
 import {
+  addRandomEdge,
+  addRandomNode,
+  addRandomNodeColors,
+  addRandomNodeShapes,
   ContentModel,
   DecoratorModel,
   GraphModel,
   ModelNode,
   NodeDecoration,
-  addRandomEdge,
-  addRandomNode,
-  addRandomNodeColors,
-  addRandomNodeShapes,
   sizeNodeBy,
-} from '../../../graph'
+} from '@committed/graph'
+import { Meta } from '@storybook/react'
+import React, { useState } from 'react'
+import { Graph } from '../'
 import { exampleGraphData } from './exampleData'
 import { Template } from './StoryUtil'
 

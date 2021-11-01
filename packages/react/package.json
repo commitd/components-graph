@@ -69,14 +69,11 @@
   },
   "homepage": "https://github.com/commitd/components-graph#readme",
   "dependencies": {
-    "@committed/components-graph-data": "*",
+    "@committed/graph": "*",
     "cytoscape-cola": "^2.4.0",
-    "n3": "^1.11.1",
-    "rdf-literal": "^1.2.0",
     "react-cytoscapejs": "^1.2.1",
     "tinycolor2": "^1.4.2",
     "typescript": "^4.4.4",
-    "use-debounce": "^7.0.0",
-    "uuid": "^8.3.1"
+    "use-debounce": "^7.0.0"
   }
 }

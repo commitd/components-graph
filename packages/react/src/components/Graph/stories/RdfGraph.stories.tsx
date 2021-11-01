@@ -1,15 +1,15 @@
 import { Alert, AlertContent, AlertTitle, Flex } from '@committed/components'
-import { Meta, Story } from '@storybook/react'
-import React, { useState, useEffect } from 'react'
-import { Graph } from '..'
 import {
   ContentModel,
   cytoscapeRenderer,
   GraphBuilder,
   GraphModel,
   ModelNode,
-} from '../../../graph'
-import { DECORATION_IRI, LiteralOption } from '../../../graph/fromRdfGraph'
+  Rdf,
+} from '@committed/graph'
+import { Meta, Story } from '@storybook/react'
+import React, { useEffect, useState } from 'react'
+import { Graph } from '..'
 import { GraphToolbar } from '../../GraphToolbar'
 import { NodeViewer } from '../../NodeViewer'
 import { Template } from './StoryUtil'
@@ -102,7 +102,7 @@ export const DecoratedGraph: React.FC = () => {
   const [model, setModel] = useState(
     GraphModel.createWithContent(
       GraphBuilder.fromRdfGraph(`
-    @prefix cd: <${DECORATION_IRI}> .
+    @prefix cd: <${Rdf.DECORATION_IRI}> .
   
     <A> a <Test> ;
         cd:label "Test" ;
@@ -129,7 +129,7 @@ const StoryTemplate: Story<{ rdf: string }> = ({ rdf }) => {
       setModel(
         GraphModel.createWithContent(
           GraphBuilder.fromRdfGraph(rdf, {
-            literals: LiteralOption.VALUE_ONLY,
+            literals: Rdf.LiteralOption.VALUE_ONLY,
           })
         )
       )
@@ -177,7 +177,7 @@ const StoryTemplate: Story<{ rdf: string }> = ({ rdf }) => {
 export const RdfVisualizer = StoryTemplate.bind({})
 RdfVisualizer.args = {
   rdf: `
-  @prefix cd: <${DECORATION_IRI}> .
+  @prefix cd: <${Rdf.DECORATION_IRI}> .
 
   <A> a <Test> ;
       cd:label "Test" ;

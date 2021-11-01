@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { CSSProps, MenuItemCheckbox, VariantProps } from '@committed/components'
+import { GraphModel } from '@committed/graph'
 import React, { useCallback } from 'react'
-import { GraphModel } from '../../graph'
 
 export type HideProps = CSSProps &
   VariantProps<typeof MenuItemCheckbox> & {

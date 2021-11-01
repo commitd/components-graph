@@ -1,7 +1,7 @@
 import React from 'react'
 import { renderLight, renderDark } from '../../setupTests'
 import { CustomRenderer } from './stories/CustomRenderer.stories'
-import { ContentModel, GraphModel } from '../../graph'
+import { ContentModel, GraphModel } from '@committed/graph'
 import { exampleGraphData } from './stories/exampleData'
 
 it('renders light', () => {

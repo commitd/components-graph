@@ -3,6 +3,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { useTheme } from '@committed/components'
 import {
+  EdgeDecoration,
+  GraphModel,
+  NodeDecoration,
+  SelectionModel,
+} from '@committed/graph'
+import {
   Css,
   EdgeCollection,
   EdgeDataDefinition,
@@ -28,20 +34,12 @@ import React, {
 import CytoscapeComponent from 'react-cytoscapejs'
 import tinycolor from 'tinycolor2'
 import { useDebouncedCallback } from 'use-debounce'
-import { GraphModel } from '../GraphModel'
+import { GraphLayout, PresetGraphLayout } from '../layouts'
 import { circle } from '../layouts/Circle'
 import { cola } from '../layouts/Cola'
 import { forceDirected } from '../layouts/ForceDirected'
 import { grid } from '../layouts/Grid'
-import { SelectionModel } from '../SelectionModel'
-import {
-  EdgeDecoration,
-  GraphLayout,
-  GraphRenderer,
-  GraphRendererOptions,
-  NodeDecoration,
-  PresetGraphLayout,
-} from '../types'
+import { GraphRenderer, GraphRendererOptions } from '../types'
 import {
   CUSTOM_LAYOUT_NAME,
   CytoscapeGraphLayoutAdapterOptions,
@@ -119,7 +117,7 @@ const toNodeCyStyle = (d: Partial<NodeDecoration>): Css.Node | undefined => {
     backgroundColor: d.color,
     width: d.size,
     height: d.size,
-    shape: d.shape,
+    shape: d.shape as Css.NodeShape,
     'background-image': d.icon,
     'background-opacity': d.opacity,
     'background-image-opacity': d.opacity,
@@ -140,6 +138,7 @@ const toEdgeCyStyle = (e: Partial<EdgeDecoration>): Css.Edge | undefined => {
   const s: Css.Edge = {
     'line-color': e.color,
     'target-arrow-color': e.color,
+    'line-style': e.style as Css.LineStyle,
     opacity: e.opacity,
   }
 

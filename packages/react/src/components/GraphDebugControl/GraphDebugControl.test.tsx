@@ -1,6 +1,6 @@
+import { GraphModel } from '@committed/graph'
 import React from 'react'
 import { GraphDebugControl } from '.'
-import { GraphModel } from '../../graph/GraphModel'
 import { renderDark, renderLight, userEvent } from '../../setupTests'
 
 it('renders light', () => {

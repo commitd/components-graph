@@ -1,13 +1,13 @@
 import { Box, Button, Flex, Select, SelectItem } from '@committed/components'
-import React from 'react'
 import {
   addRandomEdge,
   addRandomNode,
+  GraphModel,
   removeRandomEdge,
   removeRandomNode,
-} from '../../graph/data/Generator'
-import { GraphModel } from '../../graph/GraphModel'
-import { PresetGraphLayout } from '../../graph/types'
+} from '@committed/graph'
+import React from 'react'
+import { PresetGraphLayout } from '../../graph'
 
 export interface GraphDebugControlProps {
   model: GraphModel

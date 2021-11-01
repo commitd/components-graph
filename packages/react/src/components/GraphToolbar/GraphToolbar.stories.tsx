@@ -1,10 +1,12 @@
 import { Flex } from '@committed/components'
+import {
+  addRandomEdge, addRandomNode, ContentModel,
+  CustomGraphLayout,
+  DecoratedNode, GraphModel
+} from '@committed/graph'
 import { Meta, Story } from '@storybook/react'
 import React, { useEffect, useState } from 'react'
 import { GraphToolbar, GraphToolbarProps } from '.'
-import { ContentModel, CustomGraphLayout, DecoratedNode } from '../../graph'
-import { addRandomEdge, addRandomNode } from '../../graph/data/Generator'
-import { GraphModel } from '../../graph/GraphModel'
 import { cytoscapeRenderer } from '../../graph/renderer/CytoscapeRenderer'
 import { Graph } from '../Graph'
 

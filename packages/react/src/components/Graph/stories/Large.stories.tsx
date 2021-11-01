@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
 import { Graph } from '../'
-import { addRandomEdge, addRandomNode, GraphModel } from '../../../graph'
+import { addRandomEdge, addRandomNode, GraphModel } from '@committed/graph'
 import { exampleModel, Template } from './StoryUtil'
 
 export default {
