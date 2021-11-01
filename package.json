@@ -33,12 +33,12 @@
     "generate": "plop --plopfile ./generators/plopfile.js",
     "format": "prettier --write '**/{src,test,stories}/**/{*.js,*.ts,*.tsx,*.json,*.md,*.mdx}' example/index.tsx",
     "format:check": "prettier --check '**/{src,test,stories}/**/{*.js,*.ts,*.tsx,*.json,*.md,*.mdx}' example/index.tsx",
-    "storybook": "start-storybook -p 6006 -h 0.0.0.0",
-    "build-storybook": "build-storybook",
-    "deploy-storybook": "storybook-to-ghpages",
+    "storybook": "npm run storybook --workspace=packages/react",
+    "build-storybook": "npm run build-storybook --workspace=packages/react",
+    "deploy-storybook": "npm run deploy-storybook --workspace=packages/react",
     "prepare": "husky install",
     "precommit": "npm run precommit -ws",
-    "semantic-release": "multi-semantic-release  --dry-run"
+    "semantic-release": "multi-semantic-release"
   },
   "peerDependencies": {
     "@committed/components": ">= 6.0.0",
