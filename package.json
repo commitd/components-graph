@@ -25,7 +25,6 @@
     "build": "npm run build -ws",
     "lint": "npm run lint -ws",
     "test": "jest --passWithNoTests",
-    "test:ci": "jest --coverage --passWithNoTests",
     "test:watch": "jest --watch --passWithNoTests",
     "coverage": "npx live-server coverage/lcov-report",
     "size": "size-limit",
@@ -33,9 +32,9 @@
     "generate": "plop --plopfile ./generators/plopfile.js",
     "format": "prettier --write '**/{src,test,stories}/**/{*.js,*.ts,*.tsx,*.json,*.md,*.mdx}' example/index.tsx",
     "format:check": "prettier --check '**/{src,test,stories}/**/{*.js,*.ts,*.tsx,*.json,*.md,*.mdx}' example/index.tsx",
-    "storybook": "npm run storybook --workspace=packages/react",
-    "build-storybook": "npm run build-storybook --workspace=packages/react",
-    "deploy-storybook": "npm run deploy-storybook --workspace=packages/react",
+    "storybook": "start-storybook -p 6006 -h 0.0.0.0",
+    "build-storybook": "build-storybook",
+    "deploy-storybook": "storybook-to-ghpages",
     "prepare": "husky install",
     "precommit": "npm run precommit -ws",
     "semantic-release": "multi-semantic-release"
@@ -123,7 +122,13 @@
           "file": ".nyc_output/coverage.json"
         }
       ],
-      "lcov"
+      "lcov",
+      [
+        "text",
+        {
+          "skipFull": true
+        }
+      ]
     ],
     "collectCoverage": true,
     "testResultsProcessor": "jest-sonar-reporter",
