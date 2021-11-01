@@ -217,7 +217,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-npm-
       - name: Build Storybook
-        run: npm run build-storybook --quiet
+        run: npm run storybook:build --quiet
   release:
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/beta'
     runs-on: ubuntu-latest
@@ -245,7 +245,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build-output
-          path: dist
+          path: packages
       - name: Release
         env:
           GH_TOKEN: ${{ secrets.SEMANTIC_RELEASE_GITHUB_TOKEN }}
@@ -280,6 +280,6 @@ jobs:
             ${{ runner.os }}-npm-
       - name: Publish Storybook
         if: github.ref == 'refs/heads/main'
-        run: npm run deploy-storybook -- --ci
+        run: npm run storybook:deploy
         env:
           GH_TOKEN: commitd-bot:${{ secrets.SEMANTIC_RELEASE_GITHUB_TOKEN }}
