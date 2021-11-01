@@ -22,23 +22,22 @@
   "scripts": {
     "clean": "shx rm -rf dist",
     "commit": "cz",
-    "build": "rollpkg build --tsconfig ./tsconfig.build.json",
-    "watch": "rollpkg watch",
-    "lint": "eslint './src/**/*.{ts,tsx}'",
-    "test": "jest",
-    "test:ci": "jest --coverage",
-    "test:watch": "jest --watchAll",
+    "build": "npm run build -ws",
+    "lint": "npm run lint -ws",
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watch --passWithNoTests",
     "coverage": "npx live-server coverage/lcov-report",
     "size": "size-limit",
     "analyze": "size-limit --why",
     "generate": "plop --plopfile ./generators/plopfile.js",
     "format": "prettier --write '**/{src,test,stories}/**/{*.js,*.ts,*.tsx,*.json,*.md,*.mdx}' example/index.tsx",
     "format:check": "prettier --check '**/{src,test,stories}/**/{*.js,*.ts,*.tsx,*.json,*.md,*.mdx}' example/index.tsx",
-    "storybook": "start-storybook -p 6006 -h 0.0.0.0",
-    "build-storybook": "build-storybook",
-    "deploy-storybook": "storybook-to-ghpages",
+    "storybook": "npm run storybook -w=packages/react",
+    "storybook:build": "npm run storybook:build -w=packages/react",
+    "storybook:deploy": "npm run storybook:deploy -w=packages/react",
     "prepare": "husky install",
-    "semantic-release": "semantic-release"
+    "precommit": "npm run precommit -ws",
+    "semantic-release": "multi-semantic-release"
   },
   "peerDependencies": {
     "@committed/components": ">= 6.0.0",
@@ -84,36 +83,10 @@
       "**/*.test.tsx"
     ]
   },
-  "jest": {
-    "preset": "rollpkg",
-    "setupFiles": [
-      "./jest.patch-cssom.js"
-    ],
-    "collectCoverage": true,
-    "testResultsProcessor": "jest-sonar-reporter",
-    "moduleDirectories": [
-      "node_modules",
-      "utils"
-    ],
-    "testRegex": "/src/.*(\\.|/)(test|spec)\\.[jt]sx?$",
-    "collectCoverageFrom": [
-      "src/**/*.{ts,tsx}",
-      "!src/types/**/*"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/src/typings.d.ts",
-      "setupTests.tsx",
-      ".*/index.ts",
-      ".*.test.ts",
-      ".*.test.tsx",
-      ".*.stories.tsx"
-    ]
-  },
   "lint-staged": {
     "*.{ts,tsx,md,json,mdx}": "prettier --write",
     "*.{ts,tsx}": [
-      "eslint --cache --fix",
-      "jest --bail --findRelatedTests"
+      "npm run precommit"
     ]
   },
   "release": {
@@ -135,10 +108,53 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
+  "jest": {
+    "preset": "rollpkg",
+    "projects": [
+      "<rootDir>/packages/graph",
+      "<rootDir>/packages/react",
+      "<rootDir>/packages/all"
+    ],
+    "coverageReporters": [
+      [
+        "json",
+        {
+          "file": ".nyc_output/coverage.json"
+        }
+      ],
+      "lcov",
+      [
+        "text",
+        {
+          "skipFull": true
+        }
+      ]
+    ],
+    "collectCoverage": true,
+    "testResultsProcessor": "jest-sonar-reporter",
+    "moduleDirectories": [
+      "node_modules",
+      "utils"
+    ],
+    "testRegex": "/src/.*(\\.|/)(test|spec)\\.[jt]sx?$",
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/types/**/*"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/src/typings.d.ts",
+      "setupTests.tsx",
+      ".*/index.ts",
+      ".*.test.ts",
+      ".*.test.tsx",
+      ".*.stories.tsx"
+    ]
+  },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "@committed/components": "^6.3.0",
+    "@qiwi/multi-semantic-release": "^3.16.0",
     "@storybook/addon-docs": "^6.3.8",
     "@storybook/addon-essentials": "^6.3.8",
     "@storybook/addons": "^6.3.8",
@@ -148,9 +164,10 @@
     "@testing-library/react": "^12.0.0",
     "@testing-library/react-hooks": "^7.0.0",
     "@testing-library/user-event": "^13.1.9",
-    "@types/react": "^17.0.11",
-    "@types/react-dom": "^17.0.8",
+    "@types/n3": "^1.10.3",
+    "@types/react-cytoscapejs": "^1.1.2",
     "@types/tinycolor2": "^1.4.3",
+    "@types/uuid": "^8.3.0",
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.28.0",
@@ -159,7 +176,6 @@
     "husky": "^6.0.0",
     "jest-sonar-reporter": "^2.0.0",
     "lint-staged": "^11.0.0",
-    "plop": "^2.7.4",
     "prettier": "^2.1.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -167,22 +183,14 @@
     "react-test-renderer": "^17.0.1",
     "resize-observer-polyfill": "^1.5.1",
     "rollpkg": "^0.5.7",
-    "semantic-release": "^17.4.4",
     "shx": "^0.3.2",
     "storybook-dark-mode": "^1.0.8",
     "tslib": "^2.0.3",
     "typescript": "^4.4.2"
   },
-  "dependencies": {
-    "@types/n3": "^1.10.3",
-    "@types/react-cytoscapejs": "^1.1.2",
-    "@types/uuid": "^8.3.0",
-    "cytoscape-cola": "^2.4.0",
-    "n3": "^1.11.1",
-    "rdf-literal": "^1.2.0",
-    "react-cytoscapejs": "^1.2.1",
-    "tinycolor2": "^1.4.2",
-    "use-debounce": "^7.0.0",
-    "uuid": "^8.3.1"
-  }
+  "workspaces": [
+    "packages/graph",
+    "packages/react",
+    "packages/all"
+  ]
 }

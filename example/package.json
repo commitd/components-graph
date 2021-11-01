@@ -15,7 +15,7 @@
     "react-dom": "../node_modules/react-dom/profiling",
     "scheduler/tracing": "../node_modules/scheduler/tracing-profiling",
     "@committed/components": "../node_modules/@committed/components",
-    "@committed/components-graph": "../dist/committed-components-graph.cjs.js"
+    "@committed/components-graph": "../packages/all/dist/committed-components-graph.cjs.js"
   },
   "devDependencies": {
     "@types/react": "^16.9.11",

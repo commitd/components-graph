@@ -1,0 +1,48 @@
+{
+  "name": "@committed/components-graph",
+  "version": "0.0.0-development",
+  "description": "Committed Graph Component",
+  "author": "Committed",
+  "license": "MIT",
+  "private": false,
+  "main": "dist/committed-components-graph.cjs.js",
+  "module": "dist/committed-components-graph.esm.js",
+  "typings": "dist/index.d.ts",
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "jest --passWithNoTests --bail"
+    ]
+  },
+  "dependencies": {
+    "@committed/graph": "*",
+    "@committed/components-graph-react": "*"
+  },
+  "scripts": {
+    "clean": "shx rm -rf dist",
+    "build": "rollpkg build --noStats --tsconfig ./tsconfig.build.json",
+    "watch": "rollpkg watch",
+    "lint": "eslint './src/**/*.{ts,tsx}'",
+    "precommit": "lint-staged",
+    "test": "jest --passWithNoTests",
+    "test:ci": "jest --coverage --passWithNoTests",
+    "test:watch": "jest --watch --passWithNoTests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/commitd/components-graph.git"
+  },
+  "bugs": {
+    "url": "https://github.com/commitd/components-graph/issues"
+  },
+  "homepage": "https://github.com/commitd/components-graph#readme"
+}

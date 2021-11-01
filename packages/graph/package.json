@@ -1,0 +1,44 @@
+{
+  "name": "@committed/graph",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/committed-graph.cjs.js",
+  "module": "dist/committed-graph.esm.js",
+  "typings": "dist/index.d.ts",
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "jest --bail --passWithNoTests"
+    ]
+  },
+  "scripts": {
+    "clean": "shx rm -rf dist",
+    "build": "rollpkg build --noStats --tsconfig ./tsconfig.build.json",
+    "watch": "rollpkg watch",
+    "lint": "eslint './src/**/*.{ts,tsx}'",
+    "test": "jest --passWithNoTests",
+    "test:ci": "jest --coverage",
+    "test:watch": "jest --watchAll",
+    "precommit": "lint-staged"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/commitd/components-graph.git"
+  },
+  "author": "Committed",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/commitd/components-graph/issues"
+  },
+  "homepage": "https://github.com/commitd/components-graph#readme",
+  "dependencies": {}
+}
