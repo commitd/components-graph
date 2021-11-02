@@ -2,8 +2,7 @@ import { Meta } from '@storybook/addon-docs'
 import { useDarkMode } from 'storybook-dark-mode'
 import { useState } from 'react'
 import {
-  addRandomEdge,
-  addRandomNode,
+  Generator,
   Graph,
   GraphModel,
   GraphToolbar,
@@ -26,9 +25,7 @@ A graph visualisation to be used in Committed products. It supports custom decor
 <>
   {React.createElement(() => {
     const choice = useDarkMode() ? 'dark' : 'light'
-    const [model, setModel] = React.useState(
-      addRandomEdge(addRandomNode(GraphModel.createEmpty(), 20), 15)
-    )
+    const [model, setModel] = React.useState(Generator.randomGraph)
     return (
       <ThemeProvider choice={choice} local={true}>
         <Row
@@ -75,8 +72,7 @@ npm add @committed/components@beta react react-dom
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {
-  addRandomEdge,
-  addRandomNode,
+  Generator,
   Graph,
   GraphModel,
   GraphToolbar,
@@ -90,9 +86,7 @@ import { use } from 'cytoscape'
 initializeCytoscape(use)
 
 const App: React.FC = () => {
-  const [model, setModel] = React.useState(
-    addRandomEdge(addRandomNode(GraphModel.createEmpty(), 20), 15)
-  )
+  const [model, setModel] = React.useState(Generator.randomGraph)
   return (
     <ThemeProvider>
       <Row>

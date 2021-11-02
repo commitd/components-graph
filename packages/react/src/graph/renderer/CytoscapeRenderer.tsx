@@ -4,8 +4,10 @@
 import { useTheme } from '@committed/components'
 import {
   EdgeDecoration,
+  GraphLayout,
   GraphModel,
   NodeDecoration,
+  PresetGraphLayout,
   SelectionModel,
 } from '@committed/graph'
 import {
@@ -34,11 +36,6 @@ import React, {
 import CytoscapeComponent from 'react-cytoscapejs'
 import tinycolor from 'tinycolor2'
 import { useDebouncedCallback } from 'use-debounce'
-import { GraphLayout, PresetGraphLayout } from '../layouts'
-import { circle } from '../layouts/Circle'
-import { cola } from '../layouts/Cola'
-import { forceDirected } from '../layouts/ForceDirected'
-import { grid } from '../layouts/Grid'
 import { GraphRenderer, GraphRendererOptions } from '../types'
 import {
   CUSTOM_LAYOUT_NAME,
@@ -46,6 +43,7 @@ import {
   register,
 } from './CytoscapeGraphLayoutAdapter'
 import { useCyListener } from './useCyListener'
+import { layouts as defaultLayouts } from '../layouts'
 
 /**
  * Call to initialize the additional modules.
@@ -159,10 +157,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   options,
 }) => {
   const layouts: Record<PresetGraphLayout | 'custom', LayoutOptions> = {
-    'force-directed': forceDirected,
-    circle,
-    grid,
-    cola,
+    ...defaultLayouts,
     custom: {
       name: CUSTOM_LAYOUT_NAME,
       model: graphModel,
@@ -542,5 +537,5 @@ export const cytoscapeRenderer: GraphRenderer<CyGraphRendererOptions> = {
       minZoom: 0.05,
     },
   },
-  layouts: ['circle', 'cola', 'force-directed', 'grid'],
+  layouts: Object.keys(defaultLayouts) as PresetGraphLayout[],
 }

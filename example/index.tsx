@@ -13,8 +13,7 @@ import { use } from 'cytoscape'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import {
-  addRandomEdge,
-  addRandomNode,
+  Generator,
   CustomGraphLayout,
   cytoscapeRenderer,
   DecoratedNode,
@@ -38,8 +37,8 @@ const sortedLayout: CustomGraphLayout = {
     const byLabel: Record<string, DecoratedNode[]> = model.nodes.reduce<
       Record<string, DecoratedNode[]>
     >((acc, next) => {
-      acc[(next.label ?? 'unknown') as string] = (
-        acc[(next.label ?? 'unknown') as string] ?? []
+      acc[next.label ?? 'unknown'] = (
+        acc[next.label ?? 'unknown'] ?? []
       ).concat(next)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return acc
@@ -71,9 +70,7 @@ const sortedLayout: CustomGraphLayout = {
 }
 
 const App: React.FC = () => {
-  const [model, setModel] = React.useState(
-    addRandomEdge(addRandomNode(GraphModel.createEmpty(), 20), 15)
-  )
+  const [model, setModel] = React.useState(Generator.randomGraph)
 
   const [node, setNode] = React.useState<ModelNode | undefined>()
   return (

@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
 import { Graph } from '../'
-import { addRandomEdge, addRandomNode, GraphModel } from '@committed/graph'
+import { Generator, GraphModel } from '@committed/graph'
 import { exampleModel, Template } from './StoryUtil'
 
 export default {
@@ -18,8 +18,8 @@ export default {
 export const LargeGraph: React.FC = () => {
   const [model, setModel] = useState(
     GraphModel.applyLayout(
-      addRandomEdge(
-        addRandomNode(GraphModel.createEmpty(), 500, {
+      Generator.addRandomEdge(
+        Generator.addRandomNode(GraphModel.createEmpty(), 500, {
           shape: 'ellipse',
         }),
         300

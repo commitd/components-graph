@@ -15,6 +15,28 @@
   "engines": {
     "node": ">=10"
   },
+  "jest": {
+    "preset": "rollpkg",
+    "collectCoverage": true,
+    "testResultsProcessor": "jest-sonar-reporter",
+    "moduleDirectories": [
+      "node_modules",
+      "utils"
+    ],
+    "testRegex": "/src/.*(\\.|/)(test|spec)\\.[jt]sx?$",
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/types/**/*"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/src/typings.d.ts",
+      "setupTests.tsx",
+      ".*/index.ts",
+      ".*.test.ts",
+      ".*.test.tsx",
+      ".*.stories.tsx"
+    ]
+  },
   "lint-staged": {
     "*.{ts,tsx}": [
       "jest --bail --passWithNoTests"
@@ -22,7 +44,8 @@
   },
   "scripts": {
     "clean": "shx rm -rf dist",
-    "build": "rollpkg build --noStats --tsconfig ./tsconfig.build.json",
+    "copyfiles": "copyfiles -u 4 './src/**/*.ttl' ./dist/ && echo 'Data files copied.'",
+    "build": "rollpkg build --noStats --tsconfig ./tsconfig.build.json && npm run copyfiles",
     "watch": "rollpkg watch",
     "lint": "eslint './src/**/*.{ts,tsx}'",
     "test": "jest --passWithNoTests",

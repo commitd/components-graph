@@ -1,10 +1,5 @@
 import { Button } from '@committed/components'
-import {
-  addRandomEdge,
-  addRandomNode,
-  GraphModel,
-  ModelNode,
-} from '@committed/graph'
+import { Generator, GraphModel, ModelNode } from '@committed/graph'
 import { useBoolean } from '@committed/hooks'
 import { Meta, Story } from '@storybook/react'
 import React, { useState } from 'react'
@@ -18,9 +13,8 @@ export default {
 } as Meta
 
 export const Default: Story = () => {
-  const [model, setModel] = useState(
-    addRandomEdge(addRandomNode(GraphModel.createEmpty(), 20), 15)
-  )
+  const [model, setModel] = useState(Generator.randomGraph)
+
   const [node, setNode] = useState<ModelNode | undefined>(
     Object.values(model.getCurrentContent().nodes)[0]
   )

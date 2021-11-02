@@ -42,7 +42,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "jest --bail"
+      "jest --bail  --passWithNoTests"
     ]
   },
   "scripts": {

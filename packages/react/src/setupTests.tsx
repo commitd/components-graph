@@ -3,7 +3,12 @@ import '@testing-library/jest-dom/extend-expect'
 import { render, RenderOptions, RenderResult } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-import { ModelNode, ModelEdge, ContentModel, GraphModel } from '.'
+import {
+  ModelNode,
+  ModelEdge,
+  ContentModel,
+  GraphModel,
+} from '@committed/graph'
 import ResizeObserver from 'resize-observer-polyfill'
 
 // Use the polyfill for the ResizeObserver.

@@ -1,6 +1,5 @@
-import { DecoratedNode, GraphModel } from '@committed/graph'
+import { DecoratedNode, GraphModel, PresetGraphLayout } from '@committed/graph'
 import { FC } from 'react'
-import { PresetGraphLayout } from '../layouts'
 
 export interface GraphRenderer<O extends GraphRendererOptions> {
   render: FC<{
