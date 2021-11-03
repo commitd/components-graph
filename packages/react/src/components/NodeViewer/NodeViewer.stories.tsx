@@ -1,5 +1,5 @@
 import { Button } from '@committed/components'
-import { Generator, GraphModel, ModelNode } from '@committed/graph'
+import { Generator, ModelNode } from '@committed/graph'
 import { useBoolean } from '@committed/hooks'
 import { Meta, Story } from '@storybook/react'
 import React, { useState } from 'react'

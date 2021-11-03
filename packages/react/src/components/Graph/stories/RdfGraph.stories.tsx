@@ -1,7 +1,6 @@
 import { Alert, AlertContent, AlertTitle, Flex } from '@committed/components'
 import {
   ContentModel,
-  cytoscapeRenderer,
   GraphBuilder,
   GraphModel,
   ModelNode,
@@ -10,6 +9,7 @@ import {
 import { Meta, Story } from '@storybook/react'
 import React, { useEffect, useState } from 'react'
 import { Graph } from '..'
+import { cytoscapeRenderer } from '../../../graph'
 import { GraphToolbar } from '../../GraphToolbar'
 import { NodeViewer } from '../../NodeViewer'
 import { Template } from './StoryUtil'

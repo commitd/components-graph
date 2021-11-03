@@ -1,5 +1,5 @@
 import React from 'react'
-import { renderDark, renderLight } from '../../setupTests'
+import { renderDark, renderLight } from '../../test/setup'
 import { WithAttributes, NoAttributes, NoNode } from './NodeViewer.stories'
 
 it('renders light with attributes', () => {

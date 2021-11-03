@@ -1,7 +1,7 @@
 // Copyright 2014 Anthony Bargnesi, Anselmo DiFabio, William Hayes
 // https://github.com/jsongraph/jsongraph.rb
 
-import { JSONGraphData, JSONGraphNode } from '../types'
+import { JSONGraphData, JSONGraphNode } from '../../graph/types'
 
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -136,7 +136,7 @@ export const largeGraph = {
               bel_statement: 'r(HGNC:IL2) translatedTo p(HGNC:IL2)',
               citation: {
                 type: 'Online Resource',
-                id: 'http://www.ncbi.nlm.nih.gov/gene/',
+                id: 'https://www.ncbi.nlm.nih.gov/gene/',
                 name: 'NCBI Entrez Gene',
               },
               experiment_context: {
@@ -148,7 +148,7 @@ export const largeGraph = {
               bel_statement: 'r(HGNC:IL2) translatedTo p(HGNC:IL2)',
               citation: {
                 type: 'Online Resource',
-                id: 'http://www.ncbi.nlm.nih.gov/gene/',
+                id: 'https://www.ncbi.nlm.nih.gov/gene/',
                 name: 'NCBI Entrez Gene',
               },
               experiment_context: {
@@ -160,7 +160,7 @@ export const largeGraph = {
               bel_statement: 'r(HGNC:IL2) translatedTo p(HGNC:IL2)',
               citation: {
                 type: 'Online Resource',
-                id: 'http://www.ncbi.nlm.nih.gov/gene/',
+                id: 'https://www.ncbi.nlm.nih.gov/gene/',
                 name: 'NCBI Entrez Gene',
               },
               experiment_context: {
@@ -387,7 +387,7 @@ export const largeGraph = {
               bel_statement: 'r(HGNC:LTB) translatedTo p(HGNC:LTB)',
               citation: {
                 type: 'Online Resource',
-                id: 'http://www.ncbi.nlm.nih.gov/gene/',
+                id: 'https://www.ncbi.nlm.nih.gov/gene/',
                 name: 'NCBI Entrez Gene',
               },
               experiment_context: {
@@ -399,7 +399,7 @@ export const largeGraph = {
               bel_statement: 'r(HGNC:LTB) translatedTo p(HGNC:LTB)',
               citation: {
                 type: 'Online Resource',
-                id: 'http://www.ncbi.nlm.nih.gov/gene/',
+                id: 'https://www.ncbi.nlm.nih.gov/gene/',
                 name: 'NCBI Entrez Gene',
               },
               experiment_context: {
@@ -411,7 +411,7 @@ export const largeGraph = {
               bel_statement: 'r(HGNC:LTB) translatedTo p(HGNC:LTB)',
               citation: {
                 type: 'Online Resource',
-                id: 'http://www.ncbi.nlm.nih.gov/gene/',
+                id: 'https://www.ncbi.nlm.nih.gov/gene/',
                 name: 'NCBI Entrez Gene',
               },
               experiment_context: {
@@ -432,7 +432,7 @@ export const largeGraph = {
               bel_statement: 'r(HGNC:IFNG) translatedTo p(HGNC:IFNG)',
               citation: {
                 type: 'Online Resource',
-                id: 'http://www.ncbi.nlm.nih.gov/gene/',
+                id: 'https://www.ncbi.nlm.nih.gov/gene/',
                 name: 'NCBI Entrez Gene',
               },
               experiment_context: {
@@ -444,7 +444,7 @@ export const largeGraph = {
               bel_statement: 'r(HGNC:IFNG) translatedTo p(HGNC:IFNG)',
               citation: {
                 type: 'Online Resource',
-                id: 'http://www.ncbi.nlm.nih.gov/gene/',
+                id: 'https://www.ncbi.nlm.nih.gov/gene/',
                 name: 'NCBI Entrez Gene',
               },
               experiment_context: {
@@ -456,7 +456,7 @@ export const largeGraph = {
               bel_statement: 'r(HGNC:IFNG) translatedTo p(HGNC:IFNG)',
               citation: {
                 type: 'Online Resource',
-                id: 'http://www.ncbi.nlm.nih.gov/gene/',
+                id: 'https://www.ncbi.nlm.nih.gov/gene/',
                 name: 'NCBI Entrez Gene',
               },
               experiment_context: {
@@ -502,7 +502,7 @@ export const largeGraph = {
               bel_statement: 'r(HGNC:LTA) translatedTo p(HGNC:LTA)',
               citation: {
                 type: 'Online Resource',
-                id: 'http://www.ncbi.nlm.nih.gov/gene/',
+                id: 'https://www.ncbi.nlm.nih.gov/gene/',
                 name: 'NCBI Entrez Gene',
               },
               experiment_context: {
@@ -514,7 +514,7 @@ export const largeGraph = {
               bel_statement: 'r(HGNC:LTA) translatedTo p(HGNC:LTA)',
               citation: {
                 type: 'Online Resource',
-                id: 'http://www.ncbi.nlm.nih.gov/gene/',
+                id: 'https://www.ncbi.nlm.nih.gov/gene/',
                 name: 'NCBI Entrez Gene',
               },
               experiment_context: {
@@ -526,7 +526,7 @@ export const largeGraph = {
               bel_statement: 'r(HGNC:LTA) translatedTo p(HGNC:LTA)',
               citation: {
                 type: 'Online Resource',
-                id: 'http://www.ncbi.nlm.nih.gov/gene/',
+                id: 'https://www.ncbi.nlm.nih.gov/gene/',
                 name: 'NCBI Entrez Gene',
               },
               experiment_context: {

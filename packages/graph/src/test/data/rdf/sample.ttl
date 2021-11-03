@@ -1,6 +1,6 @@
-@prefix txn: <http://example.org/data/transaction/> .
-@prefix srv: <http://example.org/data/server/> .
-@prefix log: <http://example.org/ont/transaction-log/> .
+@prefix txn: <https://example.org/data/transaction/> .
+@prefix srv: <https://example.org/data/server/> .
+@prefix log: <https://example.org/ont/transaction-log/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 txn:123 a log:Transaction ;

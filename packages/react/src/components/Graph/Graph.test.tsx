@@ -1,5 +1,5 @@
 import React from 'react'
-import { renderLight, renderDark } from '../../setupTests'
+import { renderLight, renderDark } from '../../test/setup'
 import { CustomRenderer } from './stories/CustomRenderer.stories'
 import { ContentModel, GraphModel } from '@committed/graph'
 import { exampleGraphData } from './stories/exampleData'

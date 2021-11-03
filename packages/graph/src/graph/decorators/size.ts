@@ -48,10 +48,10 @@ const scale = (
 
 function getMinAndMax(
   items: ModelItem[],
-  attribute: string
+  attributeKey: string
 ): [min: number, max: number] {
   const values = items
-    .map((item) => parseFloat(item.attributes[attribute] as string))
+    .map((item) => parseFloat(item.attributes[attributeKey] as string))
     .filter((v) => !isNaN(v))
   const min = Math.min(...values)
   const max = Math.max(...values)

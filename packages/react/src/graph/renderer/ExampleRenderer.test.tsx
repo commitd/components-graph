@@ -6,7 +6,7 @@ import {
   renderDark,
   renderLight,
   userEvent,
-} from '../../setupTests'
+} from '../../test/setup'
 import { exampleRenderer } from './ExampleRenderer'
 
 let graphModel: GraphModel

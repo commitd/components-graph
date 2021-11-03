@@ -6,7 +6,9 @@ let layoutModel: LayoutModel
 const layoutAlgorithm: CustomGraphLayout = {
   name: 'Custom layout',
   runLayout: () => ({}),
-  stopLayout: () => {},
+  stopLayout: () => {
+    // This is intentionally left blank
+  },
 }
 
 beforeEach(() => {

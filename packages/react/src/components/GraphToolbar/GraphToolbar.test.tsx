@@ -2,7 +2,7 @@ import { GraphModel } from '@committed/graph'
 import React from 'react'
 import { GraphToolbar } from '.'
 import { cytoscapeRenderer } from '../../graph'
-import { renderDark, renderLight, userEvent } from '../../setupTests'
+import { renderDark, renderLight, userEvent } from '../../test/setup'
 import { Empty, Horizontal, Vertical } from './GraphToolbar.stories'
 
 it('renders light', () => {

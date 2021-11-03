@@ -21,16 +21,15 @@
     "testResultsProcessor": "jest-sonar-reporter",
     "moduleDirectories": [
       "node_modules",
-      "utils"
+      "src"
     ],
-    "testRegex": "/src/.*(\\.|/)(test|spec)\\.[jt]sx?$",
     "collectCoverageFrom": [
       "src/**/*.{ts,tsx}",
       "!src/types/**/*"
     ],
     "coveragePathIgnorePatterns": [
       "/src/typings.d.ts",
-      "setupTests.tsx",
+      "test/*",
       ".*/index.ts",
       ".*.test.ts",
       ".*.test.tsx",
@@ -44,8 +43,7 @@
   },
   "scripts": {
     "clean": "shx rm -rf dist",
-    "copyfiles": "copyfiles -u 4 './src/**/*.ttl' ./dist/ && echo 'Data files copied.'",
-    "build": "rollpkg build --noStats --tsconfig ./tsconfig.build.json && npm run copyfiles",
+    "build": "rollpkg build --noStats --tsconfig ./tsconfig.build.json",
     "watch": "rollpkg watch",
     "lint": "eslint './src/**/*.{ts,tsx}'",
     "test": "jest --passWithNoTests",

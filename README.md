@@ -103,7 +103,7 @@ yarn generate
 
 #### React Testing Library
 
-Import `setupTests.tsx` in your test files to use `react-testing-library`.
+Import `test/setup` in your test files to use `react-testing-library`.
 
 ### Rollup
 

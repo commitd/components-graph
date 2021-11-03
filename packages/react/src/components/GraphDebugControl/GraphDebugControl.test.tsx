@@ -1,7 +1,7 @@
 import { GraphModel } from '@committed/graph'
 import React from 'react'
 import { GraphDebugControl } from '.'
-import { renderDark, renderLight, userEvent } from '../../setupTests'
+import { renderDark, renderLight, userEvent } from '../../test/setup'
 
 it('renders light', () => {
   const { asFragment } = renderLight(

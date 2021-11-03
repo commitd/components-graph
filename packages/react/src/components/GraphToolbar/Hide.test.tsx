@@ -1,5 +1,5 @@
 import React from 'react'
-import { renderLight, screen, userEvent } from '../../setupTests'
+import { renderLight, screen, userEvent } from '../../test/setup'
 import { Hide } from './GraphToolbar.stories'
 
 it('Can select to size by', () => {
