@@ -6,19 +6,6 @@
   "license": "MIT",
   "private": false,
   "repository": "git://github.com/commitd/components-graph",
-  "main": "dist/committed-components-graph.cjs.js",
-  "module": "dist/committed-components-graph.esm.js",
-  "typings": "dist/index.d.ts",
-  "sideEffects": false,
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
-  },
-  "files": [
-    "dist"
-  ],
-  "engines": {
-    "node": ">=10"
-  },
   "scripts": {
     "clean": "shx rm -rf dist",
     "commit": "cz",
@@ -38,11 +25,6 @@
     "prepare": "husky install",
     "precommit": "npm run precommit -ws",
     "semantic-release": "multi-semantic-release"
-  },
-  "peerDependencies": {
-    "@committed/components": ">= 6.0.0",
-    "react": ">= 16.8.0",
-    "react-dom": ">= 16.8.0"
   },
   "prettier": {
     "semi": false,
