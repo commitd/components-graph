@@ -10,6 +10,7 @@
   "typings": "dist/index.d.ts",
   "sideEffects": false,
   "publishConfig": {
+    "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "files": [
