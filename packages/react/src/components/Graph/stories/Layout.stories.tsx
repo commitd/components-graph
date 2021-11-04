@@ -1,7 +1,7 @@
+import { GraphModel } from '@committed/graph'
 import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
 import { Graph } from '..'
-import { GraphModel } from '../../../graph'
 import { exampleModel, Template } from './StoryUtil'
 
 export default {

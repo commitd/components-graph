@@ -1,7 +1,7 @@
+import { GraphModel } from '@committed/graph'
 import React from 'react'
 import { Graph } from '../../components'
-import { exampleGraph, renderLight } from '../../setupTests'
-import { GraphModel } from '../GraphModel'
+import { exampleGraph, renderLight } from '../../test/setup'
 import { cytoscapeRenderer } from './CytoscapeRenderer'
 
 let cytoscape: any

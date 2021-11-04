@@ -1,17 +1,9 @@
+import { Generator, GraphModel } from '@committed/graph'
 import React from 'react'
 import { Graph } from '../'
-import {
-  addRandomEdge,
-  addRandomNode,
-  GraphModel,
-  cytoscapeRenderer,
-  GraphRendererOptions,
-} from '../../../graph'
+import { cytoscapeRenderer, GraphRendererOptions } from '../../../graph'
 
-export const exampleModel = addRandomEdge(
-  addRandomNode(GraphModel.createEmpty(), 20),
-  15
-)
+export const exampleModel = Generator.randomGraph()
 
 export const Template: React.FC<{
   model: GraphModel

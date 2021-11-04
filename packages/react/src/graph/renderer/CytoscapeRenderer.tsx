@@ -3,6 +3,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { useTheme } from '@committed/components'
 import {
+  EdgeDecoration,
+  GraphLayout,
+  GraphModel,
+  NodeDecoration,
+  PresetGraphLayout,
+  SelectionModel,
+} from '@committed/graph'
+import {
   Css,
   EdgeCollection,
   EdgeDataDefinition,
@@ -28,26 +36,14 @@ import React, {
 import CytoscapeComponent from 'react-cytoscapejs'
 import tinycolor from 'tinycolor2'
 import { useDebouncedCallback } from 'use-debounce'
-import { GraphModel } from '../GraphModel'
-import { circle } from '../layouts/Circle'
-import { cola } from '../layouts/Cola'
-import { forceDirected } from '../layouts/ForceDirected'
-import { grid } from '../layouts/Grid'
-import { SelectionModel } from '../SelectionModel'
-import {
-  EdgeDecoration,
-  GraphLayout,
-  GraphRenderer,
-  GraphRendererOptions,
-  NodeDecoration,
-  PresetGraphLayout,
-} from '../types'
+import { GraphRenderer, GraphRendererOptions } from '../types'
 import {
   CUSTOM_LAYOUT_NAME,
   CytoscapeGraphLayoutAdapterOptions,
   register,
 } from './CytoscapeGraphLayoutAdapter'
 import { useCyListener } from './useCyListener'
+import { layouts as defaultLayouts } from '../layouts'
 
 /**
  * Call to initialize the additional modules.
@@ -119,7 +115,7 @@ const toNodeCyStyle = (d: Partial<NodeDecoration>): Css.Node | undefined => {
     backgroundColor: d.color,
     width: d.size,
     height: d.size,
-    shape: d.shape,
+    shape: d.shape as Css.NodeShape,
     'background-image': d.icon,
     'background-opacity': d.opacity,
     'background-image-opacity': d.opacity,
@@ -140,6 +136,7 @@ const toEdgeCyStyle = (e: Partial<EdgeDecoration>): Css.Edge | undefined => {
   const s: Css.Edge = {
     'line-color': e.color,
     'target-arrow-color': e.color,
+    'line-style': e.style as Css.LineStyle,
     opacity: e.opacity,
   }
 
@@ -160,10 +157,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   options,
 }) => {
   const layouts: Record<PresetGraphLayout | 'custom', LayoutOptions> = {
-    'force-directed': forceDirected,
-    circle,
-    grid,
-    cola,
+    ...defaultLayouts,
     custom: {
       name: CUSTOM_LAYOUT_NAME,
       model: graphModel,
@@ -543,5 +537,5 @@ export const cytoscapeRenderer: GraphRenderer<CyGraphRendererOptions> = {
       minZoom: 0.05,
     },
   },
-  layouts: ['circle', 'cola', 'force-directed', 'grid'],
+  layouts: Object.keys(defaultLayouts) as PresetGraphLayout[],
 }

@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { CSSProps, IconButton } from '@committed/components'
+import { GraphModel } from '@committed/graph'
 import {
   mdiMagnifyMinus as zoomOutPath,
   mdiMagnifyPlus as zoomInPath,
 } from '@mdi/js'
 import React from 'react'
-import { GraphModel } from '../../graph'
 
 export type ZoomProps = React.ComponentProps<typeof IconButton> &
   CSSProps & {

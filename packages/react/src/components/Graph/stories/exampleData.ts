@@ -1,4 +1,4 @@
-import { ModelNode, ModelEdge } from '../../../graph/types'
+import { ModelEdge, ModelNode } from '@committed/graph'
 
 const exampleNodesArr: ModelNode[] = [
   { id: 'n1', attributes: { type: 'person' } },

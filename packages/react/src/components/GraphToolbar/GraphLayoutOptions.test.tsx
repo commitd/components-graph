@@ -1,6 +1,6 @@
 import { cytoscapeRenderer } from '../../graph'
 import React from 'react'
-import { renderLight, screen, userEvent } from '../../setupTests'
+import { renderLight, screen, userEvent } from '../../test/setup'
 import { Layout } from './GraphToolbar.stories'
 
 it('Can select layouts', () => {

@@ -1,6 +1,6 @@
 import { ContentModel } from '../ContentModel'
 import { GraphModel } from '../GraphModel'
-import { ModelEdge, ModelNode, NodeShape } from '../types'
+import { ModelEdge, ModelNode } from '../types'
 import { colors } from './colors'
 import { names } from './names'
 import { shapes } from './shapes'
@@ -57,12 +57,16 @@ export const addRandomNode = (
   return GraphModel.applyContent(model, content)
 }
 
+export const randomGraph = (nodes = 20, edges = 15): GraphModel => {
+  return addRandomEdge(addRandomNode(GraphModel.createEmpty(), nodes), edges)
+}
+
 export const addRandomNodeShapes = (
   model: GraphModel,
   count = 1
 ): GraphModel => {
   return addRandomNode(model, count, () => ({
-    shape: randomShape() as NodeShape,
+    shape: randomShape(),
   }))
 }
 

@@ -192,20 +192,7 @@ it('Node specific decoration overrides both decorator default decoration and dec
   expect(decorationOverrides.strokeSize).toBe(nodeWithDecoration.strokeSize)
 })
 
-it('Create default sets default edge decoration for light theme', () => {
-  expect(decoratorModel.getDefaultEdgeDecorator()()).toMatchInlineSnapshot(`
-    Object {
-      "color": "$colors$textSecondary",
-      "opacity": 1,
-      "size": 2,
-      "sourceArrow": false,
-      "style": "solid",
-      "targetArrow": false,
-    }
-  `)
-})
-
-it('Create default sets default edge decoration for dark theme', () => {
+it('Create default sets default edge decoration for theme', () => {
   expect(decoratorModel.getDefaultEdgeDecorator()()).toMatchInlineSnapshot(`
     Object {
       "color": "$colors$textSecondary",
@@ -363,33 +350,33 @@ it('Can add and remove edge decorators', () => {
 })
 
 it('Can add decorator and remove node decorators by id', () => {
-  const nodeDecorator: NodeDecorator = (_e: ModelNode) => ({})
-  nodeDecorator.id = 'nodeDecorator'
+  const customDecorator: NodeDecorator = (_e: ModelNode) => ({})
+  customDecorator.id = 'nodeDecorator'
 
   let decorationOverrides =
-    DecoratorModel.createDefault().addNodeDecorator(nodeDecorator)
+    DecoratorModel.createDefault().addNodeDecorator(customDecorator)
 
-  expect(decorationOverrides.isNodeDecoratorSet(nodeDecorator)).toBe(true)
+  expect(decorationOverrides.isNodeDecoratorSet(customDecorator)).toBe(true)
   expect(decorationOverrides.getNodeDecoratorIds()).toContain('nodeDecorator')
 
   decorationOverrides =
     decorationOverrides.removeNodeDecoratorById('nodeDecorator')
-  expect(decorationOverrides.isNodeDecoratorSet(nodeDecorator)).toBe(false)
+  expect(decorationOverrides.isNodeDecoratorSet(customDecorator)).toBe(false)
 })
 
 it('Can add decorator and remove edge decorators by id', () => {
-  const edgeDecorator: EdgeDecorator = (_e: ModelEdge) => ({})
-  edgeDecorator.id = 'edgeDecorator'
+  const customDecorator: EdgeDecorator = (_e: ModelEdge) => ({})
+  customDecorator.id = 'edgeDecorator'
 
   let decorationOverrides =
-    DecoratorModel.createDefault().addEdgeDecorator(edgeDecorator)
+    DecoratorModel.createDefault().addEdgeDecorator(customDecorator)
 
-  expect(decorationOverrides.isEdgeDecoratorSet(edgeDecorator)).toBe(true)
+  expect(decorationOverrides.isEdgeDecoratorSet(customDecorator)).toBe(true)
   expect(decorationOverrides.getEdgeDecoratorIds()).toContain('edgeDecorator')
 
   decorationOverrides =
     decorationOverrides.removeEdgeDecoratorById('edgeDecorator')
-  expect(decorationOverrides.isEdgeDecoratorSet(edgeDecorator)).toBe(false)
+  expect(decorationOverrides.isEdgeDecoratorSet(customDecorator)).toBe(false)
 })
 
 it('Removing missing decorator causes no error', () => {

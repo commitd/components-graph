@@ -1,10 +1,6 @@
+import { DecoratedNode, GraphModel } from '@committed/graph'
 import React, { PropsWithChildren, ReactElement } from 'react'
-import { GraphModel } from '../../graph/GraphModel'
-import {
-  DecoratedNode,
-  GraphRenderer,
-  GraphRendererOptions,
-} from '../../graph/types'
+import { GraphRenderer, GraphRendererOptions } from '../../graph/types'
 
 export interface GraphProps<O extends GraphRendererOptions> {
   /** Pluggable GraphRender interface to create a React Component using the GraphModel  */

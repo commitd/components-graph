@@ -1,9 +1,9 @@
+import { GraphModel } from '@committed/graph'
 import React from 'react'
 import { GraphToolbar } from '.'
 import { cytoscapeRenderer } from '../../graph'
-import { GraphModel } from '../../graph/GraphModel'
-import { renderDark, renderLight, userEvent } from '../../setupTests'
-import { Horizontal, Vertical, Empty } from './GraphToolbar.stories'
+import { renderDark, renderLight, userEvent } from '../../test/setup'
+import { Empty, Horizontal, Vertical } from './GraphToolbar.stories'
 
 it('renders light', () => {
   const { asFragment } = renderLight(

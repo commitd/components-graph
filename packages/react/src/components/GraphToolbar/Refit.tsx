@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { CSSProps, IconButton } from '@committed/components'
+import { GraphModel } from '@committed/graph'
 import { mdiArrowExpandAll as refitPath } from '@mdi/js'
 import React from 'react'
-import { GraphModel } from '../../graph'
 
 export type RefitProps = React.ComponentProps<typeof IconButton> &
   CSSProps & {

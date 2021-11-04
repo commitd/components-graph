@@ -2,7 +2,7 @@ import {
   largeGraph,
   smallGraph,
   veryLargeGraph,
-} from './data/jsonGraphExamples'
+} from 'test/data/jsonGraphExamples'
 import { fromJsonGraph } from './fromJsonGraph'
 import { JSONGraph, ModelNode } from './types'
 

@@ -1,18 +1,15 @@
-import { Meta } from '@storybook/react'
-import React, { useState } from 'react'
-import { Graph } from '../'
 import {
+  Generator,
   ContentModel,
   DecoratorModel,
   GraphModel,
   ModelNode,
   NodeDecoration,
-  addRandomEdge,
-  addRandomNode,
-  addRandomNodeColors,
-  addRandomNodeShapes,
   sizeNodeBy,
-} from '../../../graph'
+} from '@committed/graph'
+import { Meta } from '@storybook/react'
+import React, { useState } from 'react'
+import { Graph } from '../'
 import { exampleGraphData } from './exampleData'
 import { Template } from './StoryUtil'
 
@@ -28,15 +25,21 @@ export default {
 } as Meta
 
 export const NodeShapes: React.FC = () => {
-  const [model, setModel] = useState(
-    addRandomEdge(addRandomNodeShapes(GraphModel.createEmpty(), 20), 15)
+  const [model, setModel] = useState(() =>
+    Generator.addRandomEdge(
+      Generator.addRandomNodeShapes(GraphModel.createEmpty(), 20),
+      15
+    )
   )
   return <Template model={model} onModelChange={setModel} />
 }
 
 export const NodeColors: React.FC = () => {
   const [model, setModel] = useState(
-    addRandomEdge(addRandomNodeColors(GraphModel.createEmpty(), 20), 15)
+    Generator.addRandomEdge(
+      Generator.addRandomNodeColors(GraphModel.createEmpty(), 20),
+      15
+    )
   )
   return <Template model={model} onModelChange={setModel} />
 }
@@ -62,12 +65,8 @@ export const TypedDecoration: React.FC = () => {
 
 export const AttributeDecoration: React.FC = () => {
   const [model, setModel] = useState(
-    new GraphModel(
-      addRandomEdge(
-        addRandomNode(GraphModel.createEmpty(), 20),
-        15
-      ).getCurrentContent(),
-      {
+    () =>
+      new GraphModel(Generator.randomGraph().getCurrentContent(), {
         decoratorModel: DecoratorModel.createDefault({
           nodeDecorators: [
             sizeNodeBy((node: ModelNode) => {
@@ -75,8 +74,7 @@ export const AttributeDecoration: React.FC = () => {
             }),
           ],
         }),
-      }
-    )
+      })
   )
 
   return <Template model={model} onModelChange={setModel} />

@@ -1,4 +1,4 @@
-import { decorated, sample, small } from './data/rdf'
+import { decorated, sample, small } from 'test/data/rdf'
 import { fromRdfGraph, LiteralObject, LiteralOption } from './fromRdfGraph'
 import { ModelNode } from './types'
 
@@ -8,14 +8,14 @@ it('Create from ttl string', () => {
   expect(Object.keys(contentModel.edges)).toHaveLength(13)
 
   const node = contentModel.getNode(
-    'http://example.org/data/transaction/123'
+    'https://example.org/data/transaction/123'
   ) as ModelNode
 
   const processedAt = node?.attributes[
-    'http://example.org/ont/transaction-log/processedAt'
+    'https://example.org/ont/transaction-log/processedAt'
   ] as LiteralObject
   const statusCode = node?.attributes[
-    'http://example.org/ont/transaction-log/statusCode'
+    'https://example.org/ont/transaction-log/statusCode'
   ] as LiteralObject
   expect(processedAt.value).toBe('2015-10-16T10:22:23')
   expect(processedAt.dataType).toBe('http://www.w3.org/2001/XMLSchema#dateTime')
@@ -25,8 +25,8 @@ it('Create from ttl string', () => {
   const edge = contentModel.getEdgesLinkedToNode(node.id)[0]
   expect(edge.id).toBeDefined()
   expect(edge.source).toBe(node.id)
-  expect(edge.target).toBe('http://example.org/data/server/A')
-  expect(edge.label).toBe('http://example.org/ont/transaction-log/processedBy')
+  expect(edge.target).toBe('https://example.org/data/server/A')
+  expect(edge.label).toBe('https://example.org/ont/transaction-log/processedBy')
 })
 
 it('Create from ttl string using prefixes', () => {

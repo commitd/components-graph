@@ -1,10 +1,14 @@
 import { Flex } from '@committed/components'
+import {
+  ContentModel,
+  CustomGraphLayout,
+  DecoratedNode,
+  Generator,
+  GraphModel,
+} from '@committed/graph'
 import { Meta, Story } from '@storybook/react'
 import React, { useEffect, useState } from 'react'
 import { GraphToolbar, GraphToolbarProps } from '.'
-import { ContentModel, CustomGraphLayout, DecoratedNode } from '../../graph'
-import { addRandomEdge, addRandomNode } from '../../graph/data/Generator'
-import { GraphModel } from '../../graph/GraphModel'
 import { cytoscapeRenderer } from '../../graph/renderer/CytoscapeRenderer'
 import { Graph } from '../Graph'
 
@@ -55,9 +59,7 @@ export const Default: Story = ({
   ...args
 }) => {
   const [model, setModel] = useState(
-    () =>
-      startModel ??
-      addRandomEdge(addRandomNode(GraphModel.createEmpty(), 20), 15)
+    () => startModel ?? Generator.randomGraph()
   )
 
   const handleModelChange = (
@@ -139,9 +141,8 @@ const Template: Story<
   layouts = cytoscapeRenderer.layouts,
   ...props
 }) => {
-  const [model, setModel] = useState(
-    addRandomEdge(addRandomNode(GraphModel.createEmpty(), 20), 15)
-  )
+  const [model, setModel] = useState(Generator.randomGraph)
+
   return (
     <Flex
       css={{

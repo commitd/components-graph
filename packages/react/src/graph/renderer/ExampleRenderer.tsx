@@ -1,6 +1,6 @@
-import { Box, Row, Button, Heading, Monospace } from '@committed/components'
+import { Box, Button, Heading, Monospace, Row } from '@committed/components'
+import { Generator } from '@committed/graph'
 import React from 'react'
-import { addRandomEdge, addRandomNode } from '../data'
 import { GraphRenderer, GraphRendererOptions } from '../types'
 
 const Renderer: GraphRenderer<GraphRendererOptions>['render'] = ({
@@ -8,11 +8,11 @@ const Renderer: GraphRenderer<GraphRendererOptions>['render'] = ({
   onChange,
 }) => {
   const handleAddNode = (): void => {
-    onChange(addRandomNode(graphModel))
+    onChange(Generator.addRandomNode(graphModel))
   }
 
   const handleAddEdge = (): void => {
-    onChange(addRandomEdge(graphModel))
+    onChange(Generator.addRandomEdge(graphModel))
   }
 
   return (

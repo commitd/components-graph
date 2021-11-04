@@ -1,13 +1,10 @@
 import { Box, Button, Flex, Select, SelectItem } from '@committed/components'
+import { Generator, GraphModel, PresetGraphLayout } from '@committed/graph'
+import { layouts } from '../../graph'
 import React from 'react'
-import {
-  addRandomEdge,
-  addRandomNode,
-  removeRandomEdge,
-  removeRandomNode,
-} from '../../graph/data/Generator'
-import { GraphModel } from '../../graph/GraphModel'
-import { PresetGraphLayout } from '../../graph/types'
+
+const { addRandomNode, addRandomEdge, removeRandomNode, removeRandomEdge } =
+  Generator
 
 export interface GraphDebugControlProps {
   model: GraphModel
@@ -78,7 +75,7 @@ export const GraphDebugControl: React.FC<GraphDebugControlProps> = ({
             )
           }
         >
-          {['force-directed', 'circle', 'grid', 'cola'].map((l) => (
+          {Object.keys(layouts).map((l) => (
             <SelectItem key={l} value={l}>
               {l}
             </SelectItem>

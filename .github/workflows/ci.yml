@@ -66,40 +66,9 @@ jobs:
       - name: Run prettier
         run: |
           npm run format:check
-  unit-test-scan:
-    runs-on: ubuntu-latest
-    needs: install-cache
-    steps:
-      - name: Checkout Commit
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: npm latest
-        run: npm i -g npm@latest --registry=https://registry.npmjs.org
-      - name: Restore dependencies
-        uses: actions/cache@v2
-        id: cache-dependencies
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
-      - name: Run tests
-        run: |
-          npm run test
-      # Scan done here so we have the test reports
-      - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
   build:
     runs-on: ubuntu-latest
-    needs: [format, unit-test-scan]
+    needs: format
     steps:
       - name: Checkout Commit
         uses: actions/checkout@v2
@@ -131,6 +100,42 @@ jobs:
             ./packages/graph/dist
             ./packages/react/dist
           retention-days: 1
+  unit-test-scan:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout Commit
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: npm latest
+        run: npm i -g npm@latest --registry=https://registry.npmjs.org
+      - name: Restore dependencies
+        uses: actions/cache@v2
+        id: cache-dependencies
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: build-output
+          path: packages
+      - name: Run tests
+        run: |
+          npm run test
+      # Scan done here so we have the test reports
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
   lint:
     runs-on: ubuntu-latest
     needs: build
@@ -216,6 +221,11 @@ jobs:
           key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-npm-
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: build-output
+          path: packages
       - name: Build Storybook
         run: npm run storybook:build --quiet
   release:

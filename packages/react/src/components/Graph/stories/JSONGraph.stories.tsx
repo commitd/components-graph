@@ -1,9 +1,11 @@
+import { GraphBuilder, GraphModel } from '@committed/graph'
 import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
 import { Graph } from '..'
-import { GraphBuilder, GraphModel } from '../../../graph'
-import { largeGraph, smallGraph } from '../../../graph/data/jsonGraphExamples'
 import { Template } from './StoryUtil'
+import { samples } from '../../../test/data'
+
+const { smallGraph, largeGraph } = samples.json
 
 export default {
   title: 'Examples/JSONGraph',

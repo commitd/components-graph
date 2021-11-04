@@ -21,19 +21,16 @@
       "../../jest.patch-cssom.js"
     ],
     "collectCoverage": true,
-    "testResultsProcessor": "jest-sonar-reporter",
     "moduleDirectories": [
-      "node_modules",
-      "utils"
+      "node_modules"
     ],
-    "testRegex": "/src/.*(\\.|/)(test|spec)\\.[jt]sx?$",
     "collectCoverageFrom": [
       "src/**/*.{ts,tsx}",
       "!src/types/**/*"
     ],
     "coveragePathIgnorePatterns": [
       "/src/typings.d.ts",
-      "setupTests.tsx",
+      "test/*",
       ".*/index.ts",
       ".*.test.ts",
       ".*.test.tsx",
@@ -42,7 +39,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "jest --bail"
+      "jest --bail  --passWithNoTests"
     ]
   },
   "scripts": {
@@ -69,14 +66,11 @@
   },
   "homepage": "https://github.com/commitd/components-graph#readme",
   "dependencies": {
-    "@committed/components-graph-data": "*",
+    "@committed/graph": "*",
     "cytoscape-cola": "^2.4.0",
-    "n3": "^1.11.1",
-    "rdf-literal": "^1.2.0",
     "react-cytoscapejs": "^1.2.1",
     "tinycolor2": "^1.4.2",
     "typescript": "^4.4.4",
-    "use-debounce": "^7.0.0",
-    "uuid": "^8.3.1"
+    "use-debounce": "^7.0.0"
   }
 }
