@@ -1,17 +1,28 @@
 {
   "name": "@committed/components-graph-react",
-  "version": "1.0.0",
-  "description": "Committed Compoennts Graph for react",
+  "version": "0.0.0-development",
+  "description": "Committed Components Graph for react",
+  "author": "Committed",
+  "private": false,
+  "license": "MIT",
   "main": "dist/committed-components-graph-react.cjs.js",
   "module": "dist/committed-components-graph-react.esm.js",
   "typings": "dist/index.d.ts",
   "sideEffects": false,
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
-  },
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/commitd/components-graph.git"
+  },
+  "bugs": {
+    "url": "https://github.com/commitd/components-graph/issues"
+  },
+  "homepage": "https://github.com/commitd/components-graph#readme",
   "engines": {
     "node": ">=10"
   },
@@ -55,16 +66,6 @@
     "storybook:build": "build-storybook",
     "storybook:deploy": "storybook-to-ghpages --ci"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/commitd/components-graph.git"
-  },
-  "author": "Committed",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/commitd/components-graph/issues"
-  },
-  "homepage": "https://github.com/commitd/components-graph#readme",
   "dependencies": {
     "@committed/graph": "*",
     "cytoscape-cola": "^2.4.0",
