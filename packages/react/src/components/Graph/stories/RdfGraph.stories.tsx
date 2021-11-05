@@ -1,11 +1,6 @@
 import { Alert, AlertContent, AlertTitle, Flex } from '@committed/components'
-import {
-  ContentModel,
-  GraphBuilder,
-  GraphModel,
-  ModelNode,
-  Rdf,
-} from '@committed/graph'
+import { ContentModel, GraphModel, ModelNode } from '@committed/graph'
+import { Rdf } from '@committed/graph-rdf'
 import { Meta, Story } from '@storybook/react'
 import React, { useEffect, useState } from 'react'
 import { Graph } from '..'
@@ -28,7 +23,7 @@ export default {
 export const SmallGraph: React.FC = () => {
   const [model, setModel] = useState(
     GraphModel.createWithContent(
-      GraphBuilder.fromRdfGraph(
+      Rdf.buildGraph(
         `
       :John a :Man ;
         :name "John" ;
@@ -64,7 +59,7 @@ export const SmallGraph: React.FC = () => {
 export const SmallGraphWithTypes: React.FC = () => {
   const [model, setModel] = useState(
     GraphModel.createWithContent(
-      GraphBuilder.fromRdfGraph(
+      Rdf.buildGraph(
         `
     :John a :Man ;
       :name "John" ;
@@ -101,7 +96,7 @@ export const SmallGraphWithTypes: React.FC = () => {
 export const DecoratedGraph: React.FC = () => {
   const [model, setModel] = useState(
     GraphModel.createWithContent(
-      GraphBuilder.fromRdfGraph(`
+      Rdf.buildGraph(`
     @prefix cd: <${Rdf.DECORATION_IRI}> .
   
     <A> a <Test> ;
@@ -128,7 +123,7 @@ const StoryTemplate: Story<{ rdf: string }> = ({ rdf }) => {
     try {
       setModel(
         GraphModel.createWithContent(
-          GraphBuilder.fromRdfGraph(rdf, {
+          Rdf.buildGraph(rdf, {
             literals: Rdf.LiteralOption.VALUE_ONLY,
           })
         )

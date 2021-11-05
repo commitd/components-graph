@@ -128,32 +128,3 @@ export interface RefitCommand {
 export interface LayoutCommand {
   type: 'Layout'
 }
-
-/// JSON GRAPH Interfaces - only describes what we need from
-/// https://github.com/jsongraph/json-graph-specification/blob/master/json-graph-schema_v2.json
-/// Note we do not support hyperedges
-
-export interface JSONGraphNode {
-  label?: string
-  metadata?: Record<string, unknown>
-}
-
-export interface JSONGraphEdge {
-  id?: string
-  source: string
-  target: string
-  relation?: string
-  directed?: boolean
-  label?: string
-  metadata?: Record<string, unknown>
-}
-
-export interface JSONGraph {
-  nodes: Record<string, JSONGraphNode>
-  edges: JSONGraphEdge[]
-}
-
-export interface JSONGraphData {
-  graph?: JSONGraph
-  graphs?: JSONGraph[]
-}

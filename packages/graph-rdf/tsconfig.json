@@ -3,5 +3,5 @@
   "compilerOptions": {
     "baseUrl": "src"
   },
-  "include": ["src", "../graph-json/src/fromJsonGraph.test.ts"]
+  "include": ["src"]
 }

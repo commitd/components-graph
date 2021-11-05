@@ -1,9 +1,9 @@
-import { decorated, sample, small } from 'test/data/rdf'
-import { fromRdfGraph, LiteralObject, LiteralOption } from './fromRdfGraph'
-import { ModelNode } from './types'
+import { ModelNode } from '@committed/graph'
+import { decorated, sample, small } from 'test/data'
+import { buildGraph, LiteralObject, LiteralOption } from './RdfGraph'
 
 it('Create from ttl string', () => {
-  const contentModel = fromRdfGraph(sample)
+  const contentModel = buildGraph(sample)
   expect(Object.keys(contentModel.nodes)).toHaveLength(16)
   expect(Object.keys(contentModel.edges)).toHaveLength(13)
 
@@ -30,7 +30,7 @@ it('Create from ttl string', () => {
 })
 
 it('Create from ttl string using prefixes', () => {
-  const contentModel = fromRdfGraph(sample, { usePrefix: true })
+  const contentModel = buildGraph(sample, { usePrefix: true })
   expect(Object.keys(contentModel.nodes)).toHaveLength(16)
   expect(Object.keys(contentModel.edges)).toHaveLength(13)
 
@@ -50,7 +50,7 @@ it('Create from ttl string using prefixes', () => {
 })
 
 it('Can process literals to rdf literal string', () => {
-  const contentModel = fromRdfGraph(sample, {
+  const contentModel = buildGraph(sample, {
     usePrefix: true,
     literals: LiteralOption.AS_STRING,
   })
@@ -64,7 +64,7 @@ it('Can process literals to rdf literal string', () => {
 })
 
 it('Can process literals to value only', () => {
-  const contentModel = fromRdfGraph(sample, {
+  const contentModel = buildGraph(sample, {
     usePrefix: true,
     literals: LiteralOption.VALUE_ONLY,
   })
@@ -76,7 +76,7 @@ it('Can process literals to value only', () => {
 })
 
 it('Can parse simple example by adding missing prefixes', () => {
-  const contentModel = fromRdfGraph(small, {
+  const contentModel = buildGraph(small, {
     usePrefix: true,
     additionalPrefixes: {
       owl: 'http://www.w3.org/2002/07/owl#',
@@ -113,7 +113,7 @@ it('Can parse simple example by adding missing prefixes', () => {
 })
 
 it('Can parse simple example adding nodes for type', () => {
-  const contentModel = fromRdfGraph(small, {
+  const contentModel = buildGraph(small, {
     type: undefined,
     additionalPrefixes: {
       '': '',
@@ -129,7 +129,7 @@ it('Can parse simple example adding nodes for type', () => {
 })
 
 it('Decorates by default', () => {
-  const contentModel = fromRdfGraph(decorated)
+  const contentModel = buildGraph(decorated)
 
   const node = contentModel.getNode('A')
   expect(node?.label).toBe('Test')
@@ -142,7 +142,7 @@ it('Decorates by default', () => {
 })
 
 it('Decorates by default', () => {
-  const contentModel = fromRdfGraph(decorated, {
+  const contentModel = buildGraph(decorated, {
     usePrefix: true,
     decorate: false,
     literals: LiteralOption.VALUE_ONLY,

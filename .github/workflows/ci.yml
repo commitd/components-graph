@@ -98,6 +98,8 @@ jobs:
           path: |
             ./packages/all/dist
             ./packages/graph/dist
+            ./packages/graph-rdf/dist
+            ./packages/graph-json/dist
             ./packages/react/dist
           retention-days: 1
   unit-test-scan:

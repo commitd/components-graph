@@ -1,12 +1,12 @@
 {
-  "name": "@committed/graph",
+  "name": "@committed/graph-rdf",
   "version": "0.0.0-development",
-  "description": "Graph models, types and API",
+  "description": "Support for creating GraphModels from rdf",
   "author": "Committed",
   "private": false,
   "license": "MIT",
-  "main": "dist/committed-graph.cjs.js",
-  "module": "dist/committed-graph.esm.js",
+  "main": "dist/committed-graph-rdf.cjs.js",
+  "module": "dist/committed-graph-rdf.esm.js",
   "typings": "dist/index.d.ts",
   "sideEffects": false,
   "files": [
@@ -64,6 +64,8 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
-    "uuid": "^8.3.2"
+    "@committed/graph": "*",
+    "n3": "^1.11.1",
+    "rdf-literal": "^1.3.0"
   }
 }

@@ -1,15 +1,37 @@
 import { v4 } from 'uuid'
-import { ContentModel } from './ContentModel'
-import {
-  JSONGraph,
-  JSONGraphData,
-  JSONGraphNode,
-  ModelEdge,
-  ModelNode,
-} from './types'
+import { ContentModel, ModelEdge, ModelNode } from '@committed/graph'
 
-function getGraphData(data: JSONGraph | JSONGraphData): JSONGraph {
-  let graphData: JSONGraph
+/// JSON GRAPH Interfaces - only describes what we need from
+/// https://github.com/jsongraph/json-graph-specification/blob/master/json-graph-schema_v2.json
+/// Note we do not support hyperedges
+
+export interface GraphNode {
+  label?: string
+  metadata?: Record<string, unknown>
+}
+
+export interface GraphEdge {
+  id?: string
+  source: string
+  target: string
+  relation?: string
+  directed?: boolean
+  label?: string
+  metadata?: Record<string, unknown>
+}
+
+export interface Graph {
+  nodes: Record<string, GraphNode>
+  edges: GraphEdge[]
+}
+
+export interface GraphData {
+  graph?: Graph
+  graphs?: Graph[]
+}
+
+function getGraphData(data: Graph | GraphData): Graph {
+  let graphData: Graph
   if ('nodes' in data) {
     graphData = data
   } else {
@@ -27,11 +49,11 @@ function getGraphData(data: JSONGraph | JSONGraphData): JSONGraph {
   return graphData
 }
 
-function getNodes(graphData: JSONGraph) {
+function getNodes(graphData: Graph) {
   return Object.entries(graphData.nodes).reduce<Record<string, ModelNode>>(
     (acc, entry) => {
       const node: ModelNode = { id: entry[0], attributes: {} }
-      const jsonNode: JSONGraphNode = entry[1]
+      const jsonNode: GraphNode = entry[1]
       if (jsonNode.label !== undefined) {
         node.label = jsonNode.label
       }
@@ -45,7 +67,7 @@ function getNodes(graphData: JSONGraph) {
   )
 }
 
-function getEdges(graphData: JSONGraph) {
+function getEdges(graphData: Graph) {
   return Object.values(graphData.edges).reduce<Record<string, ModelEdge>>(
     (acc, jsonEdge) => {
       const edge: ModelEdge = {
@@ -73,7 +95,7 @@ function getEdges(graphData: JSONGraph) {
   )
 }
 
-export function fromJsonGraph(data: JSONGraphData | JSONGraph): ContentModel {
+export function buildGraph(data: GraphData | Graph): ContentModel {
   const graphData = getGraphData(data)
   const nodes = getNodes(graphData)
   const edges = getEdges(graphData)

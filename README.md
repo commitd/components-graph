@@ -37,6 +37,8 @@ This builds to the relevant `/dist` folders.
 The project is published as `@committed/components-graph` but is further separated into modules so the non-ui code can be used in the backend.
 
 - `@committed/graph` - contains the graph models, types and API
+- `@committed/graph-rdf` - contains code to create graph models from RDF
+- `@committed/graph-json` - contains code to create graph models from JSONGraph
 - `@committed/component-graph-react` - contains the react specific UI components
 
 ### Storybook

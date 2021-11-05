@@ -26,6 +26,8 @@
   },
   "dependencies": {
     "@committed/graph": "*",
+    "@committed/graph-json": "*",
+    "@committed/graph-rdf": "*",
     "@committed/components-graph-react": "*"
   },
   "scripts": {
