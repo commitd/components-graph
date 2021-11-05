@@ -94,6 +94,8 @@
     "preset": "rollpkg",
     "projects": [
       "<rootDir>/packages/graph",
+      "<rootDir>/packages/graph-json",
+      "<rootDir>/packages/graph-rdf",
       "<rootDir>/packages/react",
       "<rootDir>/packages/all"
     ],
@@ -170,6 +172,8 @@
   },
   "workspaces": [
     "packages/graph",
+    "packages/graph-rdf",
+    "packages/graph-json",
     "packages/react",
     "packages/all"
   ]

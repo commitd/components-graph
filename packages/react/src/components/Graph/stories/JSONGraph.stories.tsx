@@ -1,11 +1,11 @@
-import { GraphBuilder, GraphModel } from '@committed/graph'
+import { GraphModel } from '@committed/graph'
+import { Json, JsonExample } from '@committed/graph-json'
 import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
 import { Graph } from '..'
 import { Template } from './StoryUtil'
-import { samples } from '../../../test/data'
 
-const { smallGraph, largeGraph } = samples.json
+const { smallGraph, largeGraph } = JsonExample
 
 export default {
   title: 'Examples/JSONGraph',
@@ -20,14 +20,14 @@ export default {
 
 export const SimpleJsonGraph: React.FC = () => {
   const [model, setModel] = useState(
-    GraphModel.createWithContent(GraphBuilder.fromJsonGraph(smallGraph))
+    GraphModel.createWithContent(Json.buildGraph(smallGraph))
   )
   return <Template model={model} onModelChange={setModel} />
 }
 
 export const RichJsonGraph: React.FC = () => {
   const [model, setModel] = useState(
-    GraphModel.createWithContent(GraphBuilder.fromJsonGraph(largeGraph))
+    GraphModel.createWithContent(Json.buildGraph(largeGraph))
   )
   return <Template model={model} onModelChange={setModel} />
 }

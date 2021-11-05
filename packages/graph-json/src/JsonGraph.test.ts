@@ -1,13 +1,9 @@
-import {
-  largeGraph,
-  smallGraph,
-  veryLargeGraph,
-} from 'test/data/jsonGraphExamples'
-import { fromJsonGraph } from './fromJsonGraph'
-import { JSONGraph, ModelNode } from './types'
+import { largeGraph, smallGraph, veryLargeGraph } from 'examples'
+import { buildGraph, Graph as JSONGraph } from 'JsonGraph'
+import { ModelNode } from '@committed/graph'
 
 it('Create from json graph spec graph values', () => {
-  const contentModel = fromJsonGraph(smallGraph)
+  const contentModel = buildGraph(smallGraph)
   expect(Object.keys(contentModel.nodes)).toHaveLength(4)
   expect(Object.keys(contentModel.edges)).toHaveLength(2)
 
@@ -23,7 +19,7 @@ it('Create from json graph spec graph values', () => {
 })
 
 it('Create from json graph', () => {
-  const contentModel = fromJsonGraph({
+  const contentModel = buildGraph({
     nodes: {
       n1: {
         metadata: { a1: true, a2: 10, a3: 'test', a4: { object: 'example' } },
@@ -55,13 +51,13 @@ it('Create from json graph', () => {
 })
 
 it('Create from json graph spec graph values', () => {
-  const contentModel = fromJsonGraph(largeGraph)
+  const contentModel = buildGraph(largeGraph)
   expect(Object.keys(contentModel.nodes)).toHaveLength(9)
   expect(Object.keys(contentModel.edges)).toHaveLength(8)
 })
 
 it('ContentModel does support single from graphs', () => {
-  const contentModel = fromJsonGraph({
+  const contentModel = buildGraph({
     graphs: [smallGraph.graph as JSONGraph],
   })
   expect(Object.keys(contentModel.nodes)).toHaveLength(4)
@@ -69,26 +65,26 @@ it('ContentModel does support single from graphs', () => {
 })
 
 it('Create from json graph spec graph directly', () => {
-  const contentModel = fromJsonGraph(largeGraph.graph as JSONGraph)
+  const contentModel = buildGraph(largeGraph.graph as JSONGraph)
   expect(Object.keys(contentModel.nodes)).toHaveLength(9)
   expect(Object.keys(contentModel.edges)).toHaveLength(8)
 })
 
 it('ContentModel does not support empty from graphs', () => {
   expect(() =>
-    fromJsonGraph({
+    buildGraph({
       graphs: [],
     })
   ).toThrow()
 })
 
 it('ContentModel does not support empty model', () => {
-  expect(() => fromJsonGraph({})).toThrow()
+  expect(() => buildGraph({})).toThrow()
 })
 
 it('ContentModel does not support multiple from graphs', () => {
   expect(() =>
-    fromJsonGraph({
+    buildGraph({
       graphs: [smallGraph.graph as JSONGraph, largeGraph.graph as JSONGraph],
     })
   ).toThrow()
@@ -100,14 +96,14 @@ it('ContentModel does not support hyperedges from graphs', () => {
     hyperedges: smallGraph.graph?.edges,
   } as unknown as JSONGraph
   expect(() =>
-    fromJsonGraph({
+    buildGraph({
       graph: hyperGraph,
     })
   ).toThrow()
 })
 
 it('loads very large graph', () => {
-  const contentModel = fromJsonGraph(veryLargeGraph)
+  const contentModel = buildGraph(veryLargeGraph)
   expect(Object.keys(contentModel.nodes)).toHaveLength(1000)
   expect(Object.keys(contentModel.edges)).toHaveLength(1000)
 })

@@ -1,15 +1,14 @@
+import { ContentModel, ModelEdge, ModelNode } from '@committed/graph'
 import {
   DataFactory,
+  Literal,
   NamedNode,
   Parser,
   ParserOptions,
   Term,
   Triple,
-  Literal,
 } from 'n3'
 import { fromRdf } from 'rdf-literal'
-import { ContentModel } from './ContentModel'
-import { ModelEdge, ModelNode } from './types'
 
 // Temporary solution - extend to proper ontology
 // Only node decoration supported at this time.
@@ -257,7 +256,7 @@ class GraphBuilder {
   }
 }
 
-export function fromRdfGraph(
+export function buildGraph(
   data: string,
   options: Partial<RdfOptions> = {}
 ): ContentModel {

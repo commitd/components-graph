@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { DECORATION_IRI } from 'graph/fromRdfGraph'
+import { DECORATION_IRI } from 'RdfGraph'
 
 const smallFile = path.join(__dirname, './', 'small.ttl')
 export const small = fs.readFileSync(smallFile, 'utf8')

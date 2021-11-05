@@ -1,12 +1,12 @@
 {
-  "name": "@committed/graph",
+  "name": "@committed/graph-json",
   "version": "0.0.0-development",
-  "description": "Graph models, types and API",
+  "description": "Support for creating GraphModels from JSONGraph",
   "author": "Committed",
   "private": false,
   "license": "MIT",
-  "main": "dist/committed-graph.cjs.js",
-  "module": "dist/committed-graph.esm.js",
+  "main": "dist/committed-graph-json.cjs.js",
+  "module": "dist/committed-graph-json.esm.js",
   "typings": "dist/index.d.ts",
   "sideEffects": false,
   "files": [
@@ -64,6 +64,7 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
+    "@committed/graph": "*",
     "uuid": "^8.3.2"
   }
 }
