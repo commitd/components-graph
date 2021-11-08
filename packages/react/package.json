@@ -67,6 +67,11 @@
     "storybook:build": "build-storybook",
     "storybook:deploy": "storybook-to-ghpages --ci"
   },
+  "peerDependencies": {
+    "@committed/components": ">= 5.0.0",
+    "react": ">= 16.8.0",
+    "react-dom": ">= 16.8.0"
+  },
   "dependencies": {
     "@committed/graph": "*",
     "cytoscape-cola": "^2.4.0",
