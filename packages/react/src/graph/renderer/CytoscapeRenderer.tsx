@@ -74,18 +74,20 @@ function toSelector(prefix: 'node' | 'edge', id: string): string {
 }
 
 export interface CyGraphRendererOptions extends GraphRendererOptions {
-  renderOptions: Pick<
-    React.ComponentProps<typeof CytoscapeComponent>,
-    | 'zoom'
-    | 'minZoom'
-    | 'maxZoom'
-    | 'pan'
-    | 'zoomingEnabled'
-    | 'userZoomingEnabled'
-    | 'boxSelectionEnabled'
-    | 'autoungrabify'
-    | 'autounselectify'
-    | 'wheelSensitivity'
+  renderOptions?: Partial<
+    Pick<
+      React.ComponentProps<typeof CytoscapeComponent>,
+      | 'zoom'
+      | 'minZoom'
+      | 'maxZoom'
+      | 'pan'
+      | 'zoomingEnabled'
+      | 'userZoomingEnabled'
+      | 'boxSelectionEnabled'
+      | 'autoungrabify'
+      | 'autounselectify'
+      | 'wheelSensitivity'
+    >
   >
 }
 
@@ -307,7 +309,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
     if (cytoscape == null) {
       return
     }
-    const zoomAmount = 1 + (options.renderOptions.wheelSensitivity ?? 1)
+    const zoomAmount = 1 + (options.renderOptions?.wheelSensitivity ?? 1)
     const position = { x: cytoscape.width() / 2, y: cytoscape.height() / 2 }
     commands.forEach((c) => {
       switch (c.type) {
