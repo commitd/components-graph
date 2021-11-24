@@ -1,4 +1,4 @@
-import { ContentModel, ModelEdge, ModelNode } from '@committed/graph'
+import { ContentModel, ModelEdge, ModelItem, ModelNode } from '@committed/graph'
 import {
   DataFactory,
   Literal,
@@ -69,26 +69,39 @@ export enum LiteralOption {
 }
 
 export enum RdfFormat {
-  /** Suports a permissive superset of Turtle, TriG, N-Triple and N-Quad */
+  /** Supports a permissive superset of Turtle, TriG, N-Triple and N-Quad */
   Turtle = 'turtle',
   /** Supports N3 format */
   N3 = 'N3',
 }
 
 export interface RdfOptions {
-  usePrefix: boolean
+  /** use the prefix in the node ids */
+  usePrefixId: boolean
+  /** Define how literals are converted to be used in the graph */
   literals: LiteralOption
+  /** Declare the serialization format of the RDF */
   format: RdfFormat
+  /** Transfer declarations from the http://ont.committed.io/graph/decorator namespace to decoration properties of the graph */
   decorate: boolean
+  /** Declare the attribute to use as the label */
   label?: string
+  /** Declare the property to use as the node type */
   type?: string
+  /** Declare the base IRI of the graph */
   baseIRI?: string
+  /** Declare a blank node prefix to be used */
   blankNodePrefix?: string
+  /** Add additional prefixes to the used */
   additionalPrefixes?: Record<string, string>
+  /** Node processor to apply to nodes after conversion */
+  nodeProcessor?: (node: ModelNode) => ModelNode
+  /** Edge processor to apply to edges after conversion */
+  edgeProcessor?: (edge: ModelEdge) => ModelEdge
 }
 
 export const DEFAULT_RDF_OPTIONS: RdfOptions = {
-  usePrefix: false,
+  usePrefixId: false,
   literals: LiteralOption.AS_OBJECT,
   format: RdfFormat.Turtle,
   label: rdfsLabel.value,
@@ -97,7 +110,10 @@ export const DEFAULT_RDF_OPTIONS: RdfOptions = {
 }
 
 interface GraphBuilderOptions
-  extends Pick<RdfOptions, 'usePrefix' | 'literals' | 'decorate'> {
+  extends Pick<
+    RdfOptions,
+    'usePrefixId' | 'literals' | 'decorate' | 'nodeProcessor' | 'edgeProcessor'
+  > {
   prefixes: Record<string, string>
   label?: NamedNode
   type?: NamedNode
@@ -120,7 +136,27 @@ class GraphBuilder {
     this.triples.forEach((t) => this.addTriple(t))
     this.attributes.forEach((t) => this.addAttribute(t))
 
+    this.processNodes()
+    this.processEdges()
     return ContentModel.fromRaw({ nodes: this.nodes, edges: this.edges })
+  }
+
+  private processNodes() {
+    const nodeProcessor = this.options.nodeProcessor
+    if (nodeProcessor !== undefined) {
+      Object.keys(this.nodes).forEach((key) => {
+        this.nodes[key] = nodeProcessor(this.nodes[key])
+      })
+    }
+  }
+
+  private processEdges() {
+    const edgeProcessor = this.options.edgeProcessor
+    if (edgeProcessor !== undefined) {
+      Object.keys(this.edges).forEach((key) => {
+        this.edges[key] = edgeProcessor(this.edges[key])
+      })
+    }
   }
 
   private addTriple(t: Triple): void {
@@ -213,7 +249,7 @@ class GraphBuilder {
   }
 
   toPrefixedId(id: string): string {
-    if (this.options.usePrefix) {
+    if (this.options.usePrefixId) {
       const match = Object.keys(this.options.prefixes).find((prefix) =>
         id.startsWith(prefix)
       )
@@ -300,7 +336,7 @@ export function buildGraph(
   )
 
   const builderOptions = {
-    label: label !== undefined ? DataFactory.namedNode(label) : undefined,
+    label: typeof label === 'string' ? DataFactory.namedNode(label) : undefined,
     type: type !== undefined ? DataFactory.namedNode(type) : undefined,
     prefixes,
     ...rest,

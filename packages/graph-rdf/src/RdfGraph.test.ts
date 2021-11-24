@@ -30,7 +30,7 @@ it('Create from ttl string', () => {
 })
 
 it('Create from ttl string using prefixes', () => {
-  const contentModel = buildGraph(sample, { usePrefix: true })
+  const contentModel = buildGraph(sample, { usePrefixId: true })
   expect(Object.keys(contentModel.nodes)).toHaveLength(16)
   expect(Object.keys(contentModel.edges)).toHaveLength(13)
 
@@ -51,7 +51,7 @@ it('Create from ttl string using prefixes', () => {
 
 it('Can process literals to rdf literal string', () => {
   const contentModel = buildGraph(sample, {
-    usePrefix: true,
+    usePrefixId: true,
     literals: LiteralOption.AS_STRING,
   })
   const node = contentModel.getNode('txn:123') as ModelNode
@@ -65,7 +65,7 @@ it('Can process literals to rdf literal string', () => {
 
 it('Can process literals to value only', () => {
   const contentModel = buildGraph(sample, {
-    usePrefix: true,
+    usePrefixId: true,
     literals: LiteralOption.VALUE_ONLY,
   })
   const node = contentModel.getNode('txn:123') as ModelNode
@@ -77,7 +77,7 @@ it('Can process literals to value only', () => {
 
 it('Can parse simple example by adding missing prefixes', () => {
   const contentModel = buildGraph(small, {
-    usePrefix: true,
+    usePrefixId: true,
     additionalPrefixes: {
       owl: 'http://www.w3.org/2002/07/owl#',
       xsd: 'http://www.w3.org/2001/XMLSchema#',
@@ -143,7 +143,7 @@ it('Decorates by default', () => {
 
 it('Decorates by default', () => {
   const contentModel = buildGraph(decorated, {
-    usePrefix: true,
+    usePrefixId: true,
     decorate: false,
     literals: LiteralOption.VALUE_ONLY,
   })
