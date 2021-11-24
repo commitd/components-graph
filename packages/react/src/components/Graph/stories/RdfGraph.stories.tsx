@@ -1,6 +1,6 @@
 import { Alert, AlertContent, AlertTitle, Flex } from '@committed/components'
 import { ContentModel, GraphModel, ModelNode } from '@committed/graph'
-import { Rdf } from '@committed/graph-rdf'
+import { Rdf, RdfUtil } from '@committed/graph-rdf'
 import { Meta, Story } from '@storybook/react'
 import React, { useEffect, useState } from 'react'
 import { Graph } from '..'
@@ -113,7 +113,15 @@ export const DecoratedGraph: React.FC = () => {
   return <Template model={model} onModelChange={setModel} />
 }
 
-const StoryTemplate: Story<{ rdf: string }> = ({ rdf }) => {
+const StoryTemplate: Story<{
+  rdf: string
+  rdfOptions: Partial<Rdf.RdfOptions>
+}> = ({
+  rdf,
+  rdfOptions = {
+    literals: Rdf.LiteralOption.VALUE_ONLY,
+  },
+}) => {
   const [model, setModel] = useState(
     GraphModel.createWithContent(ContentModel.createEmpty())
   )
@@ -121,13 +129,7 @@ const StoryTemplate: Story<{ rdf: string }> = ({ rdf }) => {
 
   useEffect(() => {
     try {
-      setModel(
-        GraphModel.createWithContent(
-          Rdf.buildGraph(rdf, {
-            literals: Rdf.LiteralOption.VALUE_ONLY,
-          })
-        )
-      )
+      setModel(GraphModel.createWithContent(Rdf.buildGraph(rdf, rdfOptions)))
       setAlert(undefined)
     } catch (error: any) {
       setModel(GraphModel.createWithContent(ContentModel.createEmpty()))
@@ -167,6 +169,87 @@ const StoryTemplate: Story<{ rdf: string }> = ({ rdf }) => {
       </Flex>
     </>
   )
+}
+
+export const ProcessedGraph = StoryTemplate.bind({})
+ProcessedGraph.args = {
+  rdf: `
+        @prefix txn: <https://example.org/data/transaction/> .
+      @prefix srv: <https://example.org/data/server/> .
+      @prefix log: <https://example.org/ont/transaction-log/> .
+      @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+      
+      txn:123 a log:Transaction ;
+        log:processedBy srv:A ;
+        log:processedAt "2015-10-16T10:22:23"^^xsd:dateTime ;
+        log:statusCode 200 .
+        
+      txn:124 a log:Transaction ;
+        log:processedBy srv:B ;
+        log:processedAt "2015-10-16T10:22:24"^^xsd:dateTime ;
+        log:statusCode 200 .
+      
+      txn:125 a log:Transaction ;
+        log:processedBy srv:C ;
+        log:processedAt "2015-10-16T10:22:24"^^xsd:dateTime ;
+        log:statusCode 200 .
+      
+      txn:126 a log:Transaction ;
+        log:processedBy srv:A ;
+        log:processedAt "2015-10-16T10:22:25"^^xsd:dateTime ;
+        log:statusCode 200 .
+        
+      txn:127 a log:Transaction ;
+        log:processedBy srv:B ;
+        log:processedAt "2015-10-16T10:22:25"^^xsd:dateTime ;
+        log:statusCode 200 .
+        
+      txn:128 a log:Transaction ;
+        log:processedBy srv:C ;
+        log:processedAt "2015-10-16T10:22:26"^^xsd:dateTime ;
+        log:statusCode 200 .
+        
+      txn:129 a log:Transaction ;
+        log:processedBy srv:A ;
+        log:processedAt "2015-10-16T10:22:28"^^xsd:dateTime ;
+        log:statusCode 500 .
+        
+      txn:130 a log:Transaction ;
+        log:processedBy srv:B ;
+        log:processedAt "2015-10-16T10:22:31"^^xsd:dateTime ;
+        log:statusCode 200 .
+        
+      txn:131 a log:Transaction ;
+        log:processedBy srv:C ;
+        log:processedAt "2015-10-16T10:22:31"^^xsd:dateTime ;
+        log:statusCode 200 .
+        
+      txn:132 a log:Transaction ;
+        log:processedBy srv:A ;
+        log:processedAt "2015-10-16T10:22:32"^^xsd:dateTime ;
+        log:statusCode 500 .
+        
+      txn:133 a log:Transaction ;
+        log:processedBy srv:B ;
+        log:processedAt "2015-10-16T10:22:33"^^xsd:dateTime ;
+        log:statusCode 200 .
+        
+      txn:134 a log:Transaction ;
+        log:processedBy srv:C ;
+        log:processedAt "2015-10-16T10:22:33"^^xsd:dateTime ;
+        log:statusCode 200 .
+        
+      txn:135 a log:Transaction ;
+        log:processedBy srv:A ;
+        log:processedAt "2015-10-16T10:22:35"^^xsd:dateTime ;
+        log:statusCode 401 .
+      `,
+  rdfOptions: {
+    nodeProcessor: RdfUtil.cleanProcessor,
+    edgeProcessor: RdfUtil.cleanProcessor,
+    label: undefined,
+    literals: Rdf.LiteralOption.VALUE_ONLY,
+  },
 }
 
 export const RdfVisualizer = StoryTemplate.bind({})
