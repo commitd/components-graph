@@ -1,10 +1,8 @@
 import { Box, Column } from '@committed/components'
 import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
-import { Graph } from '.'
-import { cytoscapeRenderer } from '../../graph'
-import { GraphDebugControl } from '../GraphDebugControl'
-import { exampleModel } from './stories/StoryUtil'
+import { Graph, cytoscapeRenderer, GraphDebugControl,} from '@committed/components-graph'
+import { exampleModel } from './StoryUtil'
 
 export default {
   title: 'Components/Graph',

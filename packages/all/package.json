@@ -5,9 +5,9 @@
   "author": "Committed",
   "license": "MIT",
   "private": false,
-  "main": "dist/committed-components-graph.cjs.js",
-  "module": "dist/committed-components-graph.esm.js",
-  "typings": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/esm/index.js",
+  "typings": "./dist/index.d.ts",
   "sideEffects": false,
   "publishConfig": {
     "access": "public",
@@ -19,15 +19,13 @@
   "engines": {
     "node": ">=10"
   },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "jest --passWithNoTests --bail"
-    ]
-  },
   "peerDependencies": {
     "@committed/components": ">= 5.0.0",
     "react": ">= 16.8.0",
     "react-dom": ">= 16.8.0"
+  },
+  "devDependencies": {
+    "@committed/config": "*"
   },
   "dependencies": {
     "@committed/graph": "*",
@@ -36,14 +34,27 @@
     "@committed/components-graph-react": "*"
   },
   "scripts": {
-    "clean": "shx rm -rf dist",
-    "build": "rollpkg build --noStats --tsconfig ./tsconfig.build.json",
-    "watch": "rollpkg watch",
-    "lint": "eslint './src/**/*.{ts,tsx}'",
-    "precommit": "lint-staged",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "build": "tsup --legacy-output && tsc",
+    "lint": "tsc && eslint './src/**/*.{ts,tsx}'",
     "test": "jest --passWithNoTests",
     "test:ci": "jest --coverage --passWithNoTests",
-    "test:watch": "jest --watch --passWithNoTests"
+    "test:watch": "jest --watch --passWithNoTests",
+    "precommit": "lint-staged",
+    "dev": "tsup --watch"
+  },
+  "tsup": {
+    "clean": true,
+    "entry": [
+      "src/index.ts"
+    ],
+    "format": [
+      "cjs",
+      "esm"
+    ],
+    "target": "es2020",
+    "minify": true,
+    "sourcemap": true
   },
   "repository": {
     "type": "git",

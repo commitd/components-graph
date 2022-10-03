@@ -1,7 +1,6 @@
+import { cytoscapeRenderer, Graph, GraphRendererOptions } from '@committed/components-graph'
 import { Generator, GraphModel } from '@committed/graph'
 import React from 'react'
-import { Graph } from '../'
-import { cytoscapeRenderer, GraphRendererOptions } from '../../../graph'
 
 export const exampleModel = Generator.randomGraph()
 

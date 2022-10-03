@@ -1,0 +1,39 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "pipeline": {
+    "//#format": {
+      "outputs": [],
+      "outputMode": "new-only"
+    },
+    "//#sonar": {
+      "outputs": [],
+      "dependsOn": ["^build"],
+      "outputMode": "new-only"
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"],
+      "outputMode": "new-only"
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "outputs": ["coverage/**"],
+      "inputs": ["package.json", "package-lock.json", "src/**"],
+      "outputMode": "new-only"
+    },
+    "lint": {
+      "dependsOn": ["^build"],
+      "inputs": ["package.json", "package-lock.json", "src/**"],
+      "outputs": [],
+      "outputMode": "new-only"
+    },
+    "dev": {
+      "cache": false
+    },
+    "serve": {
+      "dependsOn": ["build"],
+      "outputs": [],
+      "outputMode": "new-only"
+    }
+  }
+}

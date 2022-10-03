@@ -1,8 +1,7 @@
-import { GraphModel } from '@committed/graph'
 import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
-import { Graph } from '../'
-import { exampleRenderer } from '../../../graph/renderer/ExampleRenderer'
+import { GraphModel, Graph } from '@committed/components-graph'
+import { exampleRenderer } from './ExampleRenderer'
 
 export default {
   title: 'Examples/CustomRenderer',

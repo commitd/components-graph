@@ -1,8 +1,7 @@
-import { GraphModel } from '@committed/graph'
+import { Graph, GraphModel } from '@committed/components-graph'
 import { Json, JsonExample } from '@committed/graph-json'
 import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
-import { Graph } from '..'
 import { Template } from './StoryUtil'
 
 const { smallGraph, largeGraph } = JsonExample

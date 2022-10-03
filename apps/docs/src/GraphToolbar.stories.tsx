@@ -1,16 +1,11 @@
 import { Flex } from '@committed/components'
 import {
   ContentModel,
-  CustomGraphLayout,
-  DecoratedNode,
-  Generator,
-  GraphModel,
-} from '@committed/graph'
+  CustomGraphLayout, cytoscapeRenderer, DecoratedNode,
+  Generator, Graph, GraphModel, GraphToolbar, GraphToolbarProps
+} from '@committed/components-graph'
 import { Meta, Story } from '@storybook/react'
 import React, { useEffect, useState } from 'react'
-import { GraphToolbar, GraphToolbarProps } from '.'
-import { cytoscapeRenderer } from '../../graph/renderer/CytoscapeRenderer'
-import { Graph } from '../Graph'
 
 function isFunction(
   modelChange: GraphModel | ((model: GraphModel) => GraphModel)

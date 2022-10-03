@@ -57,6 +57,7 @@ export function initializeCytoscape(
 ): void {
   try {
     cyuse(register)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     cyuse(ccola)
   } catch {
     // Ignore multiple attempts to initialize

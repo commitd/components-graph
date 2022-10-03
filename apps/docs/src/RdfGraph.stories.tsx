@@ -1,12 +1,8 @@
 import { Alert, AlertContent, AlertTitle, Flex } from '@committed/components'
-import { ContentModel, GraphModel, ModelNode } from '@committed/graph'
+import { ContentModel, cytoscapeRenderer, Graph, GraphModel, GraphToolbar, ModelNode, NodeViewer } from '@committed/components-graph'
 import { Rdf, RdfUtil } from '@committed/graph-rdf'
 import { Meta, Story } from '@storybook/react'
 import React, { useEffect, useState } from 'react'
-import { Graph } from '..'
-import { cytoscapeRenderer } from '../../../graph'
-import { GraphToolbar } from '../../GraphToolbar'
-import { NodeViewer } from '../../NodeViewer'
 import { Template } from './StoryUtil'
 
 export default {

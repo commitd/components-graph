@@ -7,21 +7,25 @@
   "private": false,
   "repository": "git://github.com/commitd/components-graph",
   "scripts": {
-    "clean": "shx rm -rf dist",
     "commit": "cz",
-    "build": "npm run build -ws",
-    "lint": "npm run lint -ws",
-    "test": "jest --passWithNoTests",
-    "test:watch": "jest --watch --passWithNoTests",
+    "ci": "turbo run format build lint sonar",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "dev": "turbo run dev",
+    "serve": "turbo run serve",
+    "sonar": "jest",
+    "test:watch": "jest --watch",
     "coverage": "npx live-server coverage/lcov-report",
     "size": "size-limit",
     "analyze": "size-limit --why",
+    "example": "npm -w=@committed/graph-example run serve",
     "generate": "plop --plopfile ./generators/plopfile.js",
-    "format": "prettier --write '**/{src,test,stories}/**/{*.js,*.ts,*.tsx,*.json,*.md,*.mdx}' example/index.tsx",
-    "format:check": "prettier --check '**/{src,test,stories}/**/{*.js,*.ts,*.tsx,*.json,*.md,*.mdx}' example/index.tsx",
-    "storybook": "npm run storybook -w=packages/react",
-    "storybook:build": "npm run storybook:build -w=packages/react",
-    "storybook:deploy": "npm run storybook:deploy -w=packages/react",
+    "format": "prettier  --loglevel error --check '**/{src,test,stories}/**/{*.js,*.ts,*.tsx,*.json,*.md,*.mdx}'",
+    "format:fix": "prettier --write '**/{src,test,stories}/**/{*.js,*.ts,*.tsx,*.json,*.md,*.mdx}'",
+    "storybook": "npm run dev -w=apps/docs",
+    "storybook:build": "npm run build -w=apps/docs",
+    "storybook:deploy": "npm run deploy -w=apps/docs",
     "prepare": "husky install",
     "precommit": "npm run precommit -ws",
     "semantic-release": "multi-semantic-release"
@@ -30,46 +34,8 @@
     "semi": false,
     "singleQuote": true
   },
-  "eslintConfig": {
-    "extends": [
-      "./node_modules/rollpkg/configs/eslint"
-    ],
-    "plugins": [
-      "import"
-    ],
-    "parser": "@typescript-eslint/parser",
-    "settings": {
-      "import/parsers": {
-        "@typescript-eslint/parser": [
-          ".ts",
-          ".tsx"
-        ]
-      },
-      "import/resolver": {
-        "typescript": {
-          "alwaysTryTypes": true
-        }
-      }
-    },
-    "rules": {
-      "import/default": "off",
-      "import/no-default-export": "off",
-      "react/display-name": "off",
-      "import/no-named-as-default-member": "warn"
-    },
-    "ignorePatterns": [
-      "dist",
-      "node_modules",
-      "**/*.stories.tsx",
-      "**/*.test.ts",
-      "**/*.test.tsx"
-    ]
-  },
   "lint-staged": {
-    "*.{ts,tsx,md,json,mdx}": "prettier --write",
-    "*.{ts,tsx}": [
-      "npm run precommit"
-    ]
+    "*.{ts,tsx,md,json,mdx}": "prettier --write"
   },
   "release": {
     "branches": [
@@ -90,75 +56,39 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "jest": {
-    "preset": "rollpkg",
-    "projects": [
-      "<rootDir>/packages/graph",
-      "<rootDir>/packages/graph-json",
-      "<rootDir>/packages/graph-rdf",
-      "<rootDir>/packages/react",
-      "<rootDir>/packages/all"
-    ],
-    "coverageReporters": [
-      [
-        "json",
-        {
-          "file": ".nyc_output/coverage.json"
-        }
-      ],
-      "lcov",
-      [
-        "text",
-        {
-          "skipFull": true
-        }
-      ]
-    ],
-    "collectCoverage": true,
-    "testResultsProcessor": "jest-sonar-reporter",
-    "moduleDirectories": [
-      "node_modules"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.{ts,tsx}",
-      "!src/types/**/*"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/src/typings.d.ts",
-      "./test/*",
-      ".*/index.ts",
-      ".*.test.ts",
-      ".*.test.tsx",
-      ".*.stories.tsx"
-    ]
-  },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
-    "@committed/components": "^6.3.0",
+    "@committed/components": "^8.1.3",
     "@qiwi/multi-semantic-release": "^3.16.0",
-    "@storybook/addon-docs": "^6.3.8",
-    "@storybook/addon-essentials": "^6.3.8",
-    "@storybook/addons": "^6.3.8",
-    "@storybook/react": "^6.3.8",
-    "@storybook/storybook-deployer": "^2.8.10",
-    "@testing-library/jest-dom": "^5.11.5",
-    "@testing-library/react": "^12.0.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^7.0.0",
     "@testing-library/user-event": "^13.1.9",
     "@types/faker": "^5.5.9",
+    "@types/jest": "^29.1.0",
     "@types/n3": "^1.10.3",
     "@types/react-cytoscapejs": "^1.1.2",
     "@types/tinycolor2": "^1.4.3",
     "@types/uuid": "^8.3.0",
+    "@typescript-eslint/eslint-plugin": "^5.38.1",
+    "@typescript-eslint/parser": "^5.38.1",
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^7.28.0",
-    "eslint-import-resolver-typescript": "^2.4.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "faker": "^5.5.3",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-typescript": "^2.7.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^27.0.4",
+    "eslint-plugin-jest-dom": "^4.0.2",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-react": "^7.31.8",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^6.0.0",
+    "jest": "^29.1.1",
+    "jest-environment-jsdom": "^29.1.1",
     "jest-sonar-reporter": "^2.0.0",
+    "jest-watch-typeahead": "^2.2.0",
     "lint-staged": "^11.0.0",
     "prettier": "^2.1.2",
     "react": "^17.0.1",
@@ -166,17 +96,21 @@
     "react-is": "^17.0.1",
     "react-test-renderer": "^17.0.1",
     "resize-observer-polyfill": "^1.5.1",
-    "rollpkg": "^0.5.7",
     "shx": "^0.3.2",
     "storybook-dark-mode": "^1.0.8",
+    "ts-jest": "^29.0.3",
     "tslib": "^2.0.3",
-    "typescript": "^4.4.2"
+    "tsup": "^6.2.3",
+    "turbo": "^1.5.4",
+    "typescript": "4.7.4"
   },
   "workspaces": [
+    "packages/config",
     "packages/graph",
     "packages/graph-rdf",
     "packages/graph-json",
     "packages/react",
-    "packages/all"
+    "packages/all",
+    "apps/*"
   ]
 }

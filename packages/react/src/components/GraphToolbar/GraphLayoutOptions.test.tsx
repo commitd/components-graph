@@ -1,19 +1,18 @@
 import { cytoscapeRenderer } from '../../graph'
 import React from 'react'
 import { renderLight, screen, userEvent } from '../../test/setup'
-import { Layout } from './GraphToolbar.stories'
+import { Layout } from './GraphToolbar.test'
 
 it('Can select layouts', () => {
   renderLight(
     <Layout
-      {...(Layout.args as any)}
       withGraph={false}
       layouts={[
         ...cytoscapeRenderer.layouts,
         {
           name: 'test',
-          runLayout: () => {},
-          stopLayout: () => {},
+          runLayout: jest.fn(),
+          stopLayout: jest.fn(),
         },
       ]}
     />
@@ -66,9 +65,7 @@ it('Can select layouts', () => {
 })
 
 it('no options when no layout', () => {
-  renderLight(
-    <Layout {...(Layout.args as any)} withGraph={false} layouts={[]} />
-  )
+  renderLight(<Layout withGraph={false} layouts={[]} />)
   expect(
     screen.queryByRole('button', { name: /Layout/i })
   ).not.toBeInTheDocument()

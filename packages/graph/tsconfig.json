@@ -1,7 +1,9 @@
 {
-  "extends": "rollpkg/configs/tsconfig.json",
+  "extends": "@committed/config/tsconfig/base.json",
   "compilerOptions": {
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "rootDir": "src",
+    "outDir": "dist"
   },
   "include": ["src", "../graph-json/src/fromJsonGraph.test.ts"]
 }

@@ -1,7 +1,7 @@
 import { Box, Button, Heading, Monospace, Row } from '@committed/components'
 import { Generator } from '@committed/graph'
+import { GraphRenderer, GraphRendererOptions } from 'graph'
 import React from 'react'
-import { GraphRenderer, GraphRendererOptions } from '../types'
 
 const Renderer: GraphRenderer<GraphRendererOptions>['render'] = ({
   graphModel,

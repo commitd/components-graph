@@ -3,9 +3,9 @@ import { Generator, ModelNode } from '@committed/graph'
 import { useBoolean } from '@committed/hooks'
 import { Meta, Story } from '@storybook/react'
 import React, { useState } from 'react'
-import { cytoscapeRenderer } from '../../graph/renderer/CytoscapeRenderer'
-import { Graph } from '../Graph'
-import { NodeViewer } from './NodeViewer'
+import { cytoscapeRenderer } from '@committed/components-graph'
+import { Graph } from '@committed/components-graph'
+import { NodeViewer } from '@committed/components-graph'
 import faker from 'faker'
 
 export default {

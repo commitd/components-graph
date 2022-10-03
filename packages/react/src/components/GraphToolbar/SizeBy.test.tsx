@@ -1,9 +1,9 @@
 import React from 'react'
 import { renderLight, screen, userEvent } from '../../test/setup'
-import { SizeBy } from './GraphToolbar.stories'
+import { SizeBy } from './GraphToolbar.test'
 
 it('Can select to size by', () => {
-  renderLight(<SizeBy {...(SizeBy.args as any)} withGraph={false} />)
+  renderLight(<SizeBy withGraph={false} />)
 
   userEvent.tab()
   userEvent.keyboard('{enter}')

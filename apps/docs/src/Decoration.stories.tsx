@@ -1,15 +1,12 @@
 import {
-  Generator,
   ContentModel,
-  DecoratorModel,
-  GraphModel,
+  DecoratorModel, Generator, Graph, GraphModel,
   ModelNode,
   NodeDecoration,
-  sizeNodeBy,
-} from '@committed/graph'
+  sizeNodeBy
+} from '@committed/components-graph'
 import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
-import { Graph } from '../'
 import { exampleGraphData } from './exampleData'
 import { Template } from './StoryUtil'
 

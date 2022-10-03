@@ -3,10 +3,11 @@
 import {
   CSSProps,
   Menu,
-  MenuContent,
   MenuRadioGroup,
   MenuRadioItem,
-  MenuTriggerItem,
+  MenuSub,
+  MenuSubContent,
+  MenuSubTrigger,
   VariantProps,
 } from '@committed/components'
 import { GraphLayout, GraphModel } from '@committed/graph'
@@ -75,9 +76,9 @@ export const GraphLayoutOptions: React.VFC<GraphLayoutOptionsProps> = ({
   )
 
   return (
-    <Menu css={css as any} {...props}>
-      <MenuTriggerItem>Graph Layout</MenuTriggerItem>
-      <MenuContent>
+    <MenuSub {...props}>
+      <MenuSubTrigger>Graph Layout</MenuSubTrigger>
+      <MenuSubContent css={css as any}>
         <MenuRadioGroup
           value={currentLayout}
           onValueChange={handleSelectLayout}
@@ -88,7 +89,7 @@ export const GraphLayoutOptions: React.VFC<GraphLayoutOptionsProps> = ({
             </MenuRadioItem>
           ))}
         </MenuRadioGroup>
-      </MenuContent>
-    </Menu>
+      </MenuSubContent>
+    </MenuSub>
   )
 }

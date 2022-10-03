@@ -1,7 +1,6 @@
+import { Generator, Graph, GraphModel } from '@committed/components-graph'
 import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
-import { Graph } from '../'
-import { Generator, GraphModel } from '@committed/graph'
 import { exampleModel, Template } from './StoryUtil'
 
 export default {
