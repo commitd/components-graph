@@ -1,5 +1,4 @@
 export * from '@committed/graph'
-export * from '@committed/graph-rdf'
 export * from '@committed/components-graph-react'
 
 import { Json } from '@committed/graph-json'

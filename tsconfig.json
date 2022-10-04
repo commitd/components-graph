@@ -1,7 +1,0 @@
-{
-  "extends": "rollpkg/configs/tsconfig.json",
-  "compilerOptions": {
-    "baseUrl": "src"
-  },
-  "include": ["src"]
-}

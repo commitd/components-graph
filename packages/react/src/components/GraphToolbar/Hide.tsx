@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { CSSProps, MenuItemCheckbox, VariantProps } from '@committed/components'
+import { CSSProps, MenuCheckboxItem, VariantProps } from '@committed/components'
 import { GraphModel } from '@committed/graph'
 import React, { useCallback } from 'react'
 
 export type HideProps = CSSProps &
-  VariantProps<typeof MenuItemCheckbox> & {
+  VariantProps<typeof MenuCheckboxItem> & {
     /** Declarative definition of graph state */
     model: GraphModel
     /** The graph model change callback */
@@ -47,7 +47,7 @@ export const Hide: React.FC<HideProps> = ({
 
   return (
     <>
-      <MenuItemCheckbox
+      <MenuCheckboxItem
         css={css as any}
         {...props}
         key="hideNodeLabels"
@@ -55,8 +55,8 @@ export const Hide: React.FC<HideProps> = ({
         onCheckedChange={handleToggleHideNodeLabels}
       >
         Hide node labels
-      </MenuItemCheckbox>
-      <MenuItemCheckbox
+      </MenuCheckboxItem>
+      <MenuCheckboxItem
         css={css as any}
         {...props}
         key="hideEdgeLabels"
@@ -64,7 +64,7 @@ export const Hide: React.FC<HideProps> = ({
         onCheckedChange={handleToggleHideEdgeLabels}
       >
         Hide edge labels
-      </MenuItemCheckbox>
+      </MenuCheckboxItem>
     </>
   )
 }

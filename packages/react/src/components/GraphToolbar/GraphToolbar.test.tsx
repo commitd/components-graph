@@ -1,21 +1,132 @@
-import { GraphModel } from '@committed/graph'
-import React from 'react'
-import { GraphToolbar } from '.'
+import { Flex } from '@committed/components'
+import {
+  CustomGraphLayout,
+  DecoratedNode,
+  Generator,
+  GraphModel,
+} from '@committed/graph'
+import React, { useState } from 'react'
+import { GraphToolbar, GraphToolbarProps } from '.'
 import { cytoscapeRenderer } from '../../graph'
 import { renderDark, renderLight, userEvent } from '../../test/setup'
-import { Empty, Horizontal, Vertical } from './GraphToolbar.stories'
+import { Graph } from '../Graph'
+
+const empty = {
+  zoom: false,
+  layout: false,
+  refit: false,
+  hide: false,
+  size: false,
+}
+
+const typesLayout: CustomGraphLayout = {
+  name: 'Data Structure',
+  runLayout: (model: GraphModel): Record<string, cytoscape.Position> => {
+    const paddingTop = 50
+    const paddingLeft = 50
+    const columnWidth = 250
+    const rowHeight = 75
+    const byType = Object.values(
+      model.nodes.reduce<Record<string, DecoratedNode[]>>((acc, next) => {
+        acc[(next.attributes.type ?? 'unknown') as string] = (
+          acc[(next.attributes.type ?? 'unknown') as string] ?? []
+        ).concat(next)
+        return acc
+      }, {})
+    )
+    let column = 0
+    return byType.reduce<Record<string, cytoscape.Position>>((acc, nodes) => {
+      let row = 0
+      nodes.forEach((n) => {
+        acc[n.id] = {
+          x: column * columnWidth + paddingLeft,
+          y: row * rowHeight + paddingTop,
+        }
+        row++
+      })
+
+      column++
+      return acc
+    }, {})
+  },
+  stopLayout: () => {},
+}
+
+type TemplateProps = Omit<
+  GraphToolbarProps,
+  'model' | 'onModelChange' | 'layouts'
+> &
+  Partial<{
+    layouts: GraphToolbarProps['layouts']
+    model: GraphToolbarProps['model']
+    withGraph: boolean
+  }>
+
+const Template: React.FC<TemplateProps> = ({
+  direction = 'row',
+  withGraph = true,
+  layouts = cytoscapeRenderer.layouts,
+  ...props
+}) => {
+  const [model, setModel] = useState(Generator.randomGraph)
+
+  return (
+    <Flex
+      css={{
+        position: 'relative',
+        flexDirection: direction === 'row' ? 'column' : 'row',
+      }}
+    >
+      <GraphToolbar
+        direction={direction}
+        model={model}
+        onModelChange={setModel}
+        layouts={layouts}
+        {...props}
+      />
+      {withGraph && (
+        <Graph
+          model={model}
+          onModelChange={setModel}
+          renderer={cytoscapeRenderer}
+          options={{ height: 600 }}
+        />
+      )}
+    </Flex>
+  )
+}
+
+const Vertical: React.FC<TemplateProps> = (props: TemplateProps) => (
+  <Template direction="column" {...props} />
+)
+
+const Horizontal: React.FC<TemplateProps> = (props: TemplateProps) => (
+  <Template direction="row" {...props} />
+)
+
+export const Layout: React.FC<TemplateProps> = (props: TemplateProps) => (
+  <Template {...empty} layout {...props} />
+)
+
+export const SizeBy: React.FC<TemplateProps> = (props: TemplateProps) => (
+  <Template {...empty} size {...props} />
+)
+
+export const Hide: React.FC<TemplateProps> = (props: TemplateProps) => (
+  <Template {...empty} hide {...props} />
+)
+
+export const Empty: React.FC<TemplateProps> = (props: TemplateProps) => (
+  <Template {...empty} {...props} />
+)
 
 it('renders light', () => {
-  const { asFragment } = renderLight(
-    <Horizontal {...(Horizontal.args as any)} withGraph={false} />
-  )
+  const { asFragment } = renderLight(<Horizontal withGraph={false} />)
   expect(asFragment()).toBeDefined()
 })
 
 it('renders dark', () => {
-  const { asFragment } = renderDark(
-    <Vertical {...(Vertical.args as any)} withGraph={false} />
-  )
+  const { asFragment } = renderDark(<Vertical withGraph={false} />)
   expect(asFragment()).toBeDefined()
 })
 
@@ -41,8 +152,6 @@ test.each([
 })
 
 it('renders empty', () => {
-  const { asFragment } = renderDark(
-    <Empty {...(Empty.args as any)} withGraph={false} />
-  )
+  const { asFragment } = renderDark(<Empty withGraph={false} />)
   expect(asFragment()).toBeDefined()
 })

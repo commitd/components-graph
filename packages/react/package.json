@@ -5,9 +5,9 @@
   "author": "Committed",
   "private": false,
   "license": "MIT",
-  "main": "dist/committed-components-graph-react.cjs.js",
-  "module": "dist/committed-components-graph-react.esm.js",
-  "typings": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/index.d.ts",
   "sideEffects": false,
   "files": [
     "dist"
@@ -28,49 +28,40 @@
     "node": ">=10"
   },
   "jest": {
-    "preset": "rollpkg",
-    "setupFiles": [
-      "../../jest.patch-cssom.js"
-    ],
-    "collectCoverage": true,
-    "moduleDirectories": [
-      "node_modules"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.{ts,tsx}",
-      "!src/types/**/*"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/src/typings.d.ts",
-      "test/*",
-      ".*/index.ts",
-      ".*.test.ts",
-      ".*.test.tsx",
-      ".*.stories.tsx"
-    ]
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "jest --bail  --passWithNoTests"
-    ]
+    "preset": "@committed/config/jest/jsdom"
   },
   "scripts": {
-    "clean": "shx rm -rf dist",
-    "build": "rollpkg build --noStats --tsconfig ./tsconfig.build.json",
-    "watch": "rollpkg watch",
-    "lint": "eslint './src/**/*.{ts,tsx}'",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "build": "tsup --legacy-output && tsc --project tsconfig.build.json",
+    "lint": "tsc && eslint './src/**/*.{ts,tsx}'",
     "test": "jest",
     "test:ci": "jest --coverage",
     "test:watch": "jest --watchAll",
     "precommit": "lint-staged",
-    "storybook": "start-storybook -p 6006 -h 0.0.0.0",
-    "storybook:build": "build-storybook",
-    "storybook:deploy": "storybook-to-ghpages --ci"
+    "dev": "tsup --legacy-output --watch",
+    "fix": "TIMING=1 eslint src/**/*.ts* --fix"
+  },
+  "tsup": {
+    "clean": true,
+    "entry": [
+      "src/index.ts"
+    ],
+    "format": [
+      "cjs",
+      "esm"
+    ],
+    "target": "es2020",
+    "minify": true,
+    "sourcemap": true,
+    "tsconfig": "./tsconfig.build.json"
   },
   "peerDependencies": {
-    "@committed/components": ">= 5.0.0",
+    "@committed/components": ">= 8.1.2",
     "react": ">= 16.8.0",
     "react-dom": ">= 16.8.0"
+  },
+  "devDependencies": {
+    "@committed/config": "*"
   },
   "dependencies": {
     "@committed/graph": "*",

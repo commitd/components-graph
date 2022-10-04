@@ -77,7 +77,7 @@ beforeEach(() => {
 
 it('Create default sets default node decoration for light theme', () => {
   expect(decoratorModel.getDefaultNodeDecorator()()).toMatchInlineSnapshot(`
-    Object {
+    {
       "color": "$colors$brandYellow9",
       "opacity": 1,
       "shape": "ellipse",
@@ -90,7 +90,7 @@ it('Create default sets default node decoration for light theme', () => {
 
 it('Create default sets default node decoration for dark theme', () => {
   expect(decoratorModel.getDefaultNodeDecorator()()).toMatchInlineSnapshot(`
-    Object {
+    {
       "color": "$colors$brandYellow9",
       "opacity": 1,
       "shape": "ellipse",
@@ -109,7 +109,7 @@ it('Can supply partial decorator for default', () => {
   expect(decoration.color).toEqual('#123456')
   expect(decoration.size).toEqual(10)
   expect(decoration).toMatchInlineSnapshot(`
-    Object {
+    {
       "color": "#123456",
       "opacity": 1,
       "shape": "ellipse",
@@ -194,7 +194,7 @@ it('Node specific decoration overrides both decorator default decoration and dec
 
 it('Create default sets default edge decoration for theme', () => {
   expect(decoratorModel.getDefaultEdgeDecorator()()).toMatchInlineSnapshot(`
-    Object {
+    {
       "color": "$colors$textSecondary",
       "opacity": 1,
       "size": 2,
@@ -216,7 +216,7 @@ it('Can supply partial decorator function for default', () => {
   expect(decoration.color).toEqual('$colors$success')
   expect(decoration.size).toEqual(10)
   expect(decoration).toMatchInlineSnapshot(`
-    Object {
+    {
       "color": "$colors$success",
       "opacity": 1,
       "size": 10,

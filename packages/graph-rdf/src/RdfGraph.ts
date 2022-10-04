@@ -1,4 +1,4 @@
-import { ContentModel, ModelEdge, ModelItem, ModelNode } from '@committed/graph'
+import { ContentModel, ModelEdge, ModelNode } from '@committed/graph'
 import {
   DataFactory,
   Literal,
@@ -255,7 +255,7 @@ class GraphBuilder {
       )
       if (match !== undefined) {
         const prefix = this.options.prefixes[match]
-        return `${prefix}:${id.substr(match.length)}`
+        return `${prefix}:${id.substring(match.length)}`
       }
     }
     return id

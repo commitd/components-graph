@@ -3,10 +3,11 @@
 import {
   CSSProps,
   Menu,
-  MenuContent,
   MenuRadioGroup,
   MenuRadioItem,
-  MenuTriggerItem,
+  MenuSub,
+  MenuSubContent,
+  MenuSubTrigger,
   VariantProps,
 } from '@committed/components'
 import { GraphModel, sizeNodeByAttribute } from '@committed/graph'
@@ -81,9 +82,9 @@ export const SizeBy: React.VFC<SizeByProps> = ({
   }
 
   return (
-    <Menu css={css as any} {...props}>
-      <MenuTriggerItem>Size nodes by</MenuTriggerItem>
-      <MenuContent>
+    <MenuSub {...props}>
+      <MenuSubTrigger>Size nodes by</MenuSubTrigger>
+      <MenuSubContent css={css as any}>
         <MenuRadioGroup
           value={
             selectedNodeAttributes
@@ -101,7 +102,7 @@ export const SizeBy: React.VFC<SizeByProps> = ({
             </MenuRadioItem>
           ))}
         </MenuRadioGroup>
-      </MenuContent>
-    </Menu>
+      </MenuSubContent>
+    </MenuSub>
   )
 }

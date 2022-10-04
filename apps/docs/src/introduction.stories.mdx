@@ -1,0 +1,126 @@
+import { Meta } from '@storybook/addon-docs'
+import { useDarkMode } from 'storybook-dark-mode'
+import { useState } from 'react'
+import { Graph, GraphToolbar, cytoscapeRenderer, Generator, GraphModel  } from '@committed/components-graph'
+import { Row, ComponentsProvider } from '@committed/components'
+
+<Meta title="Introduction/Graph" />
+
+# Committed Components Graph
+
+[![Committed Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fcommitted.io%2Fbadge)](https://committed.io)
+![Build Status](https://github.com/commitd/components-graph/workflows/build/badge.svg?branch=main)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=commitd_components-graph&metric=alert_status&token=aa002ca75e2f3a6d028af9074bceeda1ffa2f9f7)](https://sonarcloud.io/dashboard?id=commitd_components-graph)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=commitd_components-graph&metric=coverage&token=aa002ca75e2f3a6d028af9074bceeda1ffa2f9f7)](https://sonarcloud.io/dashboard?id=commitd_components-graph)
+![GitHub repo size](https://img.shields.io/github/repo-size/commitd/components-graph)
+
+A graph visualisation to be used in Committed products. It supports custom decoration, different layouts and user interactions.
+
+export const GraphExample = () => {
+  const choice = useDarkMode() ? 'dark' : 'light'
+  const [model, setModel] = useState(Generator.randomGraph)
+  return (
+    <ComponentsProvider theme={{choice}} local={true}>
+      <Row
+        css={{
+          backgroundColor: '$background',
+          mb: '$3',
+          border: '2px solid',
+        }}
+      >
+        <GraphToolbar
+          flexDirection="column"
+          model={model}
+          onModelChange={setModel}
+        />
+        <Graph
+          model={model}
+          onModelChange={setModel}
+          renderer={cytoscapeRenderer}
+          options={{ height: 600 }}
+        />
+      </Row>
+    </ComponentsProvider>
+  )
+}
+
+<GraphExample />
+
+## 🚀 Quickstart
+
+For use with [`@committed/components`](https://components.committed.software),
+
+```bash
+npm add @committed/components @committed/components-graph
+```
+
+add any missing peer dependencies
+
+```bash
+npm add react react-dom
+```
+
+### Usage
+
+```tsx
+import React from 'react'
+import ReactDOM from 'react-dom'
+import {
+  Generator,
+  Graph,
+  GraphModel,
+  GraphToolbar,
+  cytoscapeRenderer,
+  initializeCytoscape,
+} from '@committed/components-graph'
+import { Row, ComponentsProvider } from '@committed/components'
+
+// If using the cytoscape renderer, just once in your application add
+import { use } from 'cytoscape'
+initializeCytoscape(use)
+
+const App: React.FC = () => {
+  const [model, setModel] = React.useState(Generator.randomGraph)
+  return (
+    <ComponentsProvider>
+      <Row>
+        <GraphToolbar
+          flexDirection="column"
+          model={model}
+          onModelChange={setModel}
+        />
+        <Graph
+          model={model}
+          onModelChange={setModel}
+          renderer={cytoscapeRenderer}
+          options={{ height: 600 }}
+        />
+      </Row>
+    </ComponentsProvider>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))
+```
+
+## 💻 Development
+
+On first use run `npm install` in both the root folder and the example folder.
+
+The main build is currently performed using:
+
+```bash
+npm run build
+```
+
+For development use
+
+```bash
+npm run dev
+```
+
+the same commands can be run in the example folder to run a usage example.
+
+## ©️ License
+
+[MIT](/LICENSE) - © Committed Software 2020-2022 https://committed.io
