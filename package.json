@@ -28,7 +28,7 @@
     "storybook:deploy": "npm run deploy -w=apps/docs",
     "prepare": "husky install",
     "precommit": "npm run precommit -ws",
-    "semantic-release": "multi-semantic-release"
+    "semantic-release": "multi-semantic-release --ignore-packages=apps/**,packages/config"
   },
   "prettier": {
     "semi": false,
