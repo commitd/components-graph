@@ -5,5 +5,5 @@
     "rootDir": "src",
     "outDir": "dist"
   },
-  "include": ["src", "../graph-json/src/fromJsonGraph.test.ts"]
+  "include": ["src"]
 }
