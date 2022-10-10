@@ -8,7 +8,7 @@
   "repository": "git://github.com/commitd/components-graph",
   "scripts": {
     "commit": "cz",
-    "ci": "turbo run format build lint sonar",
+    "ci": "turbo run format build lint && npm run sonar",
     "build": "turbo run build",
     "test": "turbo run test",
     "lint": "turbo run lint",
