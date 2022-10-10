@@ -24,25 +24,6 @@ module.exports =  {
     },
   },
   framework: '@storybook/react',
-  core: {
-    builder: 'webpack4',
-  },
-  features: {
-    postcss: false,
-  },
-
-  webpackFinal: async (config, { configType }) => {
-    config.resolve?.extensions?.push('*', '.mjs', '.js', '.json')
-    
-    if(config.module){
-      config.module.rules.push({
-        test: /\.mjs$/,
-        include: /node_modules/,
-        type: 'javascript/auto'
-      })
-    }
-     return config;
-  },
 
   previewHead: (head) => (`
   ${head}

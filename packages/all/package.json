@@ -5,9 +5,9 @@
   "author": "Committed",
   "license": "MIT",
   "private": false,
-  "main": "./dist/index.js",
-  "module": "./dist/esm/index.js",
-  "typings": "./dist/index.d.ts",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
   "sideEffects": false,
   "publishConfig": {
     "access": "public",
@@ -20,12 +20,14 @@
     "node": ">=10"
   },
   "peerDependencies": {
-    "@committed/components": ">= 5.0.0",
+    "@committed/components": ">= 8.0.0",
     "react": ">= 16.8.0",
     "react-dom": ">= 16.8.0"
   },
   "devDependencies": {
-    "@committed/config": "*"
+    "@committed/config": "*",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
   "dependencies": {
     "@committed/graph": "*",
@@ -35,26 +37,15 @@
   },
   "scripts": {
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
-    "build": "tsup --legacy-output && tsc",
+    "build:clean": "rm -rf dist",
+    "build:ts": "tsc --project tsconfig.json",
+    "build:js": "node ../../node_modules/@committed/config/esbuild/build.mjs",
+    "build": "npm run build:clean && npm run build:ts && npm run build:js",
     "lint": "tsc && eslint './src/**/*.{ts,tsx}'",
     "test": "jest --passWithNoTests",
     "test:ci": "jest --coverage --passWithNoTests",
     "test:watch": "jest --watch --passWithNoTests",
-    "precommit": "lint-staged",
-    "dev": "tsup --watch"
-  },
-  "tsup": {
-    "clean": true,
-    "entry": [
-      "src/index.ts"
-    ],
-    "format": [
-      "cjs",
-      "esm"
-    ],
-    "target": "es2020",
-    "minify": true,
-    "sourcemap": true
+    "precommit": "lint-staged"
   },
   "repository": {
     "type": "git",

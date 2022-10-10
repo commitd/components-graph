@@ -13,7 +13,7 @@ export const prefixedId =
     const match = Object.keys(prefixes).find((prefix) => id.startsWith(prefix))
     if (match !== undefined) {
       const prefix = prefixes[match]
-      return `${prefix}:${id.substr(match.length)}`
+      return `${prefix}:${id.substring(match.length)}`
     }
     return id
   }
@@ -23,7 +23,7 @@ export const fragmentId = (id: string): string => {
     const url = new URL(id)
     const hash = url.hash
     if (hash) {
-      return hash.substr(1)
+      return hash.substring(1)
     }
     const path = url.pathname
     return path.substring(path.lastIndexOf('/') + 1)

@@ -75,6 +75,8 @@
     "@typescript-eslint/parser": "^5.38.1",
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
+    "esbuild": "^0.15.10",
+    "esbuild-node-externals": "^1.5.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^2.7.1",
@@ -100,7 +102,6 @@
     "storybook-dark-mode": "^1.0.8",
     "ts-jest": "^29.0.3",
     "tslib": "^2.0.3",
-    "tsup": "^6.2.3",
     "turbo": "^1.5.4",
     "typescript": "4.7.4"
   },
