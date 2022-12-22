@@ -39,6 +39,26 @@ it('Can select layouts', () => {
   ).toBe('false')
   expect(
     screen
+      .getByRole('menuitemradio', { name: /Hierarchical/i })
+      .getAttribute('aria-checked')
+  ).toBe('false')
+  expect(
+    screen
+      .getByRole('menuitemradio', { name: /Concentric/i })
+      .getAttribute('aria-checked')
+  ).toBe('false')
+  expect(
+    screen
+      .getByRole('menuitemradio', { name: /Breadth-first/i })
+      .getAttribute('aria-checked')
+  ).toBe('false')
+  expect(
+    screen
+      .getByRole('menuitemradio', { name: /Cose/i })
+      .getAttribute('aria-checked')
+  ).toBe('false')
+  expect(
+    screen
       .getByRole('menuitemradio', { name: /test/i })
       .getAttribute('aria-checked')
   ).toBe('false')

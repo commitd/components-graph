@@ -1,7 +1,6 @@
-import { GraphModel } from '@committed/components-graph'
+import { Graph, GraphModel } from '@committed/components-graph'
 import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
-import { Graph } from '@committed/components-graph'
 import { exampleModel, Template } from './StoryUtil'
 
 export default {
@@ -45,6 +44,47 @@ export const GridLayout: React.FC = () => {
     GraphModel.applyLayout(
       exampleModel,
       exampleModel.getCurrentLayout().presetLayout('grid')
+    )
+  )
+  return <Template model={model} onModelChange={setModel} />
+}
+
+export const HierarchicalLayout: React.FC = () => {
+  const [model, setModel] = useState(
+    GraphModel.applyLayout(
+      exampleModel,
+      exampleModel.getCurrentLayout().presetLayout('hierarchical')
+    )
+  )
+  return <Template model={model} onModelChange={setModel} />
+}
+
+export const ConcentricLayout: React.FC = () => {
+  const [model, setModel] = useState(
+    GraphModel.applyLayout(
+      exampleModel,
+      exampleModel.getCurrentLayout().presetLayout('concentric')
+    )
+  )
+  return <Template model={model} onModelChange={setModel} />
+}
+
+export const BreadthfirstLayout: React.FC = () => {
+  const [model, setModel] = useState(
+    GraphModel.applyLayout(
+      exampleModel,
+      exampleModel.getCurrentLayout().presetLayout('breadth-first')
+    )
+  )
+  return <Template model={model} onModelChange={setModel} />
+}
+
+
+export const CoseLayout: React.FC = () => {
+  const [model, setModel] = useState(
+    GraphModel.applyLayout(
+      exampleModel,
+      exampleModel.getCurrentLayout().presetLayout('cose')
     )
   )
   return <Template model={model} onModelChange={setModel} />

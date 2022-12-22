@@ -1,5 +1,5 @@
 import { GraphModel } from '@committed/graph'
-import { CollectionArgument, NodeCollection } from 'cytoscape'
+import cytoscape, { CollectionArgument, NodeCollection } from 'cytoscape'
 import {
   CUSTOM_LAYOUT_NAME,
   CytoscapeGraphLayoutAdapter,
@@ -9,7 +9,7 @@ import {
 } from './CytoscapeGraphLayoutAdapter'
 
 it('should not throw if cytoscape undefined', () => {
-  const cyUseMock = jest.fn()
+  const cyUseMock = jest.fn() as unknown as typeof cytoscape
   expect(() => register(cyUseMock)).not.toThrow()
 })
 
@@ -24,7 +24,7 @@ it('should throw if no algorithm defined', () => {
 })
 
 it('should register with cytoscape', () => {
-  const cyMock = jest.fn()
+  const cyMock = jest.fn() as unknown as typeof cytoscape
 
   register(cyMock)
 
