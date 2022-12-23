@@ -239,9 +239,6 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
     [onViewNode, graphModel]
   )
 
-  const updateLayout = useCallback(() => {
-    triggerLayout(layout)
-  }, [triggerLayout, layout])
   const selectNode = useCallback(
     (e: EventObject) => {
       const selectedNodes = e.target as NodeCollection
@@ -280,8 +277,6 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
     }
   }, [])
 
-  useCyListener(cytoscape, updateLayout, 'add remove', 'edge')
-  useCyListener(cytoscape, updateLayout, 'resize', 'edge')
   useCyListener(cytoscape, selectNode, 'select', 'node')
   useCyListener(cytoscape, unselectNode, 'unselect', 'node')
   useCyListener(cytoscape, selectEdge, 'select', 'edge')
