@@ -88,7 +88,16 @@ export interface CustomGraphLayout {
   stopLayout(): void
 }
 
-export type PresetGraphLayout = 'force-directed' | 'circle' | 'grid' | 'cola'
+export type PresetGraphLayout =
+  | 'force-directed'
+  | 'circle'
+  | 'grid'
+  | 'cola'
+  | 'hierarchical'
+  | 'concentric'
+  | 'breadth-first'
+  | 'cose'
+
 export type GraphLayout = PresetGraphLayout | CustomGraphLayout
 
 export type NodePosition = {

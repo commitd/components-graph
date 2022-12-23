@@ -25,6 +25,10 @@ The GraphModel defines:
 	- Force Layout / Cola JS
 	- Circle
 	- Grid
+  - Hierarchical - directed acyclic graph layout
+  - Concentric - radial degree based layout
+  - Breadth-first - tree based layout
+  - Cose - A CoSE Bilkent is a force-directed physics simulation 
 	- Custom (supplying a function)
 - CommandQueue
 	- Trigger behaviour from outside the GraphModel/React component

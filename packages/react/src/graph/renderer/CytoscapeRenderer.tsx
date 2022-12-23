@@ -25,6 +25,13 @@ import {
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 import ccola from 'cytoscape-cola'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+import dagre from 'cytoscape-dagre'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+import cose from 'cytoscape-cose-bilkent'
+
 import React, {
   CSSProperties,
   useCallback,
@@ -36,6 +43,7 @@ import React, {
 import CytoscapeComponent from 'react-cytoscapejs'
 import tinycolor from 'tinycolor2'
 import { useDebouncedCallback } from 'use-debounce'
+import { layouts as defaultLayouts } from '../layouts'
 import { GraphRenderer, GraphRendererOptions } from '../types'
 import {
   CUSTOM_LAYOUT_NAME,
@@ -43,7 +51,6 @@ import {
   register,
 } from './CytoscapeGraphLayoutAdapter'
 import { useCyListener } from './useCyListener'
-import { layouts as defaultLayouts } from '../layouts'
 
 /**
  * Call to initialize the additional modules.
@@ -59,6 +66,10 @@ export function initializeCytoscape(
     cyuse(register)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     cyuse(ccola)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    cyuse(dagre)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    cyuse(cose)
   } catch {
     // Ignore multiple attempts to initialize
   }

@@ -56,7 +56,9 @@
   "dependencies": {
     "@committed/graph": "*",
     "cytoscape": "^3.23.0",
-    "cytoscape-cola": "^2.4.0",
+    "cytoscape-cola": "^2.5.1",
+    "cytoscape-cose-bilkent": "^4.1.0",
+    "cytoscape-dagre": "^2.5.0",
     "react-cytoscapejs": "^1.2.1",
     "tinycolor2": "^1.4.2",
     "typescript": "^4.4.4",

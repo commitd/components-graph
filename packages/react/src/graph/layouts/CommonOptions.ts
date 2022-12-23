@@ -17,6 +17,14 @@ export const commonOptions: LayoutOptions = {
   // The duration of the animation for animate:'end'
   animationDuration: 500,
 
+  // a function that determines whether the node should be animated.
+  // All nodes animated by default on animate enabled.
+  // Non-animated nodes are positioned immediately when the layout starts
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  animateFilter: function (_node, _i) {
+    return true
+  },
+
   // Whether to fit the network view after when done
   fit: true,
 
@@ -37,4 +45,14 @@ export const commonOptions: LayoutOptions = {
 
   // Randomize the initial positions of the nodes (true) or use existing positions (false)
   randomize: false,
+
+  // callback on layoutready
+  ready: undefined,
+  // callback on layoutstop
+  stop: undefined,
+  // transform a given node position. Useful for changing flow direction in discrete layouts
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  transform: function (_node, position) {
+    return position
+  },
 }

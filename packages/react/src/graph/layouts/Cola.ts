@@ -3,7 +3,6 @@ import { commonOptions } from './CommonOptions'
 export const cola = {
   ...commonOptions,
   name: 'cola',
-  animate: true,
   refresh: 1, // number of ticks per frame; higher is faster but more jerky
   maxSimulationTime: 4000, // max length in ms to run the layout
   ungrabifyWhileSimulating: false, // so you can't drag nodes during layout

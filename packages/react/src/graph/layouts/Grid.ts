@@ -11,9 +11,5 @@ export const grid: GridLayoutOptions = {
   condense: false, // uses all available space on false, uses minimal space on true
   rows: undefined, // force num of rows in the grid
   cols: undefined, // force num of columns in the grid
-
   sort: undefined, // a sorting function to order the nodes; e.g. function(a, b){ return a.data('weight') - b.data('weight') }
-  ready: undefined, // callback on layoutready
-  stop: undefined, // callback on layoutstop
-  // transform a given node position. Useful for changing flow direction in discrete layouts
 }
