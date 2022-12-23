@@ -57,11 +57,11 @@ it('can be rendered', () => {
     />
   )
   expect(asFragment()).toBeDefined()
-  expect(cytoscape.addListener).toHaveBeenCalledTimes(10)
+  expect(cytoscape.addListener).toHaveBeenCalledTimes(8)
 
   unmount()
 
-  expect(cytoscape.removeListener).toHaveBeenCalledTimes(10)
+  expect(cytoscape.removeListener).toHaveBeenCalledTimes(8)
 })
 
 it('layout command triggers layout', () => {
