@@ -38,7 +38,6 @@
     "*.{ts,tsx,md,json,mdx}": "prettier --write"
   },
   "release": {
-    "ci": false,
     "branches": [
       "main",
       {
