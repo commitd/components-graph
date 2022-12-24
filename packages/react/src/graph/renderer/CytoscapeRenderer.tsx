@@ -20,7 +20,6 @@ import {
   NodeCollection,
   NodeDataDefinition,
   Stylesheet,
-  use,
 } from 'cytoscape'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
@@ -74,8 +73,6 @@ export function initializeCytoscape(
     // Ignore multiple attempts to initialize
   }
 }
-
-initializeCytoscape(use)
 
 function toSelector(prefix: 'node' | 'edge', id: string): string {
   if (id.match(/[:#^$/\\()|?+*[\]{},.]/g)) {
