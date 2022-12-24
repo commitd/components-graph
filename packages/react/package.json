@@ -43,18 +43,20 @@
     "precommit": "lint-staged",
     "fix": "TIMING=1 eslint src/**/*.ts* --fix"
   },
+  "devDependencies": {
+    "@committed/config": "*",
+    "@committed/graph": "*",
+    "@committed/components": ">= 8.1.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
   "peerDependencies": {
+    "@committed/graph": "*",
     "@committed/components": ">= 8.1.2",
     "react": ">= 16.8.0",
     "react-dom": ">= 16.8.0"
   },
-  "devDependencies": {
-    "@committed/config": "*",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
-  },
   "dependencies": {
-    "@committed/graph": "*",
     "cytoscape": "^3.23.0",
     "cytoscape-cola": "^2.5.1",
     "cytoscape-cose-bilkent": "^4.1.0",

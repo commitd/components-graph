@@ -44,10 +44,13 @@
     "precommit": "lint-staged"
   },
   "devDependencies": {
-    "@committed/config": "*"
+    "@committed/config": "*",
+    "@committed/graph": "*"
+  },
+  "peerDependencies": {
+    "@committed/graph": "*"
   },
   "dependencies": {
-    "@committed/graph": "*",
     "uuid": "^8.3.2"
   }
 }

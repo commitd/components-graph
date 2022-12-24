@@ -44,10 +44,13 @@
     "fix": "TIMING=1 eslint src/**/*.ts* --fix"
   },
   "devDependencies": {
-    "@committed/config": "*"
+    "@committed/config": "*",
+    "@committed/graph": "*"
+  },
+  "peerDependencies": {
+    "@committed/graph": "*"
   },
   "dependencies": {
-    "@committed/graph": "*",
     "n3": "^1.11.1",
     "rdf-literal": "^1.3.0"
   }
