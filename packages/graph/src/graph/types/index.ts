@@ -98,7 +98,14 @@ export type PresetGraphLayout =
   | 'breadth-first'
   | 'cose'
 
-export type GraphLayout = PresetGraphLayout | CustomGraphLayout
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type GraphLayout = PresetGraphLayout | (string & {}) | CustomGraphLayout
+
+export function isCustomGraphLayout(
+  layout: GraphLayout | string
+): layout is CustomGraphLayout {
+  return typeof layout !== 'string'
+}
 
 export type NodePosition = {
   x: number

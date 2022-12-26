@@ -22,6 +22,7 @@
     },
     "devDependencies": {
         "@committed/config": "*",
+        "@faker-js/faker": "^7.6.0",
         "@storybook/addon-docs": "^6.5.12",
         "@storybook/addon-essentials": "^6.5.12",
         "@storybook/addons": "^6.5.12",

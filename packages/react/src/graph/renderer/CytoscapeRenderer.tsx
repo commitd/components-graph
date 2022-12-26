@@ -16,7 +16,6 @@ import {
   EdgeDataDefinition,
   EdgeSingular,
   EventObject,
-  LayoutOptions,
   NodeCollection,
   NodeDataDefinition,
   Stylesheet,
@@ -42,7 +41,7 @@ import React, {
 import CytoscapeComponent from 'react-cytoscapejs'
 import tinycolor from 'tinycolor2'
 import { useDebouncedCallback } from 'use-debounce'
-import { layouts as defaultLayouts } from '../layouts'
+import { defaultLayouts, LayoutOptions } from '../layouts'
 import { GraphRenderer, GraphRendererOptions } from '../types'
 import {
   CUSTOM_LAYOUT_NAME,
@@ -97,7 +96,15 @@ export interface CyGraphRendererOptions extends GraphRendererOptions {
       | 'autounselectify'
       | 'wheelSensitivity'
     >
-  >
+  > & {
+    /**
+     * The set of PresetGraphLayouts are used by default, with standard LayoutOptions.
+     *
+     * You can override those options here or provide additional preset layouts
+     * by using a new key and providing the layout options.
+     */
+    layoutOptions?: Record<string, LayoutOptions>
+  }
 }
 
 const dblClick = () => {
@@ -167,8 +174,9 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   onViewNode,
   options,
 }) => {
-  const layouts: Record<PresetGraphLayout | 'custom', LayoutOptions> = {
+  const layouts: Record<string, LayoutOptions> = {
     ...defaultLayouts,
+    ...options.renderOptions?.layoutOptions,
     custom: {
       name: CUSTOM_LAYOUT_NAME,
       model: graphModel,

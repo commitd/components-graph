@@ -1,6 +1,8 @@
 import { CircleLayoutOptions } from 'cytoscape'
 import { commonOptions } from './CommonOptions'
 
+export type { CircleLayoutOptions }
+
 export const circle: CircleLayoutOptions = {
   ...(commonOptions as CircleLayoutOptions),
   name: 'circle',

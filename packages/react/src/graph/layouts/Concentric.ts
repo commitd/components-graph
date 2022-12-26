@@ -1,6 +1,8 @@
 import { ConcentricLayoutOptions } from 'cytoscape'
 import { commonOptions } from './CommonOptions'
 
+export type { ConcentricLayoutOptions }
+
 export const concentric: ConcentricLayoutOptions = {
   ...commonOptions,
   name: 'concentric',

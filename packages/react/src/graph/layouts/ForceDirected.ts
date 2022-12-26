@@ -1,8 +1,10 @@
-import { CoseLayoutOptions } from 'cytoscape'
+import { CoseLayoutOptions as ForceDirectedLayoutOptions } from 'cytoscape'
 import { commonOptions } from './CommonOptions'
 
-export const forceDirected: CoseLayoutOptions = {
-  ...(commonOptions as CoseLayoutOptions),
+export type { ForceDirectedLayoutOptions }
+
+export const forceDirected: ForceDirectedLayoutOptions = {
+  ...(commonOptions as ForceDirectedLayoutOptions),
   // https://dl.acm.org/doi/10.1016/j.ins.2008.11.017
   name: 'cose',
 

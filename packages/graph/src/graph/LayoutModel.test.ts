@@ -17,29 +17,29 @@ beforeEach(() => {
 
 it('Gets layout', () => {
   const layout: GraphLayout = 'grid'
-  expect(layoutModel.presetLayout(layout).getLayout()).toBe(layout)
+  expect(layoutModel.setLayout(layout).getLayout()).toBe(layout)
 })
 
 it('Layout algorithm defined when custom layout specified', () => {
-  expect(layoutModel.customLayout(layoutAlgorithm).getLayout()).toBe(
+  expect(layoutModel.setLayout(layoutAlgorithm).getLayout()).toBe(
     layoutAlgorithm
   )
 })
 
 it('Changing the layout invalidates the layout', () => {
-  expect(layoutModel.presetLayout('grid').isDirty()).toBe(true)
+  expect(layoutModel.setLayout('grid').isDirty()).toBe(true)
 })
 
 it('Validating an invalidated layout', () => {
-  expect(layoutModel.presetLayout('grid').validate().isDirty()).toBe(false)
+  expect(layoutModel.setLayout('grid').validate().isDirty()).toBe(false)
 })
 
 it('Invalidating an validated layout', () => {
-  const model = layoutModel.presetLayout('grid').validate()
+  const model = layoutModel.setLayout('grid').validate()
   expect(model.invalidate().isDirty()).toBe(true)
 })
 
 it('Validating an validated layout does nothing', () => {
-  const model = layoutModel.presetLayout('grid').validate()
+  const model = layoutModel.setLayout('grid').validate()
   expect(model.validate()).toBe(model)
 })

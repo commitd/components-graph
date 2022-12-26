@@ -5,6 +5,7 @@ import {
   NodeDecoration,
   sizeNodeBy
 } from '@committed/components-graph'
+import { faker } from '@faker-js/faker'
 import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
 import { exampleGraphData } from './exampleData'
@@ -82,91 +83,97 @@ export const CustomIcons: React.FC = () => {
     GraphModel.createWithContent(
       new ContentModel(
         {
-          chris: {
-            id: 'chris',
+          n1: {
+            id: 'n1',
             attributes: {},
-            label: 'Chris Flatley',
-            icon: 'https://committed.io/static/chris-4f65af02b0d026c76bfbac1aa90461c3.jpg',
+            label: faker.name.fullName(),
+            icon: 'https://i.pravatar.cc/100',
             size: 100,
           },
-          stuart: {
-            id: 'stuart',
+          n2: {
+            id: 'n2',
             attributes: {},
-            label: 'Stuart Hendren',
-            icon: 'https://committed.io/static/stuart-c12a4df0a720f9252abb8279ffa9f7c8.png',
+            label: faker.name.fullName(),
+            icon: 'https://i.pravatar.cc/100',
             size: 100,
           },
-          jon: {
-            id: 'jon',
+          n3: {
+            id: 'n3',
             attributes: {},
-            label: 'Jon Elliot',
-            icon: 'https://committed.io/static/jon-4f56f1e3f4369e4d115d3a88195a2f4a.png',
+            label: faker.name.fullName(),
             size: 100,
           },
-          steve: {
-            id: 'steve',
+          n4: {
+            id: 'n4',
             attributes: {},
-            label: 'Steven Taylor',
-            icon: 'https://committed.io/static/steve-282e9f5032489e7a4274ee5eec6fd206.jpg',
+            label: faker.name.fullName(),
+            icon: 'https://i.pravatar.cc/100',
             size: 100,
           },
-          matt: {
-            id: 'matt',
+          n5: {
+            id: 'n5',
             attributes: {},
-            label: 'Matt Copas',
-            icon: 'https://committed.io/static/matt-e622c816a3d4f6c831346da257ed6500.jpg',
+            label: faker.name.fullName(),
+            icon: 'https://i.pravatar.cc/100',
             size: 100,
           },
-          kristian: {
-            id: 'kristian',
+          n6: {
+            id: 'n6',
             attributes: {},
-            label: 'Kristian Aspinall',
-            icon: 'https://committed.io/static/kristian-d0ae8e222bf08ea15acba90d5a41b2aa.jpg',
+            label: faker.name.fullName(),
+            icon: 'https://i.pravatar.cc/100',
             size: 100,
           },
         },
         {
           e1: {
             id: 'e1',
+            label: '',
             attributes: {},
-            source: 'chris',
-            target: 'stuart',
+            source: 'n1',
+            target: 'n2',
           },
           e2: {
             id: 'e2',
+            label: '',
             attributes: {},
-            source: 'stuart',
-            target: 'jon',
+            source: 'n2',
+            target: 'n3',
           },
           e3: {
             id: 'e3',
+            label: '',
             attributes: {},
-            source: 'kristian',
-            target: 'steve',
+            source: 'n6',
+            target: 'n4',
           },
           e4: {
             id: 'e4',
+            label: '',
             attributes: {},
-            source: 'matt',
-            target: 'kristian',
+            source: 'n5',
+            target: 'n6',
           },
           e5: {
             id: 'e5',
+            label: '',
             attributes: {},
-            source: 'jon',
-            target: 'matt',
+            source: 'n3',
+            target: 'n5',
           },
           e6: {
             id: 'e6',
+            label: '',
             attributes: {},
-            source: 'jon',
-            target: 'steve',
+            source: 'n3',
+            target: 'n4',
           },
           e7: {
             id: 'e7',
+            label: '',
             attributes: {},
-            source: 'chris',
-            target: 'steve',
+            source: 'n1',
+            target: 'n4',
           },
         }
       )

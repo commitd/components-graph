@@ -22,7 +22,6 @@ export type CytoscapeGraphLayoutAdapterManipulation = LayoutManipulation & {
 }
 
 export const CUSTOM_LAYOUT_NAME = 'custom'
-
 export function CytoscapeGraphLayoutAdapter(
   this: CytoscapeGraphLayoutAdapterManipulation,
   options: CytoscapeGraphLayoutAdapterOptions
@@ -61,13 +60,5 @@ export const register: Ext = (cytoscape) => {
   if (cytoscape == null) {
     return
   } // can't register if cytoscape unspecified
-  cytoscape(
-    'layout',
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    CUSTOM_LAYOUT_NAME,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    CytoscapeGraphLayoutAdapter
-  )
+  cytoscape('layout', CUSTOM_LAYOUT_NAME, CytoscapeGraphLayoutAdapter)
 }

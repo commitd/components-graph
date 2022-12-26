@@ -1,4 +1,4 @@
-import { cytoscapeRenderer, Graph, GraphRendererOptions } from '@committed/components-graph'
+import { CyGraphRendererOptions, cytoscapeRenderer, Graph } from '@committed/components-graph'
 import { Generator, GraphModel } from '@committed/graph'
 import React from 'react'
 
@@ -9,14 +9,16 @@ export const Template: React.FC<{
   onModelChange: (
     model: GraphModel | ((model2: GraphModel) => GraphModel)
   ) => void
-  height?: GraphRendererOptions['height']
-}> = ({ model, onModelChange, height }) => {
-  return (
-    <Graph
-      model={model}
-      onModelChange={onModelChange}
-      renderer={cytoscapeRenderer}
-      options={{ height: height ?? 600 }}
-    />
+  options?: CyGraphRendererOptions
+}> = ({ model, onModelChange, options, children }) => {
+  return (<>
+      {children}
+      <Graph
+        model={model}
+        onModelChange={onModelChange}
+        renderer={cytoscapeRenderer}
+        options={{ height: 600, ...options }}
+      />
+    </>
   )
 }

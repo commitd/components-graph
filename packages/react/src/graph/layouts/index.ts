@@ -1,15 +1,34 @@
 import { PresetGraphLayout } from '@committed/graph'
-import { LayoutOptions } from 'cytoscape'
-import { circle } from './Circle'
-import { cola } from './Cola'
-import { grid } from './Grid'
-import { dagre } from './Dagre'
-import { breadthfirst } from './Breathfirst'
-import { concentric } from './Concentric'
-import { cose } from './Cose'
-import { forceDirected } from './ForceDirected'
+import { LayoutOptions as CytocapeLayoutOptions } from 'cytoscape'
+import { circle, CircleLayoutOptions } from './Circle'
+import { cola, ColaLayoutOptions } from './Cola'
+import { grid, GridLayoutOptions } from './Grid'
+import { dagre, HierarchicalLayoutOptions } from './Dagre'
+import { breadthfirst, BreadthFirstLayoutOptions } from './Breathfirst'
+import { concentric, ConcentricLayoutOptions } from './Concentric'
+import { cose, CoseBilkentLayoutOptions } from './Cose'
+import { forceDirected, ForceDirectedLayoutOptions } from './ForceDirected'
+export * from './CommonOptions'
 
-export const layouts: Record<PresetGraphLayout, LayoutOptions> = {
+export type {
+  CircleLayoutOptions,
+  ColaLayoutOptions,
+  GridLayoutOptions,
+  HierarchicalLayoutOptions,
+  BreadthFirstLayoutOptions,
+  ConcentricLayoutOptions,
+  CoseBilkentLayoutOptions,
+  ForceDirectedLayoutOptions,
+}
+
+export type LayoutOptions =
+  | CytocapeLayoutOptions
+  | ForceDirectedLayoutOptions
+  | ColaLayoutOptions
+  | HierarchicalLayoutOptions
+  | CoseBilkentLayoutOptions
+
+export const defaultLayouts: Record<PresetGraphLayout, LayoutOptions> = {
   circle,
   cola,
   grid,

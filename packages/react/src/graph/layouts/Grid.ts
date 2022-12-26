@@ -1,6 +1,7 @@
 import { GridLayoutOptions } from 'cytoscape'
 import { commonOptions } from './CommonOptions'
 
+export type { GridLayoutOptions }
 export const grid: GridLayoutOptions = {
   ...(commonOptions as GridLayoutOptions),
   name: 'grid',

@@ -1,6 +1,8 @@
 import { BreadthFirstLayoutOptions } from 'cytoscape'
 import { commonOptions } from './CommonOptions'
 
+export type { BreadthFirstLayoutOptions }
+
 export const breadthfirst: BreadthFirstLayoutOptions = {
   ...commonOptions,
   name: 'breadthfirst',

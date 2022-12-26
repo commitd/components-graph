@@ -10,20 +10,19 @@ import {
   MenuSubTrigger,
   VariantProps,
 } from '@committed/components'
-import { GraphLayout, GraphModel } from '@committed/graph'
+import { GraphLayout, GraphModel, isCustomGraphLayout } from '@committed/graph'
 import React, { useCallback, useMemo } from 'react'
 
 function capitalize(key: string) {
   return key.charAt(0).toUpperCase() + key.slice(1)
 }
 
-function getCurrentLayout(model: GraphModel): string {
+function getCurrentLayout(model: GraphModel) {
   const curr = model.getCurrentLayout().getLayout()
-  if (typeof curr === 'string') {
-    return curr
-  } else {
+  if (isCustomGraphLayout(curr)) {
     return curr.name
   }
+  return curr
 }
 
 export type GraphLayoutOptionsProps = CSSProps &
@@ -52,13 +51,9 @@ export const GraphLayoutOptions: React.VFC<GraphLayoutOptionsProps> = ({
     () =>
       layouts.reduce<Record<string, (m: GraphModel) => GraphModel>>(
         (prev, curr) => {
-          if (typeof curr === 'string') {
-            prev[curr] = (m) =>
-              GraphModel.applyLayout(m, m.getCurrentLayout().presetLayout(curr))
-          } else {
-            prev[curr.name] = (m) =>
-              GraphModel.applyLayout(m, m.getCurrentLayout().customLayout(curr))
-          }
+          const key = isCustomGraphLayout(curr) ? curr.name : curr
+          prev[key] = (m) =>
+            GraphModel.applyLayout(m, m.getCurrentLayout().setLayout(curr))
           return prev
         },
         {}

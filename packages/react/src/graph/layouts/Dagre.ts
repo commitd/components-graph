@@ -1,7 +1,9 @@
-import { DagreLayoutOptions } from 'cytoscape-dagre'
+import { DagreLayoutOptions as HierarchicalLayoutOptions } from 'cytoscape-dagre'
 import { commonOptions } from './CommonOptions'
 
-export const dagre: DagreLayoutOptions & {
+export type { HierarchicalLayoutOptions }
+
+export const dagre: HierarchicalLayoutOptions & {
   align: undefined | 'UL' | 'UR' | 'DL' | 'DR'
   acyclicer: undefined | 'greedy'
 } = {

@@ -37,11 +37,21 @@ export class LayoutModel {
     }
   }
 
-  presetLayout(layout: PresetGraphLayout): LayoutModel {
+  setLayout(layout: GraphLayout): LayoutModel {
     return new LayoutModel(layout, true)
   }
 
+  /**
+   * @deprecated use setLayout
+   */
+  presetLayout(layout: PresetGraphLayout): LayoutModel {
+    return this.setLayout(layout)
+  }
+
+  /**
+   * @deprecated use setLayout
+   */
   customLayout(layout: CustomGraphLayout): LayoutModel {
-    return new LayoutModel(layout, true)
+    return this.setLayout(layout)
   }
 }
