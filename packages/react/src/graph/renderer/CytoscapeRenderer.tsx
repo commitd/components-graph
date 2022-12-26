@@ -306,6 +306,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
 
   useEffect(() => {
     if (dirty) {
+      console.debug('Layout dirty')
       triggerLayout(layout)
       onChange(
         GraphModel.applyLayout(
@@ -338,6 +339,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
           })
           break
         case 'Layout':
+          console.debug('Layout command')
           triggerLayout(layout)
           break
         case 'Refit':
