@@ -16,6 +16,7 @@ function isFunction(
 const empty = {
   zoom: false,
   layout: false,
+  relayout: false,
   refit: false,
   hide: false,
   size: false,

@@ -1,7 +1,7 @@
 import { Box, Column } from '@committed/components'
+import { cytoscapeRenderer, Graph, GraphDebugControl } from '@committed/components-graph'
 import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
-import { Graph, cytoscapeRenderer, GraphDebugControl,} from '@committed/components-graph'
 import { exampleModel } from './StoryUtil'
 
 export default {

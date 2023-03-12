@@ -43,3 +43,8 @@ it('Validating an validated layout does nothing', () => {
   const model = layoutModel.setLayout('grid').validate()
   expect(model.validate()).toBe(model)
 })
+
+it('Changing the onChange does not invalidate the layout', () => {
+  expect(layoutModel.setOnChange(false).isDirty()).toBe(false)
+  expect(layoutModel.setOnChange(true).isDirty()).toBe(false)
+})
