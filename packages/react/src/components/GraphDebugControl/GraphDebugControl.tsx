@@ -1,7 +1,14 @@
-import { Box, Button, Flex, Select, SelectItem } from '@committed/components'
+import {
+  Box,
+  Button,
+  Checkbox,
+  Flex,
+  Select,
+  SelectItem,
+} from '@committed/components'
 import { Generator, GraphModel, PresetGraphLayout } from '@committed/graph'
-import { defaultLayouts } from '../../graph'
 import React from 'react'
+import { defaultLayouts } from '../../graph'
 
 const { addRandomNode, addRandomEdge, removeRandomNode, removeRandomEdge } =
   Generator
@@ -44,6 +51,18 @@ export const GraphDebugControl: React.FC<GraphDebugControlProps> = ({
         <Button onClick={() => onChange(removeRandomEdge(model))}>
           Remove Random Edge
         </Button>
+        <Checkbox
+          label="Layout on change"
+          checked={model.getCurrentLayout().isOnChange()}
+          onCheckedChange={(checked: boolean) =>
+            onChange(
+              GraphModel.applyLayout(
+                model,
+                model.getCurrentLayout().setOnChange(checked)
+              )
+            )
+          }
+        />
         <Button
           onClick={() =>
             onChange(

@@ -17,6 +17,7 @@ import { GraphLayoutOptions } from './GraphLayoutOptions'
 import { GraphLayoutRun } from './GraphLayoutRun'
 import { Hide } from './Hide'
 import { Refit } from './Refit'
+import { ReLayout } from './ReLayout'
 import { SizeBy } from './SizeBy'
 import { Zoom } from './Zoom'
 
@@ -76,6 +77,7 @@ export type GraphToolbarProps = CSSProps &
     layouts?: GraphLayout[]
     zoom?: boolean
     layout?: boolean
+    relayout?: boolean
     refit?: boolean
     hide?: boolean
     size?: boolean
@@ -96,11 +98,13 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
   layouts = [],
   zoom = true,
   layout = true,
+  relayout = true,
   refit = true,
   hide = true,
   size = true,
   buttonVariant = 'tertiary',
   css,
+  children,
   ...props
 }) => {
   const menuItems = useMemo(() => {
@@ -118,6 +122,12 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
       )
     }
 
+    if (relayout) {
+      items.push(
+        <ReLayout key="relayout" model={model} onModelChange={onModelChange} />
+      )
+    }
+
     if (layout && layouts.length > 0) {
       items.push(
         <GraphLayoutOptions
@@ -129,7 +139,7 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
       )
     }
     return items.filter((item) => item !== null)
-  }, [hide, layout, layouts, model, onModelChange, size])
+  }, [hide, layout, layouts, model, onModelChange, size, relayout])
 
   return (
     <StyledToolbar css={css as any} {...props}>
@@ -157,6 +167,7 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
           onModelChange={onModelChange}
         />
       )}
+      {children}
       {menuItems.length > 0 && (
         <Menu>
           <MenuTrigger>

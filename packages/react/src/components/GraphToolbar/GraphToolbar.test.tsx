@@ -14,6 +14,7 @@ import { Graph } from '../Graph'
 const empty = {
   zoom: false,
   layout: false,
+  relayout: false,
   refit: false,
   hide: false,
   size: false,
@@ -106,6 +107,10 @@ const Horizontal: React.FC<TemplateProps> = (props: TemplateProps) => (
 
 export const Layout: React.FC<TemplateProps> = (props: TemplateProps) => (
   <Template {...empty} layout {...props} />
+)
+
+export const Relayout: React.FC<TemplateProps> = (props: TemplateProps) => (
+  <Template {...empty} relayout {...props} />
 )
 
 export const SizeBy: React.FC<TemplateProps> = (props: TemplateProps) => (

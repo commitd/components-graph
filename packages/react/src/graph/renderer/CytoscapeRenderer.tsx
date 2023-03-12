@@ -272,6 +272,21 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
     },
     [updateSelection]
   )
+  const updateLayout = useCallback(() => {
+    if (graphModel.getCurrentLayout().isOnChange()) {
+      triggerLayout(layout)
+    }
+  }, [graphModel, triggerLayout, layout])
+  const disableLayoutOnChange = useCallback(() => {
+    if (graphModel.getCurrentLayout().isOnChange()) {
+      onChange((model) =>
+        GraphModel.applyLayout(
+          model,
+          model.getCurrentLayout().setOnChange(false)
+        )
+      )
+    }
+  }, [graphModel, onChange])
   const layoutStarting = useCallback(() => {
     console.debug('Layout started')
     layoutStart.current = Date.now()
@@ -286,6 +301,8 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   useCyListener(cytoscape, unselectNode, 'unselect', 'node')
   useCyListener(cytoscape, selectEdge, 'select', 'edge')
   useCyListener(cytoscape, unselectEdge, 'unselect', 'edge')
+  useCyListener(cytoscape, updateLayout, 'add remove', '*')
+  useCyListener(cytoscape, disableLayoutOnChange, 'drag', 'node')
   useCyListener(cytoscape, layoutStarting, 'layoutstart')
   useCyListener(cytoscape, layoutStopping, 'layoutstop')
   // eslint-disable-next-line react-hooks/exhaustive-deps
