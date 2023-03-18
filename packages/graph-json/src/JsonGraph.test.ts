@@ -1,13 +1,13 @@
+import { Node } from '@committed/graph'
 import { largeGraph, smallGraph, veryLargeGraph } from 'examples'
 import { buildGraph, Graph as JSONGraph } from 'JsonGraph'
-import { ModelNode } from '@committed/graph'
 
 it('Create from json graph spec graph values', () => {
   const contentModel = buildGraph(smallGraph)
   expect(Object.keys(contentModel.nodes)).toHaveLength(4)
   expect(Object.keys(contentModel.edges)).toHaveLength(2)
 
-  const node = contentModel.getNode('nissan') as ModelNode
+  const node = contentModel.getNode('nissan') as Node
   expect(node?.label).toBe('Nissan')
 
   const edge = contentModel.getEdgesLinkedToNode(node.id)[0]
@@ -15,7 +15,7 @@ it('Create from json graph spec graph values', () => {
   expect(edge.source).toBe(node.id)
   expect(edge.target).toBe('infiniti')
   expect(edge.label).toBe('has_luxury_division')
-  expect(edge.attributes.relation).toBe('has_luxury_division')
+  expect(edge.metadata.relation).toBe('has_luxury_division')
 })
 
 it('Create from json graph', () => {
@@ -35,10 +35,10 @@ it('Create from json graph', () => {
   expect(Object.keys(contentModel.nodes)).toHaveLength(3)
   expect(Object.keys(contentModel.edges)).toHaveLength(2)
   expect(contentModel.getNode('n1')).toBeDefined()
-  expect(contentModel.getNode('n1')?.attributes.a1).toBe(true)
-  expect(contentModel.getNode('n1')?.attributes.a2).toBe(10)
-  expect(contentModel.getNode('n1')?.attributes.a3).toBe('test')
-  expect((contentModel.getNode('n1')?.attributes.a4 as any).object).toBe(
+  expect(contentModel.getNode('n1')?.metadata.a1).toBe(true)
+  expect(contentModel.getNode('n1')?.metadata.a2).toBe(10)
+  expect(contentModel.getNode('n1')?.metadata.a3).toBe('test')
+  expect((contentModel.getNode('n1')?.metadata.a4 as any).object).toBe(
     'example'
   )
   expect(contentModel.getNode('n2')).toBeDefined()

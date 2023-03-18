@@ -1,10 +1,10 @@
 import { Alert, AlertContent, AlertTitle, Flex } from '@committed/components'
-import { ContentModel, cytoscapeRenderer, Graph, GraphModel, GraphToolbar, ModelNode, NodeViewer } from '@committed/components-graph'
+import { ContentModel, cytoscapeRenderer, Graph, GraphModel, GraphToolbar, Node, NodeViewer } from '@committed/components-graph'
 import { Json, JsonExample } from '@committed/graph-json'
 import { Meta, Story } from '@storybook/react'
 import React, { useEffect, useState } from 'react'
-import { Template } from './StoryUtil'
 import RJSON from "relaxed-json"
+import { Template } from './StoryUtil'
 
 const { smallGraph, largeGraph } = JsonExample
 
@@ -53,7 +53,7 @@ const StoryTemplate: Story<{
     }
   }, [setModel, setAlert, json])
 
-  const [node, setNode] = useState<ModelNode | undefined>(undefined)
+  const [node, setNode] = useState<Node | undefined>(undefined)
 
   return (
     <>

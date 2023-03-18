@@ -10,7 +10,7 @@ import {
   MenuSubTrigger,
   VariantProps,
 } from '@committed/components'
-import { GraphModel, sizeNodeByAttribute } from '@committed/graph'
+import { GraphModel, sizeNodeByMetadata } from '@committed/graph'
 import React, { useCallback, useMemo } from 'react'
 
 function capitalize(key: string) {
@@ -30,7 +30,7 @@ export type SizeByProps = CSSProps &
   }
 
 /**
- * A GraphToolbar sub-component adds controls for sizing by an attribute
+ * A GraphToolbar sub-component adds controls for sizing by an key
  */
 export const SizeBy: React.VFC<SizeByProps> = ({
   model,
@@ -40,13 +40,13 @@ export const SizeBy: React.VFC<SizeByProps> = ({
 }) => {
   const nodeAttributes: string[] = useMemo(
     () =>
-      Object.entries(model.getNodeAttributes())
+      Object.entries(model.getNodeMetadataTypes())
         .filter((a) => a[1].has('number'))
         .map((a) => a[0]),
     [model]
   )
 
-  const selectedNodeAttributes: string | undefined = useMemo(
+  const selectedMetadataKey: string | undefined = useMemo(
     () =>
       model
         .getDecorators()
@@ -56,25 +56,21 @@ export const SizeBy: React.VFC<SizeByProps> = ({
   )
 
   const handleSizeNodeByDecoration = useCallback(
-    (attribute: string): void => {
+    (key: string): void => {
       let decoratorModel = model.getDecorators()
-      if (selectedNodeAttributes) {
-        decoratorModel = decoratorModel.removeNodeDecoratorById(
-          selectedNodeAttributes
-        )
+      if (selectedMetadataKey) {
+        decoratorModel =
+          decoratorModel.removeNodeDecoratorById(selectedMetadataKey)
       }
-      if (attribute !== 'none') {
-        const newSizeByNode = sizeNodeByAttribute(
-          model.getCurrentContent(),
-          attribute
-        )
-        newSizeByNode.id = PREFIX + attribute
+      if (key !== 'none') {
+        const newSizeByNode = sizeNodeByMetadata(model.getCurrentContent(), key)
+        newSizeByNode.id = PREFIX + key
         decoratorModel = decoratorModel.addNodeDecorator(newSizeByNode)
       }
 
       onModelChange(GraphModel.applyDecoration(model, decoratorModel))
     },
-    [model, onModelChange, selectedNodeAttributes]
+    [model, onModelChange, selectedMetadataKey]
   )
 
   if (nodeAttributes.length === 0) {
@@ -87,8 +83,8 @@ export const SizeBy: React.VFC<SizeByProps> = ({
       <MenuSubContent css={css as any}>
         <MenuRadioGroup
           value={
-            selectedNodeAttributes
-              ? selectedNodeAttributes.substring(PREFIX.length)
+            selectedMetadataKey
+              ? selectedMetadataKey.substring(PREFIX.length)
               : 'none'
           }
           onValueChange={handleSizeNodeByDecoration}

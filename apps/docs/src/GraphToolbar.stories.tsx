@@ -99,8 +99,8 @@ const typesLayout: CustomGraphLayout = {
     const rowHeight = 75
     const byType = Object.values(
       model.nodes.reduce<Record<string, DecoratedNode[]>>((acc, next) => {
-        acc[(next.attributes.type ?? 'unknown') as string] = (
-          acc[(next.attributes.type ?? 'unknown') as string] ?? []
+        acc[(next.metadata.type ?? 'unknown') as string] = (
+          acc[(next.metadata.type ?? 'unknown') as string] ?? []
         ).concat(next)
         return acc
       }, {})
@@ -223,33 +223,33 @@ export const CustomLayout: Story = () => {
           e1: {
             id: 'e1',
             label: 'Type 1',
-            attributes: {
+            metadata: {
               type: 'type1',
             },
           },
           e2: {
             id: 'e2',
             label: 'Type 2',
-            attributes: {
+            metadata: {
               type: 'type2',
             },
           },
           e3: {
             id: 'e3',
             label: 'Type 3',
-            attributes: {
+            metadata: {
               type: 'type3',
             },
           },
           e4: {
             id: 'e4',
             label: 'Type 1 (2)',
-            attributes: {
+            metadata: {
               type: 'type1',
             },
           },
         },
-        edges: {},
+        edges: [],
       })
     )
   )

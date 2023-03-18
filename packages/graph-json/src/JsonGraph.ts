@@ -1,5 +1,5 @@
+import { ContentModel, Edge, Node } from '@committed/graph'
 import { v4 } from 'uuid'
-import { ContentModel, ModelEdge, ModelNode } from '@committed/graph'
 
 /// JSON GRAPH Interfaces - only describes what we need from
 /// https://github.com/jsongraph/json-graph-specification/blob/master/json-graph-schema_v2.json
@@ -50,15 +50,15 @@ function getGraphData(data: Graph | GraphData): Graph {
 }
 
 function getNodes(graphData: Graph) {
-  return Object.entries(graphData.nodes).reduce<Record<string, ModelNode>>(
+  return Object.entries(graphData.nodes).reduce<Record<string, Node>>(
     (acc, entry) => {
-      const node: ModelNode = { id: entry[0], attributes: {} }
+      const node: Node = { id: entry[0], metadata: {} }
       const jsonNode: GraphNode = entry[1]
       if (jsonNode.label !== undefined) {
         node.label = jsonNode.label
       }
       if (jsonNode.metadata !== undefined) {
-        node.attributes = jsonNode.metadata
+        node.metadata = jsonNode.metadata
       }
       acc[node.id] = node
       return acc
@@ -68,13 +68,14 @@ function getNodes(graphData: Graph) {
 }
 
 function getEdges(graphData: Graph) {
-  return Object.values(graphData.edges).reduce<Record<string, ModelEdge>>(
+  return Object.values(graphData.edges).reduce<Record<string, Edge>>(
     (acc, jsonEdge) => {
-      const edge: ModelEdge = {
+      const edge: Edge = {
         id: jsonEdge.id ?? v4(),
         source: jsonEdge.source,
         target: jsonEdge.target,
-        attributes: {},
+        directed: true,
+        metadata: {},
       }
       if (jsonEdge.id !== undefined) {
         edge.id = jsonEdge.id
@@ -83,10 +84,13 @@ function getEdges(graphData: Graph) {
         edge.label = jsonEdge.label ?? jsonEdge.relation
       }
       if (jsonEdge.metadata !== undefined) {
-        edge.attributes = jsonEdge.metadata
+        edge.metadata = jsonEdge.metadata
       }
       if (jsonEdge.relation !== undefined) {
-        edge.attributes.relation = jsonEdge.relation
+        edge.metadata.relation = jsonEdge.relation
+      }
+      if (jsonEdge.directed !== undefined) {
+        edge.directed = jsonEdge.directed
       }
       acc[edge.id] = edge
       return acc
@@ -99,6 +103,5 @@ export function buildGraph(data: GraphData | Graph): ContentModel {
   const graphData = getGraphData(data)
   const nodes = getNodes(graphData)
   const edges = getEdges(graphData)
-
-  return ContentModel.fromRaw({ nodes, edges })
+  return new ContentModel(nodes, edges)
 }

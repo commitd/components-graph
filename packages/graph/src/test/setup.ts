@@ -1,10 +1,10 @@
-import { ModelNode, ModelEdge, ContentModel, GraphModel } from 'index'
+import { ContentModel, Edge, GraphModel, Node } from 'index'
 
 // TEST DATA
 
-export const node1: ModelNode = {
+export const node1: Node = {
   id: 'node1',
-  attributes: {
+  metadata: {
     employer: 'Committed',
   },
   color: 'yellow',
@@ -16,9 +16,9 @@ export const node1: ModelNode = {
   strokeSize: 2,
 }
 
-export const node2: ModelNode = {
+export const node2: Node = {
   id: 'node2',
-  attributes: {
+  metadata: {
     employer: 'Government',
   },
   color: 'green',
@@ -30,13 +30,14 @@ export const node2: ModelNode = {
   strokeSize: 3,
 }
 
-export const edge1: ModelEdge = {
+export const edge1: Edge = {
   id: 'edge1',
-  attributes: {
+  metadata: {
     role: 'client',
   },
   source: node1.id,
   target: node2.id,
+  directed: true,
 }
 
 export const exampleGraph = GraphModel.applyContent(

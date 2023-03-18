@@ -1,4 +1,4 @@
-import { edge1, node1, node2, exampleGraph } from 'test/setup'
+import { edge1, exampleGraph, node1, node2 } from 'test/setup'
 import { ContentModel } from './ContentModel'
 import { DecoratorModel } from './DecoratorModel'
 import { GraphModel } from './GraphModel'
@@ -179,8 +179,8 @@ it('Clearing empty queue does nothing', () => {
 })
 
 it('has no attributes when empty', () => {
-  expect(Object.keys(graphModel.getNodeAttributes())).toHaveLength(0)
-  expect(Object.keys(graphModel.getEdgeAttributes())).toHaveLength(0)
+  expect(Object.keys(graphModel.getNodeMetadataTypes())).toHaveLength(0)
+  expect(Object.keys(graphModel.getEdgeMetadataTypes())).toHaveLength(0)
 })
 
 it('Can get node attributes', () => {
@@ -189,10 +189,10 @@ it('Can get node attributes', () => {
     graphModel.getCurrentContent().addNode(node1).addNode(node2).addEdge(edge1)
   )
 
-  const attributeTypes = graphModel.getNodeAttributes()
-  const attributeIds = Object.keys(attributeTypes)
-  expect(attributeIds).toHaveLength(1)
-  expect(attributeIds).toContain(Object.keys(node1.attributes)[0])
+  const metadataTypes = graphModel.getNodeMetadataTypes()
+  const metadataKeys = Object.keys(metadataTypes)
+  expect(metadataKeys).toHaveLength(1)
+  expect(metadataKeys).toContain(Object.keys(node1.metadata)[0])
 })
 
 it('Can get edge attributes', () => {
@@ -201,8 +201,8 @@ it('Can get edge attributes', () => {
     graphModel.getCurrentContent().addNode(node1).addNode(node2).addEdge(edge1)
   )
 
-  const attributeTypes = graphModel.getEdgeAttributes()
-  const attributeIds = Object.keys(attributeTypes)
-  expect(attributeIds).toHaveLength(1)
-  expect(attributeIds).toContain(Object.keys(edge1.attributes)[0])
+  const metadataTypes = graphModel.getEdgeMetadataTypes()
+  const metadataKeys = Object.keys(metadataTypes)
+  expect(metadataKeys).toHaveLength(1)
+  expect(metadataKeys).toContain(Object.keys(edge1.metadata)[0])
 })

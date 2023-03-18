@@ -154,7 +154,8 @@ const toEdgeCyStyle = (e: Partial<EdgeDecoration>): Css.Edge | undefined => {
   const s: Css.Edge = {
     'line-color': e.color,
     'target-arrow-color': e.color,
-    'line-style': e.style as Css.LineStyle,
+    'line-style': e.style as Css.Edge['line-style'],
+    'curve-style': e.curve as Css.Edge['curve-style'],
     opacity: e.opacity,
   }
 

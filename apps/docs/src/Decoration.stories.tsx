@@ -2,6 +2,7 @@ import {
   ContentModel,
   DecoratorModel, Generator, Graph, GraphModel,
   ModelNode,
+  Node,
   NodeDecoration,
   sizeNodeBy
 } from '@committed/components-graph'
@@ -47,8 +48,8 @@ export const TypedDecoration: React.FC = () => {
     new GraphModel(ContentModel.fromRaw(exampleGraphData), {
       decoratorModel: DecoratorModel.createDefault({
         nodeDecorators: [
-          (node: ModelNode): Partial<NodeDecoration> => {
-            const type = node.attributes['type']
+          (node: Node): Partial<NodeDecoration> => {
+            const type = node.metadata['type']
             if (type === 'person') return { color: '$colors$info' }
             if (type === 'place') return { color: '$colors$success' }
             return { color: '#00FF00' }
@@ -85,41 +86,41 @@ export const CustomIcons: React.FC = () => {
         {
           n1: {
             id: 'n1',
-            attributes: {},
+            metadata: {},
             label: faker.name.fullName(),
             icon: 'https://i.pravatar.cc/100',
             size: 100,
           },
           n2: {
             id: 'n2',
-            attributes: {},
+            metadata: {},
             label: faker.name.fullName(),
             icon: 'https://i.pravatar.cc/100',
             size: 100,
           },
           n3: {
             id: 'n3',
-            attributes: {},
+            metadata: {},
             label: faker.name.fullName(),
             size: 100,
           },
           n4: {
             id: 'n4',
-            attributes: {},
+            metadata: {},
             label: faker.name.fullName(),
             icon: 'https://i.pravatar.cc/100',
             size: 100,
           },
           n5: {
             id: 'n5',
-            attributes: {},
+            metadata: {},
             label: faker.name.fullName(),
             icon: 'https://i.pravatar.cc/100',
             size: 100,
           },
           n6: {
             id: 'n6',
-            attributes: {},
+            metadata: {},
             label: faker.name.fullName(),
             icon: 'https://i.pravatar.cc/100',
             size: 100,
@@ -129,51 +130,58 @@ export const CustomIcons: React.FC = () => {
           e1: {
             id: 'e1',
             label: '',
-            attributes: {},
+            metadata: {},
             source: 'n1',
             target: 'n2',
+            directed: true
           },
           e2: {
             id: 'e2',
             label: '',
-            attributes: {},
+            metadata: {},
             source: 'n2',
             target: 'n3',
+            directed: true
           },
           e3: {
             id: 'e3',
             label: '',
-            attributes: {},
+            metadata: {},
             source: 'n6',
             target: 'n4',
+            directed: true
           },
           e4: {
             id: 'e4',
             label: '',
-            attributes: {},
+            metadata: {},
             source: 'n5',
             target: 'n6',
+            directed: true
           },
           e5: {
             id: 'e5',
             label: '',
-            attributes: {},
+            metadata: {},
             source: 'n3',
             target: 'n5',
+            directed: true
           },
           e6: {
             id: 'e6',
             label: '',
-            attributes: {},
+            metadata: {},
             source: 'n3',
             target: 'n4',
+            directed: true
           },
           e7: {
             id: 'e7',
             label: '',
-            attributes: {},
+            metadata: {},
             source: 'n1',
             target: 'n4',
+            directed: true
           },
         }
       )

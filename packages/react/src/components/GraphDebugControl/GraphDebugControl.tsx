@@ -6,7 +6,12 @@ import {
   Select,
   SelectItem,
 } from '@committed/components'
-import { Generator, GraphModel, PresetGraphLayout } from '@committed/graph'
+import {
+  Generator,
+  GraphModel,
+  PresetGraphLayout,
+  PresetGraphLayouts,
+} from '@committed/graph'
 import React from 'react'
 import { defaultLayouts } from '../../graph'
 
@@ -96,7 +101,7 @@ export const GraphDebugControl: React.FC<GraphDebugControlProps> = ({
         >
           {Object.keys(defaultLayouts).map((l) => (
             <SelectItem key={l} value={l}>
-              {l}
+              {PresetGraphLayouts[l as PresetGraphLayout]}
             </SelectItem>
           ))}
         </Select>

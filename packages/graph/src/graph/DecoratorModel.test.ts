@@ -1,23 +1,25 @@
 import { DecoratorModel } from './DecoratorModel'
 import {
+  Edge,
   EdgeDecoration,
   EdgeDecorator,
   ModelEdge,
   ModelNode,
+  Node,
   NodeDecoration,
   NodeDecorator,
 } from './types'
 
 let decoratorModel: DecoratorModel
 
-const nodeWithoutDecoration: ModelNode = {
+const nodeWithoutDecoration: Node = {
   id: 'node1',
-  attributes: {
+  metadata: {
     employer: 'Committed',
   },
 }
 
-const nodeWithDecoration: ModelNode = {
+const nodeWithDecoration: Node = {
   ...nodeWithoutDecoration,
   color: 'yellow',
   label: 'Node 1',
@@ -38,16 +40,17 @@ const nodeDecoratorDecoration: NodeDecoration = {
   strokeSize: 5,
 }
 
-const edgeWithoutDecoration: ModelEdge = {
+const edgeWithoutDecoration: Edge = {
   id: 'edge1',
-  attributes: {
+  metadata: {
     role: 'client',
   },
   source: 'node1',
   target: 'node2',
+  directed: true,
 }
 
-const edgeWithDecoration: ModelEdge = {
+const edgeWithDecoration: Edge = {
   ...edgeWithoutDecoration,
   color: 'yellow',
   label: 'Node 1',
@@ -66,6 +69,7 @@ const edgeDecoratorDecoration: EdgeDecoration = {
   sourceArrow: false,
   targetArrow: false,
   style: 'dashed',
+  curve: 'bezier',
 }
 
 const nodeDecorator: NodeDecorator = () => nodeDecoratorDecoration
@@ -131,7 +135,7 @@ it('Does not alter non-decoration node properties', () => {
     nodeWithDecoration,
   ])[0]
   expect(decoratedNode.id).toBe(nodeWithDecoration.id)
-  expect(decoratedNode.attributes).toBe(nodeWithDecoration.attributes)
+  expect(decoratedNode.metadata).toBe(nodeWithDecoration.metadata)
 })
 
 it('Does not applies default decoration to unstyled node', () => {
@@ -196,6 +200,7 @@ it('Create default sets default edge decoration for theme', () => {
   expect(decoratorModel.getDefaultEdgeDecorator()()).toMatchInlineSnapshot(`
     {
       "color": "$colors$textSecondary",
+      "curve": "haystack",
       "opacity": 1,
       "size": 2,
       "sourceArrow": false,
@@ -218,6 +223,7 @@ it('Can supply partial decorator function for default', () => {
   expect(decoration).toMatchInlineSnapshot(`
     {
       "color": "$colors$success",
+      "curve": "haystack",
       "opacity": 1,
       "size": 10,
       "sourceArrow": false,
@@ -239,7 +245,7 @@ it('Does not alter non-decoration edge properties', () => {
   ])[0]
 
   expect(decoratedEdge.id).toBe(edgeWithDecoration.id)
-  expect(decoratedEdge.attributes).toBe(edgeWithDecoration.attributes)
+  expect(decoratedEdge.metadata).toBe(edgeWithDecoration.metadata)
   expect(decoratedEdge.source).toBe(edgeWithDecoration.source)
   expect(decoratedEdge.target).toBe(edgeWithDecoration.target)
 })
