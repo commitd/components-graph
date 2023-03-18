@@ -29,8 +29,8 @@ const typesLayout: CustomGraphLayout = {
     const rowHeight = 75
     const byType = Object.values(
       model.nodes.reduce<Record<string, DecoratedNode[]>>((acc, next) => {
-        acc[(next.attributes.type ?? 'unknown') as string] = (
-          acc[(next.attributes.type ?? 'unknown') as string] ?? []
+        acc[(next.metadata.type ?? 'unknown') as string] = (
+          acc[(next.metadata.type ?? 'unknown') as string] ?? []
         ).concat(next)
         return acc
       }, {})

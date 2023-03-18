@@ -1,51 +1,54 @@
 import { ContentModel } from '../'
-import { ModelEdge, ModelNode } from '../types'
-import { sizeEdgeByAttribute, sizeNodeByAttribute } from './size'
+import { Edge, Node } from '../types'
+import { sizeEdgeByMetadata, sizeNodeByMetadata } from './size'
 
-export const node1: ModelNode = {
+export const node1: Node = {
   id: 'node1',
-  attributes: {
+  metadata: {
     sizeBy: '50',
   },
 }
 
-export const node2: ModelNode = {
+export const node2: Node = {
   id: 'node2',
-  attributes: {
+  metadata: {
     sizeBy: 100,
   },
 }
 
-export const node3: ModelNode = {
+export const node3: Node = {
   id: 'node3',
-  attributes: {},
+  metadata: {},
 }
 
-export const edge1: ModelEdge = {
+export const edge1: Edge = {
   id: 'edge1',
-  attributes: {
+  metadata: {
     sizeBy: '1',
   },
   source: 'node1',
   target: 'node2',
+  directed: true,
 }
 
-export const edge2: ModelEdge = {
+export const edge2: Edge = {
   id: 'edge2',
-  attributes: {
+  metadata: {
     sizeBy: 2,
   },
   source: 'node1',
   target: 'node2',
+  directed: false,
 }
 
-export const edge3: ModelEdge = {
+export const edge3: Edge = {
   id: 'edge3',
-  attributes: {
+  metadata: {
     sizeBy: '3',
   },
   source: 'node1',
   target: 'node2',
+  directed: true,
 }
 
 const contentModel = ContentModel.createEmpty()
@@ -57,7 +60,7 @@ const contentModel = ContentModel.createEmpty()
   .addEdge(edge3)
 
 it('Can size node by attribute', () => {
-  const sizeByAttribute = sizeNodeByAttribute(contentModel, 'sizeBy')
+  const sizeByAttribute = sizeNodeByMetadata(contentModel, 'sizeBy')
 
   expect(sizeByAttribute(node1).size).toBe(10)
   expect(sizeByAttribute(node2).size).toBe(200)
@@ -65,7 +68,7 @@ it('Can size node by attribute', () => {
 })
 
 it('Can size node by attribute', () => {
-  const sizeByAttribute = sizeNodeByAttribute(contentModel, 'sizeBy', [1, 10])
+  const sizeByAttribute = sizeNodeByMetadata(contentModel, 'sizeBy', [1, 10])
 
   expect(sizeByAttribute(node1).size).toBe(1)
   expect(sizeByAttribute(node2).size).toBe(10)
@@ -73,7 +76,7 @@ it('Can size node by attribute', () => {
 })
 
 it('Can size edge by attribute', () => {
-  const sizeByAttribute = sizeEdgeByAttribute(contentModel, 'sizeBy', [1, 2])
+  const sizeByAttribute = sizeEdgeByMetadata(contentModel, 'sizeBy', [1, 2])
 
   expect(sizeByAttribute(edge1).size).toBe(1)
   expect(sizeByAttribute(edge2).size).toBe(1.5)
@@ -81,7 +84,7 @@ it('Can size edge by attribute', () => {
 })
 
 it('Can size edge by attribute', () => {
-  const sizeByAttribute = sizeEdgeByAttribute(contentModel, 'sizeBy')
+  const sizeByAttribute = sizeEdgeByMetadata(contentModel, 'sizeBy')
 
   expect(sizeByAttribute(edge1).size).toBe(1)
   expect(sizeByAttribute(edge2).size).toBe(3)

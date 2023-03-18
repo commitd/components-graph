@@ -2,12 +2,12 @@ import {
   DecoratedEdge,
   DecoratedNode,
   DecorationFunction,
+  Edge,
   EdgeDecoration,
   EdgeDecorationFunction,
   EdgeDecorator,
   ItemDecoration,
-  ModelEdge,
-  ModelNode,
+  Node,
   NodeDecoration,
   NodeDecorationFunction,
   NodeDecorator,
@@ -30,6 +30,7 @@ export class DecoratorModel {
     targetArrow: false,
     opacity: 1,
     style: 'solid',
+    curve: 'haystack',
   }
 
   static readonly idAsLabelNode: NodeDecorator = (item) => {
@@ -119,10 +120,10 @@ export class DecoratorModel {
 
   /**
    * Adds a function to the given nodes that provides the decoration overrides for the node
-   * @param modelNodes to be decorated
+   * @param nodes to be decorated
    */
-  getDecoratedNodes(modelNodes: ModelNode[]): DecoratedNode[] {
-    return Object.values(modelNodes).map((node) => {
+  getDecoratedNodes(nodes: Node[]): DecoratedNode[] {
+    return Object.values(nodes).map((node) => {
       return {
         getDecorationOverrides: () => this.getNodeDecorationOverrides(node),
         ...node,
@@ -132,10 +133,10 @@ export class DecoratorModel {
 
   /**
    * Adds a function to the given edges that provides the decoration overrides for the edge
-   * @param modelEdges to be decorated
+   * @param edges to be decorated
    */
-  getDecoratedEdges(modelEdges: ModelEdge[]): DecoratedEdge[] {
-    return Object.values(modelEdges).map((edge) => {
+  getDecoratedEdges(edges: Edge[]): DecoratedEdge[] {
+    return Object.values(edges).map((edge) => {
       return {
         getDecorationOverrides: () => this.getEdgeDecorationOverrides(edge),
         ...edge,
@@ -331,9 +332,9 @@ export class DecoratorModel {
     return decorators.filter((d) => d !== decorator)
   }
 
-  private getNodeDecorationOverrides(node: ModelNode): Partial<NodeDecoration> {
+  private getNodeDecorationOverrides(node: Node): Partial<NodeDecoration> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id, attributes, ...nodeStyle } = node
+    const { id, metadata, ...nodeStyle } = node
     const decor = Object.assign(
       {},
       ...this.nodeDecorators.map((d) => d(node))
@@ -346,9 +347,9 @@ export class DecoratorModel {
     }
   }
 
-  private getEdgeDecorationOverrides(edge: ModelEdge): Partial<EdgeDecoration> {
+  private getEdgeDecorationOverrides(edge: Edge): Partial<EdgeDecoration> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id, attributes, source, target, ...edgeStyle } = edge
+    const { id, metadata, source, target, ...edgeStyle } = edge
     const decor = Object.assign(
       {},
       ...this.edgeDecorators.map((d) => d(edge))

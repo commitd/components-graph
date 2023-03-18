@@ -3,8 +3,8 @@ import { ContentModel } from './ContentModel'
 
 let contentModel: ContentModel
 
-const attribute = 'att1'
-const attributeValue = 'att1val'
+const key = 'att1'
+const value = 'att1val'
 
 beforeEach(() => {
   contentModel = ContentModel.createEmpty()
@@ -27,44 +27,40 @@ it('Throws editing non-existing nodes', () => {
   expect(() =>
     contentModel.editNode({
       id: 'nonexisting',
-      attributes: {},
+      metadata: {},
     })
   ).toThrow()
 
   expect(() =>
-    contentModel.addNodeAttribute('nonexisting', 'attribute', 'value')
+    contentModel.addNodeMetadata('nonexisting', 'key', 'value')
   ).toThrow()
 
   expect(() =>
-    contentModel.editNodeAttribute('nonexisting', 'attribute', 'value')
+    contentModel.editNodeMetadata('nonexisting', 'key', 'value')
   ).toThrow()
 
-  expect(() =>
-    contentModel.removeNodeAttribute('nonexisting', 'attribute')
-  ).toThrow()
+  expect(() => contentModel.removeNodeMetadata('nonexisting', 'key')).toThrow()
 })
 
 it('Throws editing non-existing edges', () => {
   expect(() =>
     contentModel.editEdge({
       id: 'nonexisting',
-      attributes: {},
+      metadata: {},
       source: 'nonexisting',
       target: 'nonexisting',
     })
   ).toThrow()
 
   expect(() =>
-    contentModel.addEdgeAttribute('nonexisting', 'attribute', 'value')
+    contentModel.addEdgeMetadata('nonexisting', 'key', 'value')
   ).toThrow()
 
   expect(() =>
-    contentModel.editEdgeAttribute('nonexisting', 'attribute', 'value')
+    contentModel.editEdgeMetadata('nonexisting', 'key', 'value')
   ).toThrow()
 
-  expect(() =>
-    contentModel.removeEdgeAttribute('nonexisting', 'attribute')
-  ).toThrow()
+  expect(() => contentModel.removeEdgeMetadata('nonexisting', 'key')).toThrow()
 })
 
 it('Getting non-existing node', () => {
@@ -75,11 +71,11 @@ it('Getting non-existing edge', () => {
   expect(contentModel.getEdge('nonexisting')).toBeUndefined()
 })
 
-it('Doesnt contain non-existing node', () => {
+it('Does not contain non-existing node', () => {
   expect(contentModel.containsNode('nonexisting')).toBe(false)
 })
 
-it('Doesnt contain non-existing edge', () => {
+it('Does not contain non-existing edge', () => {
   expect(contentModel.containsEdge('nonexisting')).toBe(false)
 })
 
@@ -104,39 +100,37 @@ it('Add fully unspecified node', () => {
 it('Add node attribute', () => {
   contentModel = contentModel
     .addNode(node1)
-    .addNodeAttribute(node1.id, attribute, attributeValue)
+    .addNodeMetadata(node1.id, key, value)
   const node = contentModel.getNode(node1.id)
   expect(node).toBeTruthy()
-  expect(node!.attributes[attribute]).toBe(attributeValue)
+  expect(node!.metadata[key]).toBe(value)
 })
 
 it('Edit node attribute', () => {
   const newAttributeValue = 'att1val2'
   contentModel = contentModel
     .addNode(node1)
-    .addNodeAttribute(node1.id, attribute, attributeValue)
-    .editNodeAttribute(node1.id, attribute, newAttributeValue)
+    .addNodeMetadata(node1.id, key, value)
+    .editNodeMetadata(node1.id, key, newAttributeValue)
   const node = contentModel.getNode(node1.id)
   expect(node).toBeTruthy()
-  expect(node!.attributes[attribute]).toBe(newAttributeValue)
+  expect(node!.metadata[key]).toBe(newAttributeValue)
 })
 
 it('Edit node attribute should throw if missing', () => {
   contentModel = contentModel.addNode(node1)
 
-  expect(() =>
-    contentModel.editNodeAttribute(node1.id, attribute, attributeValue)
-  ).toThrow()
+  expect(() => contentModel.editNodeMetadata(node1.id, key, value)).toThrow()
 })
 
 it('Remove node attribute', () => {
   contentModel = contentModel
     .addNode(node1)
-    .addNodeAttribute(node1.id, attribute, attributeValue)
-    .removeNodeAttribute(node1.id, attribute)
+    .addNodeMetadata(node1.id, key, value)
+    .removeNodeMetadata(node1.id, key)
   const node = contentModel.getNode(node1.id)
   expect(node).toBeTruthy()
-  expect(node!.attributes[attribute]).toBeFalsy()
+  expect(node!.metadata[key]).toBeFalsy()
 })
 
 it('Remove node', () => {
@@ -186,10 +180,10 @@ it('Add edge attribute', () => {
     .addNode(node1)
     .addNode(node2)
     .addEdge(edge1)
-    .addEdgeAttribute(edge1.id, attribute, attributeValue)
+    .addEdgeMetadata(edge1.id, key, value)
   const edge = contentModel.getEdge(edge1.id)
   expect(edge).toBeTruthy()
-  expect(edge!.attributes[attribute]).toBe(attributeValue)
+  expect(edge!.metadata[key]).toBe(value)
 })
 
 it('Edit edge attribute', () => {
@@ -198,19 +192,17 @@ it('Edit edge attribute', () => {
     .addNode(node1)
     .addNode(node2)
     .addEdge(edge1)
-    .addEdgeAttribute(edge1.id, attribute, attributeValue)
-    .editEdgeAttribute(edge1.id, attribute, newAttributeValue)
+    .addEdgeMetadata(edge1.id, key, value)
+    .editEdgeMetadata(edge1.id, key, newAttributeValue)
   const edge = contentModel.getEdge(edge1.id)
   expect(edge).toBeTruthy()
-  expect(edge!.attributes[attribute]).toBe(newAttributeValue)
+  expect(edge!.metadata[key]).toBe(newAttributeValue)
 })
 
 it('Edit edge attribute throws if missing', () => {
   contentModel = contentModel.addNode(node1).addNode(node2).addEdge(edge1)
 
-  expect(() =>
-    contentModel.editEdgeAttribute(edge1.id, attribute, attributeValue)
-  ).toThrow()
+  expect(() => contentModel.editEdgeMetadata(edge1.id, key, value)).toThrow()
 })
 
 it('Remove edge attribute', () => {
@@ -218,11 +210,11 @@ it('Remove edge attribute', () => {
     .addNode(node1)
     .addNode(node2)
     .addEdge(edge1)
-    .addEdgeAttribute(edge1.id, attribute, attributeValue)
-    .removeEdgeAttribute(edge1.id, attribute)
+    .addEdgeMetadata(edge1.id, key, value)
+    .removeEdgeMetadata(edge1.id, key)
   const node = contentModel.getNode(node1.id)
   expect(node).toBeTruthy()
-  expect(node!.attributes[attribute]).toBeFalsy()
+  expect(node!.metadata[key]).toBeFalsy()
 })
 
 it('Remove edge', () => {
@@ -277,7 +269,7 @@ it('Gets all edges linked to node', () => {
 })
 
 it('Create from raw empty', () => {
-  contentModel = ContentModel.fromRaw({ nodes: {}, edges: {} })
+  contentModel = ContentModel.fromRaw({ nodes: {}, edges: [] })
   expect(Object.keys(contentModel.nodes)).toHaveLength(0)
   expect(Object.keys(contentModel.edges)).toHaveLength(0)
 })
@@ -285,7 +277,7 @@ it('Create from raw empty', () => {
 it('Create from raw valid values', () => {
   contentModel = ContentModel.fromRaw({
     nodes: { [node1.id]: node1, [node2.id]: node2 },
-    edges: { [edge1.id]: edge1 },
+    edges: [edge1],
   })
   expect(Object.keys(contentModel.nodes)).toHaveLength(2)
   expect(Object.keys(contentModel.edges)).toHaveLength(1)
@@ -296,49 +288,49 @@ it('Throws creating with missing edge target', () => {
     () =>
       (contentModel = ContentModel.fromRaw({
         nodes: { [node1.id]: node1 },
-        edges: { [edge1.id]: edge1 },
+        edges: [edge1],
       }))
   ).toThrow()
 })
 
-it('has no attributes when empty', () => {
-  expect(Object.keys(contentModel.getNodeAttributes())).toHaveLength(0)
-  expect(Object.keys(contentModel.getEdgeAttributes())).toHaveLength(0)
+it('has no metadata when empty', () => {
+  expect(Object.keys(contentModel.getNodeMetadataTypes())).toHaveLength(0)
+  expect(Object.keys(contentModel.getEdgeMetadataTypes())).toHaveLength(0)
 })
 
-it('Can get node attributes', () => {
+it('Can get node metadata', () => {
   contentModel = contentModel
     .addNode(node1)
-    .addNodeAttribute(node1.id, attribute, attributeValue)
+    .addNodeMetadata(node1.id, key, value)
     .addNode(node2)
-    .addNodeAttribute(node2.id, attribute, 10)
+    .addNodeMetadata(node2.id, key, 10)
 
-  const existingAttributeId = Object.keys(node1.attributes)[0]
+  const existingKey = Object.keys(node1.metadata)[0]
 
-  const attributeTypes = contentModel.getNodeAttributes()
-  const attributeIds = Object.keys(attributeTypes)
-  expect(attributeIds).toHaveLength(2)
-  expect(attributeIds).toContain(attribute)
-  expect(attributeIds).toContain(existingAttributeId)
+  const metadataSets = contentModel.getNodeMetadataTypes()
+  const metadataKeys = Object.keys(metadataSets)
+  expect(metadataKeys).toHaveLength(2)
+  expect(metadataKeys).toContain(key)
+  expect(metadataKeys).toContain(existingKey)
 
-  expect(attributeTypes[attribute].size).toBe(2)
-  expect(attributeTypes[attribute].has('string')).toBeTruthy()
-  expect(attributeTypes[attribute].has('number')).toBeTruthy()
+  expect(metadataSets[key].size).toBe(2)
+  expect(metadataSets[key].has('string')).toBeTruthy()
+  expect(metadataSets[key].has('number')).toBeTruthy()
 
-  expect(attributeTypes[existingAttributeId].size).toBe(1)
-  expect(attributeTypes[attribute].has('string')).toBeTruthy()
+  expect(metadataSets[existingKey].size).toBe(1)
+  expect(metadataSets[key].has('string')).toBeTruthy()
 })
 
 it('Can get edge attributes', () => {
   contentModel = contentModel.addNode(node1).addNode(node2).addEdge(edge1)
 
-  const attributeTypes = contentModel.getEdgeAttributes()
-  const attributeIds = Object.keys(attributeTypes)
+  const metadataTypes = contentModel.getEdgeMetadataTypes()
+  const metadataKeys = Object.keys(metadataTypes)
 
-  const existingAttributeId = Object.keys(edge1.attributes)[0]
-  expect(attributeIds).toHaveLength(1)
-  expect(attributeIds).toContain(Object.keys(edge1.attributes)[0])
+  const existingKey = Object.keys(edge1.metadata)[0]
+  expect(metadataKeys).toHaveLength(1)
+  expect(metadataKeys).toContain(Object.keys(edge1.metadata)[0])
 
-  expect(attributeTypes[existingAttributeId].size).toBe(1)
-  expect(attributeTypes[existingAttributeId].has('string')).toBeTruthy()
+  expect(metadataTypes[existingKey].size).toBe(1)
+  expect(metadataTypes[existingKey].has('string')).toBeTruthy()
 })

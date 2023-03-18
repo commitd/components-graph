@@ -1,14 +1,9 @@
 import { ThemeProvider } from '@committed/components'
+import { ContentModel, GraphModel, NodeShape } from '@committed/graph'
 import '@testing-library/jest-dom/extend-expect'
 import { render, RenderOptions, RenderResult } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-import {
-  ModelNode,
-  ModelEdge,
-  ContentModel,
-  GraphModel,
-} from '@committed/graph'
 import ResizeObserver from 'resize-observer-polyfill'
 
 // Use the polyfill for the ResizeObserver.
@@ -105,9 +100,9 @@ export { userEvent }
 
 // TEST DATA
 
-export const node1: ModelNode = {
+export const node1 = {
   id: 'node1',
-  attributes: {
+  metadata: {
     employer: 'Committed',
   },
   color: 'yellow',
@@ -115,13 +110,13 @@ export const node1: ModelNode = {
   size: 10,
   strokeColor: 'black',
   opacity: 1,
-  shape: 'ellipse',
+  shape: 'ellipse' as NodeShape,
   strokeSize: 2,
 }
 
-export const node2: ModelNode = {
+export const node2 = {
   id: 'node2',
-  attributes: {
+  metadata: {
     employer: 'Government',
   },
   color: 'green',
@@ -129,13 +124,13 @@ export const node2: ModelNode = {
   size: 12,
   strokeColor: 'black',
   opacity: 0.9,
-  shape: 'rectangle',
+  shape: 'rectangle' as NodeShape,
   strokeSize: 3,
 }
 
-export const edge1: ModelEdge = {
+export const edge1 = {
   id: 'edge1',
-  attributes: {
+  metadata: {
     role: 'client',
   },
   source: node1.id,

@@ -1,37 +1,37 @@
-import { ModelNode } from '@committed/graph'
+import { Node } from '@committed/graph'
 import React from 'react'
 import { renderDark, renderLight } from '../../test/setup'
 import { NodeViewer } from './NodeViewer'
 
-export const WithAttributes: React.FC = () => {
-  const node: ModelNode = {
+export const WithMetadata: React.FC = () => {
+  const node: Node = {
     id: 'test',
     label: 'example node',
-    attributes: {
+    metadata: {
       employer: 'Committed',
     },
   }
   return <NodeViewer open node={node} />
 }
 
-export const NoAttributes: React.FC = () => {
-  const node: ModelNode = {
+export const NoMetadata: React.FC = () => {
+  const node: Node = {
     id: 'test',
     label: 'example node',
-    attributes: {},
+    metadata: {},
   }
   return <NodeViewer open node={node} />
 }
 
 export const NoNode: React.FC = () => <NodeViewer open />
 
-it('renders light with attributes', () => {
-  const { asFragment } = renderLight(<WithAttributes />)
+it('renders light with metadata', () => {
+  const { asFragment } = renderLight(<WithMetadata />)
   expect(asFragment()).toBeDefined()
 })
 
-it('renders dark with no attributes', () => {
-  const { asFragment } = renderDark(<NoAttributes />)
+it('renders dark with no metadata', () => {
+  const { asFragment } = renderDark(<NoMetadata />)
   expect(asFragment()).toBeDefined()
 })
 it('renders with no node', () => {

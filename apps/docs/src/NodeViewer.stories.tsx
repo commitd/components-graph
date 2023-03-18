@@ -1,12 +1,10 @@
 import { Button } from '@committed/components'
-import { Generator, ModelNode } from '@committed/graph'
+import { cytoscapeRenderer, Graph, NodeViewer } from '@committed/components-graph'
+import { Generator, Node } from '@committed/graph'
 import { useBoolean } from '@committed/hooks'
 import { Meta, Story } from '@storybook/react'
-import React, { useState } from 'react'
-import { cytoscapeRenderer } from '@committed/components-graph'
-import { Graph } from '@committed/components-graph'
-import { NodeViewer } from '@committed/components-graph'
 import faker from 'faker'
+import React, { useState } from 'react'
 
 export default {
   title: 'Components/NodeViewer',
@@ -16,7 +14,7 @@ export default {
 export const Default: Story<React.ComponentProps<typeof NodeViewer>> = () => {
   const [model, setModel] = useState(Generator.randomGraph)
 
-  const [node, setNode] = useState<ModelNode | undefined>(
+  const [node, setNode] = useState<Node | undefined>(
     Object.values(model.getCurrentContent().nodes)[0]
   )
   const graph = (
@@ -42,10 +40,10 @@ export const Default: Story<React.ComponentProps<typeof NodeViewer>> = () => {
 
 export const WithAttributes: Story = () => {
   const [open, { setTrue: setOpen, setFalse: setClosed }] = useBoolean(false)
-  const node: ModelNode = {
+  const node: Node = {
     id: 'test',
     label: 'example node',
-    attributes: {
+    metadata: {
       employer: 'Committed',
     },
   }
@@ -59,10 +57,10 @@ export const WithAttributes: Story = () => {
 
 export const NoAttributes: Story = () => {
   const [open, { setTrue: setOpen, setFalse: setClosed }] = useBoolean(false)
-  const node: ModelNode = {
+  const node: Node = {
     id: 'test',
     label: 'example node',
-    attributes: {},
+    metadata: {},
   }
   return (
     <>
@@ -84,10 +82,10 @@ export const NoNode: Story = () => {
 
 export const ManyAttributes: Story = () => {
   const [open, { setTrue: setOpen, setFalse: setClosed }] = useBoolean(false)
-  const node: ModelNode = {
+  const node: Node = {
     id: 'test',
     label: 'example node',
-    attributes: {
+    metadata: {
       firstName: faker.name.firstName(),
       middleName: faker.name.middleName(),
       lastName: faker.name.lastName(),

@@ -1,4 +1,4 @@
-import { ContentModel, ModelEdge, ModelNode } from '@committed/graph'
+import { ContentModel, Edge, Node, NodeDecoration } from '@committed/graph'
 import {
   DataFactory,
   Literal,
@@ -35,7 +35,7 @@ export const DECORATION_NODE_STROKE_COLOR_IRI =
 export const DECORATION_NODE_STROKE_SIZE_IRI =
   DECORATION_IRI + DECORATION_NODE_STROKE_SIZE
 
-const DECORATORS: Record<string, keyof ModelNode> = {
+const DECORATORS: Record<string, keyof NodeDecoration> = {
   [DECORATION_ITEM_LABEL_IRI]: DECORATION_ITEM_LABEL,
   [DECORATION_ITEM_SIZE_IRI]: DECORATION_ITEM_SIZE,
   [DECORATION_ITEM_COLOR_IRI]: DECORATION_ITEM_COLOR,
@@ -53,6 +53,8 @@ const rdfType = DataFactory.namedNode(
 const rdfsLabel = DataFactory.namedNode(
   'http://www.w3.org/2000/01/rdf-schema#label'
 )
+
+const TYPE_KEY = 'type' as const
 
 export interface LiteralObject {
   value: string
@@ -95,9 +97,9 @@ export interface RdfOptions {
   /** Add additional prefixes to the used */
   additionalPrefixes?: Record<string, string>
   /** Node processor to apply to nodes after conversion */
-  nodeProcessor?: (node: ModelNode) => ModelNode
+  nodeProcessor?: (node: Node) => Node
   /** Edge processor to apply to edges after conversion */
-  edgeProcessor?: (edge: ModelEdge) => ModelEdge
+  edgeProcessor?: (edge: Edge) => Edge
 }
 
 export const DEFAULT_RDF_OPTIONS: RdfOptions = {
@@ -120,9 +122,9 @@ interface GraphBuilderOptions
 }
 
 class GraphBuilder {
-  private readonly nodes: Record<string, ModelNode> = {}
-  private readonly edges: Record<string, ModelEdge> = {}
-  private readonly attributes: Triple[] = []
+  private readonly nodes: Record<string, Node> = {}
+  private readonly edges: Record<string, Edge> = {}
+  private readonly metadata: Triple[] = []
 
   private readonly triples: Triple[]
   private readonly options: GraphBuilderOptions
@@ -134,11 +136,11 @@ class GraphBuilder {
 
   public build(): ContentModel {
     this.triples.forEach((t) => this.addTriple(t))
-    this.attributes.forEach((t) => this.addAttribute(t))
+    this.metadata.forEach((t) => this.addAttribute(t))
 
     this.processNodes()
     this.processEdges()
-    return ContentModel.fromRaw({ nodes: this.nodes, edges: this.edges })
+    return new ContentModel(this.nodes, this.edges)
   }
 
   private processNodes() {
@@ -161,7 +163,7 @@ class GraphBuilder {
 
   private addTriple(t: Triple): void {
     if (t.object.termType === 'Literal') {
-      this.attributes.push(t)
+      this.metadata.push(t)
     } else {
       this.addNode(t.subject)
       if (
@@ -182,7 +184,7 @@ class GraphBuilder {
       this.nodes[id] = {
         id,
         label: term.value,
-        attributes: {},
+        metadata: {},
       }
     }
   }
@@ -194,14 +196,15 @@ class GraphBuilder {
       source: this.toNodeId(t.subject),
       target: this.toNodeId(t.object),
       label: this.toNodeId(t.predicate),
-      attributes: {},
+      metadata: {},
+      directed: true,
     }
   }
 
   private addType(t: Triple): void {
     const item = this.nodes[this.toNodeId(t.subject)]
-    if (item !== undefined && item.attributes !== undefined) {
-      item.attributes.type = this.toNodeId(t.object)
+    if (item !== undefined && item.metadata !== undefined) {
+      item.metadata[TYPE_KEY] = this.toNodeId(t.object)
     }
   }
 
@@ -216,8 +219,8 @@ class GraphBuilder {
       this.addDecorator(t)
     } else {
       const item = this.nodes[this.toNodeId(t.subject)]
-      if (item !== undefined && item.attributes !== undefined) {
-        item.attributes[this.toNodeId(t.predicate)] = this.toLiteralAttribute(
+      if (item !== undefined && item.metadata !== undefined) {
+        item.metadata[this.toNodeId(t.predicate)] = this.toLiteralAttribute(
           t.object as Literal
         )
       }

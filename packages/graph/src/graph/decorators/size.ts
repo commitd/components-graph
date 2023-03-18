@@ -1,11 +1,5 @@
 import { ContentModel } from 'graph'
-import {
-  EdgeDecorator,
-  ModelEdge,
-  ModelItem,
-  ModelNode,
-  NodeDecorator,
-} from '../types'
+import { Edge, EdgeDecorator, Item, Node, NodeDecorator } from '../types'
 
 type Range = [min: number, max: number]
 
@@ -17,18 +11,15 @@ interface NumericMapping<T> {
  * Wraps a function from nodes to numbers to map it to the size of the node
  */
 export const sizeNodeBy =
-  (
-    mapping: NumericMapping<ModelNode>,
-    range: Range = [10, 200]
-  ): NodeDecorator =>
-  (node: ModelNode) => ({ size: scale(...mapping(node), range) })
+  (mapping: NumericMapping<Node>, range: Range = [10, 200]): NodeDecorator =>
+  (node: Node) => ({ size: scale(...mapping(node), range) })
 
 /**
  * Wraps a function from edges to numbers to map it to the size of the node
  */
 export const sizeEdgeBy =
-  (mapping: NumericMapping<ModelEdge>, range: Range = [1, 5]): EdgeDecorator =>
-  (edge: ModelEdge) => ({ size: scale(...mapping(edge), range) })
+  (mapping: NumericMapping<Edge>, range: Range = [1, 5]): EdgeDecorator =>
+  (edge: Edge) => ({ size: scale(...mapping(edge), range) })
 
 const scale = (
   input: number | undefined,
@@ -46,25 +37,19 @@ const scale = (
   return percent * (tMax - tMin) + tMin
 }
 
-function getMinAndMax(
-  items: ModelItem[],
-  attributeKey: string
-): [min: number, max: number] {
+function getMinAndMax(items: Item[], key: string): [min: number, max: number] {
   const values = items
-    .map((item) => parseFloat(item.attributes[attributeKey] as string))
+    .map((item) => parseFloat(item.metadata[key] as string))
     .filter((v) => !isNaN(v))
   const min = Math.min(...values)
   const max = Math.max(...values)
   return [min, max]
 }
 
-function attribute<T extends ModelItem>(
-  items: T[],
-  id: string
-): NumericMapping<T> {
+function metadata<T extends Item>(items: T[], id: string): NumericMapping<T> {
   const source = getMinAndMax(items, id)
   return (item: T) => {
-    const value = parseFloat(item.attributes[id] as string)
+    const value = parseFloat(item.metadata[id] as string)
     if (isNaN(value)) {
       return [undefined, source]
     } else {
@@ -75,34 +60,34 @@ function attribute<T extends ModelItem>(
 
 /**
  *
- * Creates a decorator to size the nodes by an attribute value
+ * Creates a decorator to size the nodes by a metadata value
  *
  * @param contentModel the current content model
- * @param attributeId the id of the attribute
+ * @param key the key of the metadata
  * @param min optional minimum size
  * @param max optional minimum size
  * @returns node decorator
  */
-export const sizeNodeByAttribute = (
+export const sizeNodeByMetadata = (
   contentModel: ContentModel,
-  attributeId: string,
+  key: string,
   range?: Range
 ): NodeDecorator =>
-  sizeNodeBy(attribute(Object.values(contentModel.nodes), attributeId), range)
+  sizeNodeBy(metadata(Object.values(contentModel.nodes), key), range)
 
 /**
  *
- * Creates a decorator to size the edges by an attribute value
+ * Creates a decorator to size the edges by a metadata value
  *
  * @param contentModel the current content model
- * @param attributeId the id of the attribute
+ * @param key the key of the metadata
  * @param min optional minimum size
  * @param max optional minimum size
  * @returns edge decorator
  */
-export const sizeEdgeByAttribute = (
+export const sizeEdgeByMetadata = (
   contentModel: ContentModel,
-  attributeId: string,
+  key: string,
   range?: Range
 ): EdgeDecorator =>
-  sizeEdgeBy(attribute(Object.values(contentModel.edges), attributeId), range)
+  sizeEdgeBy(metadata(Object.values(contentModel.edges), key), range)

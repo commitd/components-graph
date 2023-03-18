@@ -1,17 +1,44 @@
 import { v4 } from 'uuid'
 import {
-  ModelAttributeSet,
-  ModelAttributeTypes,
+  Edge,
+  Item,
+  MetadataTypes,
   ModelEdge,
   ModelGraphData,
-  ModelItem,
   ModelNode,
+  Node,
 } from './types'
 
 export class ContentModel {
+  private static toNode(modelNode: ModelNode): Node {
+    return { id: modelNode.id ?? v4(), metadata: {}, ...modelNode }
+  }
+
+  public static toEdge(modelEdge: ModelEdge): Edge {
+    return {
+      id: modelEdge.id ?? v4(),
+      directed: true,
+      metadata: {},
+      ...modelEdge,
+    }
+  }
+
   public static fromRaw(data: ModelGraphData): ContentModel {
-    const model = new ContentModel(data.nodes, data.edges)
-    Object.values(model.edges).forEach((e) => model.checkEdgeNodes(e))
+    const nodes = Object.keys(data.nodes).reduce<Record<string, Node>>(
+      (obj, id) => {
+        const node = ContentModel.toNode({ ...data.nodes[id], id })
+        obj[node.id] = node
+        return obj
+      },
+      {}
+    )
+    const edges = data.edges.reduce<Record<string, Edge>>((obj, modelEdge) => {
+      const edge = ContentModel.toEdge(modelEdge)
+      obj[edge.id] = edge
+      return obj
+    }, {})
+    const model = new ContentModel(nodes, edges)
+    model.validate()
     return model
   }
 
@@ -20,11 +47,12 @@ export class ContentModel {
   }
 
   constructor(
-    readonly nodes: Record<string, ModelNode>,
-    readonly edges: Record<string, ModelEdge>
-  ) {
-    this.nodes = nodes
-    this.edges = edges
+    readonly nodes: Record<string, Node>,
+    readonly edges: Record<string, Edge>
+  ) {}
+
+  validate() {
+    Object.values(this.edges).forEach((e) => this.checkEdgeNodes(e))
   }
 
   containsNode(id: string): boolean {
@@ -35,11 +63,14 @@ export class ContentModel {
     return this.getEdge(id) != null
   }
 
-  getNode(id: string): ModelNode | undefined {
+  getNode(id: string): Node | undefined {
     return this.nodes[`${id}`]
   }
 
-  private getExistingNode(id: string): ModelNode {
+  private getExistingNode(id: string | undefined): Node {
+    if (id == null) {
+      throw new Error(`Node id must be given`)
+    }
     const node = this.getNode(id)
     if (node == null) {
       throw new Error(`Node [${id}] does not exist`)
@@ -47,46 +78,49 @@ export class ContentModel {
     return node
   }
 
-  getEdgesLinkedToNode(nodeId: string): ModelEdge[] {
+  getEdgesLinkedToNode(nodeId: string): Edge[] {
     return Object.values(this.edges).filter(
       (e) => e.target === nodeId || e.source === nodeId
     )
   }
 
-  addNode(node: Partial<ModelNode>): ContentModel {
-    if (node.id != null && this.containsNode(node.id)) {
-      throw new Error(`Cannot add node already in graph (${node.id})`)
+  addNode(modelNode: ModelNode): ContentModel {
+    if (modelNode.id != null && this.containsNode(modelNode.id)) {
+      throw new Error(`Cannot add node already in graph (${modelNode.id})`)
     }
-    const newNode: ModelNode = {
-      id: node.id ?? v4(),
-      attributes: node.attributes ?? {},
-      ...node,
-    }
-    const nodes = { ...this.nodes, [newNode.id]: newNode }
+    const node = ContentModel.toNode(modelNode)
+    const nodes = { ...this.nodes, [node.id]: node }
     return new ContentModel(nodes, this.edges)
   }
 
   editNode(node: ModelNode): ContentModel {
-    this.getExistingNode(node.id)
+    const existing = this.getExistingNode(node.id)
     return new ContentModel(
-      { ...this.nodes, ...{ [node.id]: node } },
+      { ...this.nodes, [existing.id]: ContentModel.toNode(node) },
       this.edges
     )
   }
 
+  /**
+   * @deprecated use addNodeMetadata
+   */
   addNodeAttribute<V>(
     id: string,
     attributeName: string,
     attributeValue: V
   ): ContentModel {
+    return this.addNodeMetadata<V>(id, attributeName, attributeValue)
+  }
+
+  addNodeMetadata<V>(id: string, key: string, value: V): ContentModel {
     const node = this.getExistingNode(id)
-    const newAttributes = {
-      ...node.attributes,
-      ...{ [attributeName]: attributeValue },
+    const newMetadata = {
+      ...node.metadata,
+      ...{ [key]: value },
     }
     const changedNode = {
-      ...this.getExistingNode(id),
-      ...{ attributes: newAttributes },
+      ...node,
+      metadata: newMetadata,
     }
     return this.editNode(changedNode)
   }
@@ -114,59 +148,62 @@ export class ContentModel {
     return new ContentModel(withoutNode, this.edges)
   }
 
+  /**
+   * @deprecated use editNodeMetadata
+   */
   editNodeAttribute<V>(
     id: string,
     attributeName: string,
     attributeValue: V
   ): ContentModel {
-    if (this.getExistingNode(id).attributes[`${attributeName}`] == null) {
-      throw new Error(`Node [${id}] does not have attribute ${attributeName}`)
-    }
-    return this.addNodeAttribute(id, attributeName, attributeValue)
+    return this.editNodeMetadata(id, attributeName, attributeValue)
   }
 
+  editNodeMetadata<V>(id: string, key: string, value: V): ContentModel {
+    if (this.getExistingNode(id).metadata[`${key}`] == null) {
+      throw new Error(`Node [${id}] does not have metadata ${key}`)
+    }
+    return this.addNodeMetadata(id, key, value)
+  }
+
+  /**
+   * @deprecated use removeNodeMetadata
+   */
   removeNodeAttribute(id: string, attributeName: string): ContentModel {
+    return this.removeNodeMetadata(id, attributeName)
+  }
+
+  removeNodeMetadata(id: string, key: string): ContentModel {
     const node = this.getExistingNode(id)
-    const remainingAttributes = { ...node.attributes }
-    delete remainingAttributes[`${attributeName}`]
-    const n = { ...node, ...{ attributes: remainingAttributes } }
+    const remainingMetadata = { ...node.metadata }
+    delete remainingMetadata[`${key}`]
+    const n = { ...node, metadata: remainingMetadata }
     return this.editNode(n)
   }
 
-  addEdge(
-    edge: Omit<ModelEdge, 'id' | 'attributes'> & {
-      id?: string
-      attributes?: ModelAttributeSet
+  addEdge(modelEdge: ModelEdge): ContentModel {
+    this.checkEdgeNodes(modelEdge)
+    if (modelEdge.id != null && this.containsEdge(modelEdge.id)) {
+      throw new Error(`Cannot add edge already in graph (${modelEdge.id})`)
     }
-  ): ContentModel {
-    this.checkEdgeNodes(edge)
-    if (edge.id != null && this.containsEdge(edge.id)) {
-      throw new Error(`Cannot add edge already in graph (${edge.id})`)
-    }
-    const newEdge: ModelEdge = {
-      id: edge.id ?? v4(),
-      attributes: edge.attributes ?? {},
-      ...edge,
-    }
+    const newEdge = ContentModel.toEdge(modelEdge)
     const edges = { ...this.edges, [newEdge.id]: newEdge }
     return new ContentModel(this.nodes, edges)
   }
 
-  checkEdgeNodes(
-    edge: Omit<ModelEdge, 'id' | 'attributes'> & {
-      id?: string
-      attributes?: ModelAttributeSet
-    }
-  ): void {
+  checkEdgeNodes(edge: ModelEdge): void {
     this.getExistingNode(edge.source)
     this.getExistingNode(edge.target)
   }
 
-  getEdge(id: string): ModelEdge | undefined {
+  getEdge(id: string): Edge | undefined {
     return this.edges[`${id}`]
   }
 
-  private getExistingEdge(id: string): ModelEdge {
+  private getExistingEdge(id: string | undefined): Edge {
+    if (id == null) {
+      throw new Error('Edge id must be provided')
+    }
     const edge = this.getEdge(id)
     if (edge == null) {
       throw new Error(`Edge [${id}] does not exist`)
@@ -176,46 +213,67 @@ export class ContentModel {
 
   editEdge(edge: ModelEdge): ContentModel {
     // ensure edge exists
-    this.getExistingEdge(edge.id)
+    const existing = this.getExistingEdge(edge.id)
     return new ContentModel(this.nodes, {
       ...this.edges,
-      ...{ [edge.id]: edge },
+      [existing.id]: ContentModel.toEdge(edge),
     })
   }
 
+  /**
+   * @deprecated use addEdgeMetadata
+   */
   addEdgeAttribute<V>(
     id: string,
     attributeName: string,
     attributeValue: V
   ): ContentModel {
+    return this.addEdgeMetadata(id, attributeName, attributeValue)
+  }
+
+  addEdgeMetadata<V>(id: string, key: string, value: V): ContentModel {
     const edge = this.getExistingEdge(id)
-    const newAttributes = {
-      ...edge.attributes,
-      ...{ [attributeName]: attributeValue },
+    const newMetadata = {
+      ...edge.metadata,
+      [key]: value,
     }
     const changedEdge = {
       ...this.getExistingEdge(id),
-      ...{ attributes: newAttributes },
+      metadata: newMetadata,
     }
     return this.editEdge(changedEdge)
   }
 
+  /**
+   * @deprecated use editEdgeMetadata
+   */
   editEdgeAttribute<V>(
     id: string,
     attributeName: string,
     attributeValue: V
   ): ContentModel {
-    if (this.getExistingEdge(id).attributes[`${attributeName}`] == null) {
-      throw new Error(`Edge [${id}] does not have attribute ${attributeName}`)
-    }
-    return this.addEdgeAttribute(id, attributeName, attributeValue)
+    return this.editEdgeMetadata(id, attributeName, attributeValue)
   }
 
+  editEdgeMetadata<V>(id: string, key: string, value: V): ContentModel {
+    if (this.getExistingEdge(id).metadata[`${key}`] == null) {
+      throw new Error(`Edge [${id}] does not have attribute ${key}`)
+    }
+    return this.addEdgeMetadata(id, key, value)
+  }
+
+  /**
+   * @deprecated use removeEdgeMetadata
+   */
   removeEdgeAttribute(id: string, attributeName: string): ContentModel {
+    return this.removeEdgeMetadata(id, attributeName)
+  }
+
+  removeEdgeMetadata(id: string, attributeName: string): ContentModel {
     const edge = this.getExistingEdge(id)
-    const remainingAttributes = { ...edge.attributes }
-    delete remainingAttributes[`${attributeName}`]
-    const e = { ...edge, ...{ attributes: remainingAttributes } }
+    const remainingMetadata = { ...edge.metadata }
+    delete remainingMetadata[`${attributeName}`]
+    const e = { ...edge, metadata: remainingMetadata }
     return this.editEdge(e)
   }
 
@@ -229,22 +287,36 @@ export class ContentModel {
     return new ContentModel(this.nodes, withoutEdge)
   }
 
-  private getAttributes(items: ModelItem[]): ModelAttributeTypes {
-    return items.reduce<ModelAttributeTypes>((attributeTypes, item) => {
-      Object.entries(item.attributes).forEach((a) => {
-        const attributeType = attributeTypes[a[0]] ?? new Set<string>()
-        attributeType.add(typeof a[1])
-        attributeTypes[a[0]] = attributeType
+  private getMetadataSets(items: Item[]): MetadataTypes {
+    return items.reduce<MetadataTypes>((metadataSets, item) => {
+      Object.entries(item.metadata).forEach((a) => {
+        const metadataKey = metadataSets[a[0]] ?? new Set<string>()
+        metadataKey.add(typeof a[1])
+        metadataSets[a[0]] = metadataKey
       })
-      return attributeTypes
+      return metadataSets
     }, {})
   }
 
-  getNodeAttributes(): ModelAttributeTypes {
-    return this.getAttributes(Object.values(this.nodes))
+  /**
+   * @deprecated use getNodeMetadataSets
+   */
+  getNodeAttributes(): MetadataTypes {
+    return this.getNodeMetadataTypes()
   }
 
-  getEdgeAttributes(): ModelAttributeTypes {
-    return this.getAttributes(Object.values(this.edges))
+  getNodeMetadataTypes(): MetadataTypes {
+    return this.getMetadataSets(Object.values(this.nodes))
+  }
+
+  /**
+   * @deprecated use getEdgeMetadataSets
+   */
+  getEdgeAttributes(): MetadataTypes {
+    return this.getEdgeMetadataTypes()
+  }
+
+  getEdgeMetadataTypes(): MetadataTypes {
+    return this.getMetadataSets(Object.values(this.edges))
   }
 }

@@ -5,10 +5,10 @@ import { SelectionModel } from './SelectionModel'
 import {
   DecoratedEdge,
   DecoratedNode,
+  Edge,
   GraphCommand,
-  ModelAttributeTypes,
-  ModelEdge,
-  ModelNode,
+  MetadataTypes,
+  Node,
 } from './types'
 
 /** The GraphModel is a declarative, immutable definition of graph state
@@ -16,7 +16,7 @@ import {
 The GraphModel defines:
 - Nodes/edges (ContentModel)
 	- No requirement for ontology, typing etc
-	- Attributes
+	- Metadata
 - Decoration (DecoratorModel)
 	- May define custom node/edge Decorators based on any property on the node/edge
 - Selection (SelectionModel)
@@ -141,7 +141,7 @@ export class GraphModel {
       Array.from(this.getSelection().nodes)
         .map((n) => this.contentModel.getNode(n))
         .filter((n) => n != null)
-        .map((n) => n as ModelNode)
+        .map((n) => n as Node)
     )
   }
 
@@ -150,7 +150,7 @@ export class GraphModel {
       Array.from(this.getSelection().edges)
         .map((e) => this.contentModel.getEdge(e))
         .filter((e) => e != null)
-        .map((e) => e as ModelEdge)
+        .map((e) => e as Edge)
     )
   }
 
@@ -170,12 +170,12 @@ export class GraphModel {
     return this.decoratorModel.getDecoratedEdges([edge])[0]
   }
 
-  getNodeAttributes(): ModelAttributeTypes {
-    return this.contentModel.getNodeAttributes()
+  getNodeMetadataTypes(): MetadataTypes {
+    return this.contentModel.getNodeMetadataTypes()
   }
 
-  getEdgeAttributes(): ModelAttributeTypes {
-    return this.contentModel.getEdgeAttributes()
+  getEdgeMetadataTypes(): MetadataTypes {
+    return this.contentModel.getEdgeMetadataTypes()
   }
 
   getCurrentLayout(): LayoutModel {

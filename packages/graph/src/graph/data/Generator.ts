@@ -1,14 +1,13 @@
 import { ContentModel } from '../ContentModel'
 import { GraphModel } from '../GraphModel'
-import { ModelEdge, ModelNode } from '../types'
+import { Edge, Node, NodeShape, NodeShapes } from '../types'
 import { colors } from './colors'
 import { names } from './names'
-import { shapes } from './shapes'
 
 const randomItem = <T>(arr: T[]): T =>
   arr[Math.floor(Math.random() * arr.length)] // nosonar - secure random not required
 
-export const randomNode = (model: ContentModel): ModelNode | undefined => {
+export const randomNode = (model: ContentModel): Node | undefined => {
   const nodes = Object.values(model.nodes)
   if (nodes.length === 0) {
     return
@@ -18,7 +17,7 @@ export const randomNode = (model: ContentModel): ModelNode | undefined => {
 
 const randomNumber = (): number => Math.ceil(Math.random() * 100)
 
-const randomEdge = (model: ContentModel): ModelEdge | undefined => {
+const randomEdge = (model: ContentModel): Edge | undefined => {
   const edges = Object.values(model.edges)
   if (edges.length === 0) {
     return
@@ -30,14 +29,14 @@ const randomColor = (): string => {
   return randomItem(colors)
 }
 
-const randomShape = (): string => {
-  return randomItem(shapes)
+const randomShape = () => {
+  return randomItem(Object.keys(NodeShapes) as NodeShape[])
 }
 
 export const addRandomNode = (
   model: GraphModel,
   count = 1,
-  options?: Partial<ModelNode> | (() => Partial<ModelNode>)
+  options?: Partial<Node> | (() => Partial<Node>)
 ): GraphModel => {
   let content = model.getCurrentContent()
   for (let i = 0; i < count; i++) {
@@ -47,7 +46,7 @@ export const addRandomNode = (
     content = content.addNode({
       label: `${firstName} ${lastName}`,
       ...(typeof options === 'function' ? options() : options),
-      attributes: {
+      metadata: {
         firstName,
         lastName,
         age,

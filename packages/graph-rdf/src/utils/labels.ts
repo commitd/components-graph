@@ -1,10 +1,10 @@
-import { ModelItem } from '@committed/graph'
+import { Item } from '@committed/graph'
 
 const labelNodeBy =
-  <T extends ModelItem>(mapping: (item: T) => string) =>
+  <T extends Item>(mapping: (item: T) => string) =>
   (item: T) => ({ label: mapping(item) })
 
-const idTo = (mapping: (id: string) => string) => (item: ModelItem) =>
+const idTo = (mapping: (id: string) => string) => (item: Item) =>
   mapping(item.id)
 
 export const prefixedId =
@@ -39,7 +39,7 @@ export const fragmentId = (id: string): string => {
  * @param prefixes map of prefix to full URI
  * @returns item decorator
  */
-export const labelWithPrefix = <T extends ModelItem>(
+export const labelWithPrefix = <T extends Item>(
   prefixes: Record<string, string>
 ): ((item: T) => { label: string }) =>
   labelNodeBy<T>(idTo(prefixedId(prefixes)))
@@ -50,6 +50,6 @@ export const labelWithPrefix = <T extends ModelItem>(
  *
  * @returns item decorator
  */
-export const labelWithFragment = <T extends ModelItem>(): ((item: T) => {
+export const labelWithFragment = <T extends Item>(): ((item: T) => {
   label: string
 }) => labelNodeBy<T>(idTo(fragmentId))

@@ -1,4 +1,4 @@
-import { ModelAttributeSet, ModelEdge, ModelNode } from '@committed/graph'
+import { Edge, Metadata, Node } from '@committed/graph'
 import { fragmentId } from './labels'
 
 /**
@@ -6,7 +6,7 @@ import { fragmentId } from './labels'
  * @param item Opinionated function to process rdf nodes and edges for a cleaner presentation in the graph
  * @returns
  */
-export const cleanProcessor = <T extends ModelNode | ModelEdge>(item: T): T => {
+export const cleanProcessor = <T extends Node | Edge>(item: T): T => {
   if (typeof item.label === 'string' && item.id.includes(`|${item.label}|`)) {
     item.label = fragmentId(item.label)
   }
@@ -15,15 +15,15 @@ export const cleanProcessor = <T extends ModelNode | ModelEdge>(item: T): T => {
     item.label = fragmentId(item.id)
   }
 
-  if (typeof item.attributes.type === 'string') {
-    item.attributes.type = fragmentId(item.attributes.type)
+  if (typeof item.metadata.type === 'string') {
+    item.metadata.type = fragmentId(item.metadata.type)
   }
 
-  const attributes: ModelAttributeSet = {}
-  Object.keys(item.attributes).forEach((key) => {
-    attributes[fragmentId(key)] = item.attributes[key]
+  const metadata: Metadata = {}
+  Object.keys(item.metadata).forEach((key) => {
+    metadata[fragmentId(key)] = item.metadata[key]
   })
-  item.attributes = attributes
+  item.metadata = metadata
 
   return item
 }

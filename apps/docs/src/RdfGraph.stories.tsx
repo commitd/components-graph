@@ -1,5 +1,5 @@
 import { Alert, AlertContent, AlertTitle, Flex } from '@committed/components'
-import { ContentModel, cytoscapeRenderer, Graph, GraphModel, GraphToolbar, ModelNode, NodeViewer } from '@committed/components-graph'
+import { ContentModel, cytoscapeRenderer, Graph, GraphModel, GraphToolbar, Node, NodeViewer } from '@committed/components-graph'
 import { Rdf, RdfUtil } from '@committed/graph-rdf'
 import { Meta, Story } from '@storybook/react'
 import React, { useEffect, useState } from 'react'
@@ -133,7 +133,7 @@ const StoryTemplate: Story<{
     }
   }, [setModel, setAlert, rdf])
 
-  const [node, setNode] = useState<ModelNode | undefined>(undefined)
+  const [node, setNode] = useState<Node | undefined>(undefined)
 
   return (
     <>

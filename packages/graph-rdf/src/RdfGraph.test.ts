@@ -1,4 +1,4 @@
-import { ModelNode } from '@committed/graph'
+import { Node } from '@committed/graph'
 import { decorated, sample, small } from 'test/data'
 import { buildGraph, LiteralObject, LiteralOption } from './RdfGraph'
 
@@ -9,12 +9,12 @@ it('Create from ttl string', () => {
 
   const node = contentModel.getNode(
     'https://example.org/data/transaction/123'
-  ) as ModelNode
+  ) as Node
 
-  const processedAt = node?.attributes[
+  const processedAt = node?.metadata[
     'https://example.org/ont/transaction-log/processedAt'
   ] as LiteralObject
-  const statusCode = node?.attributes[
+  const statusCode = node?.metadata[
     'https://example.org/ont/transaction-log/statusCode'
   ] as LiteralObject
   expect(processedAt.value).toBe('2015-10-16T10:22:23')
@@ -34,9 +34,9 @@ it('Create from ttl string using prefixes', () => {
   expect(Object.keys(contentModel.nodes)).toHaveLength(16)
   expect(Object.keys(contentModel.edges)).toHaveLength(13)
 
-  const node = contentModel.getNode('txn:123') as ModelNode
-  const processedAt = node?.attributes['log:processedAt'] as LiteralObject
-  const statusCode = node?.attributes['log:statusCode'] as LiteralObject
+  const node = contentModel.getNode('txn:123') as Node
+  const processedAt = node?.metadata['log:processedAt'] as LiteralObject
+  const statusCode = node?.metadata['log:statusCode'] as LiteralObject
   expect(processedAt.value).toBe('2015-10-16T10:22:23')
   expect(processedAt.dataType).toBe('xsd:dateTime')
   expect(statusCode.value).toBe('200')
@@ -54,11 +54,11 @@ it('Can process literals to rdf literal string', () => {
     usePrefixId: true,
     literals: LiteralOption.AS_STRING,
   })
-  const node = contentModel.getNode('txn:123') as ModelNode
-  expect(node?.attributes['log:processedAt']).toBe(
+  const node = contentModel.getNode('txn:123') as Node
+  expect(node?.metadata['log:processedAt']).toBe(
     `"2015-10-16T10:22:23"^^http://www.w3.org/2001/XMLSchema#dateTime`
   )
-  expect(node?.attributes['log:statusCode']).toBe(
+  expect(node?.metadata['log:statusCode']).toBe(
     '"200"^^http://www.w3.org/2001/XMLSchema#integer'
   )
 })
@@ -68,11 +68,11 @@ it('Can process literals to value only', () => {
     usePrefixId: true,
     literals: LiteralOption.VALUE_ONLY,
   })
-  const node = contentModel.getNode('txn:123') as ModelNode
-  expect(node?.attributes['log:processedAt']).toEqual(
+  const node = contentModel.getNode('txn:123') as Node
+  expect(node?.metadata['log:processedAt']).toEqual(
     new Date('2015-10-16T10:22:23')
   )
-  expect(node?.attributes['log:statusCode']).toBe(200)
+  expect(node?.metadata['log:statusCode']).toBe(200)
 })
 
 it('Can parse simple example by adding missing prefixes', () => {
@@ -88,9 +88,9 @@ it('Can parse simple example by adding missing prefixes', () => {
   expect(Object.keys(contentModel.nodes)).toHaveLength(7)
   expect(Object.keys(contentModel.edges)).toHaveLength(5)
 
-  const node = contentModel.getNode(':John') as ModelNode
-  expect(node.attributes['type']).toBe(':Man')
-  const name = node?.attributes[':name'] as LiteralObject
+  const node = contentModel.getNode(':John') as Node
+  expect(node.metadata['type']).toBe(':Man')
+  const name = node?.metadata[':name'] as LiteralObject
   expect(name.value).toBe('John')
   expect(name.dataType).toBe('xsd:string')
 
@@ -106,7 +106,7 @@ it('Can parse simple example by adding missing prefixes', () => {
     .getEdgesLinkedToNode(':event')
     .find((e) => e.label === ':has_time_span')?.target as string
   const blankNode = contentModel.getNode(blankNodeId)
-  const attribute = blankNode?.attributes[
+  const attribute = blankNode?.metadata[
     ':at_some_time_within_date'
   ] as LiteralObject
   expect(attribute.value).toBe('2018-01-12')
@@ -150,5 +150,5 @@ it('Decorates by default', () => {
 
   const node = contentModel.getNode('A')
   expect(node?.size).toBeUndefined()
-  expect(node?.attributes['cd:color']).toBe('#FFBB00')
+  expect(node?.metadata['cd:color']).toBe('#FFBB00')
 })
