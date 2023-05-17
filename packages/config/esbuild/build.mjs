@@ -10,18 +10,19 @@ const shared = {
   logLevel: 'info',
   minify: true,
   sourcemap: true,
-  target: ['esnext', 'node16'],
   plugins: [nodeExternalsPlugin()],
 }
 
 build({
   ...shared,
   format: 'esm',
+  target: ['esnext'],
   outfile: `${outFolder}/index.esm.js`,
 })
 
 build({
   ...shared,
   format: 'cjs',
+  target: ['node16'],
   outfile: `${outFolder}/index.cjs.js`,
 })
