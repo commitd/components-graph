@@ -1,5 +1,5 @@
-import { Box, Button, Heading, Monospace, Row } from '@committed/components'
 import { Generator, GraphRenderer, GraphRendererOptions } from '@committed/components-graph'
+import { Box, Button, Heading, Monospace, Row } from '@committed/ds'
 import React from 'react'
 
 const Renderer: GraphRenderer<GraphRendererOptions>['render'] = ({
@@ -15,19 +15,19 @@ const Renderer: GraphRenderer<GraphRendererOptions>['render'] = ({
   }
 
   return (
-    <Box css={{ backgroundColor: '$paper', p: '$3' }}>
+    <Box surface='$solid' p='$3'>
       <Button css={{ m: '$3' }} onClick={handleAddNode}>
         Add Node
       </Button>
       <Button css={{ m: '$3' }} onClick={handleAddEdge}>
         Add Edge
       </Button>
-      <Row css={{ flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
+      <Row flexWrap='wrap' justifyContent='space-evenly' >
         <div>
           <Heading variant="h5" size={1}>
             Nodes:
           </Heading>
-          <Monospace size={-2}>
+          <Monospace size={'$-2'}>
             {JSON.stringify(graphModel.nodes, null, 2)}
           </Monospace>
         </div>
@@ -35,7 +35,7 @@ const Renderer: GraphRenderer<GraphRendererOptions>['render'] = ({
           <Heading variant="h5" size={1}>
             Edges:{' '}
           </Heading>
-          <Monospace size={-2}>
+          <Monospace size={'$-2'}>
             {JSON.stringify(graphModel.edges, null, 2)}
           </Monospace>
         </div>

@@ -1,15 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
-  CSS,
-  CSSProps,
   IconButton,
   Menu,
   MenuContent,
   MenuTrigger,
-  styled,
-  VariantProps,
-} from '@committed/components'
+  Prettify,
+} from '@committed/ds'
+import { styled } from '@committed/ds-ss'
 import { GraphLayout, GraphModel } from '@committed/graph'
 import { mdiCog as settingPath } from '@mdi/js'
 import React, { ComponentProps, useMemo } from 'react'
@@ -22,7 +18,9 @@ import { SizeBy } from './SizeBy'
 import { Zoom } from './Zoom'
 
 const StyledToolbar = styled('div', {
-  display: 'flex',
+  base: {
+    display: 'flex',
+  },
   variants: {
     direction: {
       row: {
@@ -65,8 +63,13 @@ const StyledToolbar = styled('div', {
   ],
 })
 
-export type GraphToolbarProps = CSSProps &
-  VariantProps<typeof StyledToolbar> & {
+export type GraphToolbarProps = Prettify<
+  Partial<
+    Pick<
+      ComponentProps<typeof StyledToolbar>,
+      'css' | 'direction' | 'overlay' | 'align'
+    >
+  > & {
     /** Declarative definition of graph state */
     model: GraphModel
     /** The graph model change callback */
@@ -82,9 +85,11 @@ export type GraphToolbarProps = CSSProps &
     hide?: boolean
     size?: boolean
     /** Props passed to all icons */
-    iconStyle?: CSS
+    iconStyle?: ComponentProps<typeof IconButton>['css']
     buttonVariant?: ComponentProps<typeof IconButton>['variant']
+    children?: React.ReactNode
   }
+>
 
 /**
  * GraphToolbar component adds controls for zoom, layout and refit.
@@ -102,8 +107,7 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
   refit = true,
   hide = true,
   size = true,
-  buttonVariant = 'tertiary',
-  css,
+  buttonVariant = 'text',
   children,
   ...props
 }) => {
@@ -142,11 +146,11 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
   }, [hide, layout, layouts, model, onModelChange, size, relayout])
 
   return (
-    <StyledToolbar css={css as any} {...props}>
+    <StyledToolbar {...props}>
       {zoom && (
         <Zoom
           variant={buttonVariant}
-          css={iconStyle as any}
+          css={iconStyle}
           model={model}
           onModelChange={onModelChange}
         />
@@ -154,7 +158,7 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
       {layouts.length > 0 && layout && (
         <GraphLayoutRun
           variant={buttonVariant}
-          css={iconStyle as any}
+          css={iconStyle}
           model={model}
           onModelChange={onModelChange}
         />
@@ -162,7 +166,7 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
       {refit && (
         <Refit
           variant={buttonVariant}
-          css={iconStyle as any}
+          css={iconStyle}
           model={model}
           onModelChange={onModelChange}
         />
@@ -176,7 +180,7 @@ export const GraphToolbar: React.FC<GraphToolbarProps> = ({
               aria-label="settings"
               title="Settings"
               path={settingPath}
-              css={iconStyle as any}
+              css={iconStyle}
             />
           </MenuTrigger>
           <MenuContent>{menuItems}</MenuContent>

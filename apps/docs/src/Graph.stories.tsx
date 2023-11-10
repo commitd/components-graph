@@ -1,5 +1,5 @@
-import { Box, Column } from '@committed/components'
 import { cytoscapeRenderer, Graph, GraphDebugControl } from '@committed/components-graph'
+import { Box, Column } from '@committed/ds'
 import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
 import { exampleModel } from './StoryUtil'

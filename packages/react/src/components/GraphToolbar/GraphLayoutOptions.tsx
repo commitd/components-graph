@@ -1,17 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
-  CSSProps,
   Menu,
   MenuRadioGroup,
   MenuRadioItem,
   MenuSub,
   MenuSubContent,
   MenuSubTrigger,
-  VariantProps,
-} from '@committed/components'
+} from '@committed/ds'
 import { GraphLayout, GraphModel, isCustomGraphLayout } from '@committed/graph'
-import React, { useCallback, useMemo } from 'react'
+import React, { ComponentProps, useCallback, useMemo } from 'react'
 
 function capitalize(key: string) {
   return key.charAt(0).toUpperCase() + key.slice(1)
@@ -25,17 +22,16 @@ function getCurrentLayout(model: GraphModel) {
   return curr
 }
 
-export type GraphLayoutOptionsProps = CSSProps &
-  VariantProps<typeof Menu> & {
-    /** Declarative definition of graph state */
-    model: GraphModel
-    /** The graph model change callback */
-    onModelChange: (
-      model: GraphModel | ((model2: GraphModel) => GraphModel)
-    ) => void
-    /** List of possible layouts. These can be obtained from the graph renderer e.g. cytoscapeRenderer.layouts */
-    layouts?: GraphLayout[]
-  }
+export type GraphLayoutOptionsProps = ComponentProps<typeof Menu> & {
+  /** Declarative definition of graph state */
+  model: GraphModel
+  /** The graph model change callback */
+  onModelChange: (
+    model: GraphModel | ((model2: GraphModel) => GraphModel)
+  ) => void
+  /** List of possible layouts. These can be obtained from the graph renderer e.g. cytoscapeRenderer.layouts */
+  layouts?: GraphLayout[]
+}
 
 /**
  * GraphLayoutOptions component adds controls for layout to GraphToolbar.
@@ -44,7 +40,6 @@ export const GraphLayoutOptions: React.VFC<GraphLayoutOptionsProps> = ({
   model,
   onModelChange,
   layouts = [],
-  css,
   ...props
 }) => {
   const layoutMap = useMemo(
@@ -73,7 +68,7 @@ export const GraphLayoutOptions: React.VFC<GraphLayoutOptionsProps> = ({
   return (
     <MenuSub {...props}>
       <MenuSubTrigger>Graph Layout</MenuSubTrigger>
-      <MenuSubContent css={css as any}>
+      <MenuSubContent>
         <MenuRadioGroup
           value={currentLayout}
           onValueChange={handleSelectLayout}

@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  Flex,
-  Select,
-  SelectItem,
-} from '@committed/components'
+import { Box, Button, Checkbox, Flex, Select, SelectItem } from '@committed/ds'
 import { Generator, GraphModel, PresetGraphLayout } from '@committed/graph'
 import React from 'react'
 import { defaultLayouts } from '../../graph'
@@ -26,7 +19,7 @@ export const GraphDebugControl: React.FC<GraphDebugControlProps> = ({
 }) => {
   return (
     <div>
-      <Flex css={{ flexWrap: 'wrap', gap: '$2' }}>
+      <Flex flexDirection="row" css={{ flexWrap: 'wrap', gap: '$2' }}>
         <Button onClick={() => onChange(addRandomNode(model, 1))}>
           Add Node
         </Button>
@@ -89,7 +82,7 @@ export const GraphDebugControl: React.FC<GraphDebugControlProps> = ({
                 model,
                 model
                   .getCurrentLayout()
-                  .presetLayout(newValue as PresetGraphLayout)
+                  .setLayout(newValue as PresetGraphLayout)
               )
             )
           }

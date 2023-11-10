@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { CSSProps, IconButton } from '@committed/components'
+import { IconButton, Prettify } from '@committed/ds'
 import { GraphModel } from '@committed/graph'
 import {
   mdiMagnifyMinus as zoomOutPath,
@@ -8,8 +6,8 @@ import {
 } from '@mdi/js'
 import React from 'react'
 
-export type ZoomProps = React.ComponentProps<typeof IconButton> &
-  CSSProps & {
+export type ZoomProps = Prettify<
+  React.ComponentProps<typeof IconButton> & {
     /** Declarative definition of graph state */
     model: GraphModel
     /** The graph model change callback */
@@ -17,6 +15,7 @@ export type ZoomProps = React.ComponentProps<typeof IconButton> &
       model: GraphModel | ((model2: GraphModel) => GraphModel)
     ) => void
   }
+>
 
 /**
  * A GraphToolbar sub-component adds controls for zooming in and out of the graph
@@ -24,7 +23,6 @@ export type ZoomProps = React.ComponentProps<typeof IconButton> &
 export const Zoom: React.VFC<ZoomProps> = ({
   model,
   onModelChange,
-  css,
   ...props
 }) => {
   return (
@@ -34,7 +32,6 @@ export const Zoom: React.VFC<ZoomProps> = ({
         title="Zoom in"
         path={zoomInPath}
         onClick={() => onModelChange(model.pushCommand({ type: 'ZoomIn' }))}
-        css={css as any}
         {...props}
       />
       <IconButton
@@ -42,7 +39,6 @@ export const Zoom: React.VFC<ZoomProps> = ({
         title="Zoom out"
         path={zoomOutPath}
         onClick={() => onModelChange(model.pushCommand({ type: 'ZoomOut' }))}
-        css={css as any}
         {...props}
       />
     </>

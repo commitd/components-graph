@@ -4,22 +4,25 @@
   "license": "MIT",
   "source": "index.html",
   "scripts": {
+    "//prepare": "npm run codegen",
+    "codegen": "panda codegen",
     "clean": "shx rm -rf .parcel-cache dist",
     "dev": "parcel watch",
     "serve": "parcel"
   },
   "dependencies": {
-    "@committed/components": "^8.1.3",
+    "@committed/ds": "^0.1.0",
+    "@committed/ds-ss": "^0.1.0",
     "@committed/components-graph": "*",
     "buffer": "^6.0.3",
-    "react": "^17.0.1",
-    "react-app-polyfill": "^1.0.0",
-    "react-dom": "^17.0.1"
+    "react": "^18.2.0",
+    "react-app-polyfill": "^3.0.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/react": "^17.0.1",
-    "@types/react-dom": "^17.0.1",
-    "parcel": "^2.7.0",
-    "typescript": "4.7.4"
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "parcel": "^2.10.0",
+    "typescript": "^5.1.6"
   }
 }

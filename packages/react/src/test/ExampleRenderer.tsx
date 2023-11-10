@@ -1,4 +1,4 @@
-import { Box, Button, Heading, Monospace, Row } from '@committed/components'
+import { Box, Button, Heading, Monospace, Row } from '@committed/ds'
 import { Generator } from '@committed/graph'
 import { GraphRenderer, GraphRendererOptions } from 'graph'
 import React from 'react'
@@ -25,18 +25,18 @@ const Renderer: GraphRenderer<GraphRendererOptions>['render'] = ({
       </Button>
       <Row css={{ flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
         <div>
-          <Heading variant="h5" size={1}>
+          <Heading variant="h5" size={'$1'}>
             Nodes:
           </Heading>
-          <Monospace size={-2}>
+          <Monospace size={'$-2'}>
             {JSON.stringify(graphModel.nodes, null, 2)}
           </Monospace>
         </div>
         <div>
-          <Heading variant="h5" size={1}>
+          <Heading variant="h5" size={'$1'}>
             Edges:{' '}
           </Heading>
-          <Monospace size={-2}>
+          <Monospace size={'$-2'}>
             {JSON.stringify(graphModel.edges, null, 2)}
           </Monospace>
         </div>

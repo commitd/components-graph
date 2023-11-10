@@ -2,7 +2,7 @@ import { Meta } from '@storybook/addon-docs'
 import { useDarkMode } from 'storybook-dark-mode'
 import { useState } from 'react'
 import { Graph, GraphToolbar, cytoscapeRenderer, Generator, GraphModel  } from '@committed/components-graph'
-import { Row, ComponentsProvider } from '@committed/components'
+import { Row, ComponentsProvider } from '@committed/ds'
 
 <Meta title="Introduction/Graph" />
 
@@ -14,7 +14,7 @@ import { Row, ComponentsProvider } from '@committed/components'
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=commitd_components-graph&metric=coverage&token=aa002ca75e2f3a6d028af9074bceeda1ffa2f9f7)](https://sonarcloud.io/dashboard?id=commitd_components-graph)
 ![GitHub repo size](https://img.shields.io/github/repo-size/commitd/components-graph)
 
-A graph visualisation to be used in Committed products. It supports custom decoration, different layouts and user interactions.
+A graph visualization to be used in Committed products. It supports custom decoration, different layouts and user interactions.
 
 export const GraphExample = () => {
   const choice = useDarkMode() ? 'dark' : 'light'
@@ -48,10 +48,10 @@ export const GraphExample = () => {
 
 ## 🚀 Quickstart
 
-For use with [`@committed/components`](https://components.committed.software),
+For use with [`@committed/ds`](https://components.committed.software),
 
 ```bash
-npm add @committed/components @committed/components-graph
+npm add @committed/ds @committed/components-graph
 ```
 
 add any missing peer dependencies
@@ -73,7 +73,7 @@ import {
   cytoscapeRenderer,
   initializeCytoscape,
 } from '@committed/components-graph'
-import { Row, ComponentsProvider } from '@committed/components'
+import { Row, ComponentsProvider } from '@committed/ds'
 
 // If using the cytoscape renderer, just once in your application add
 import { use } from 'cytoscape'

@@ -1,14 +1,14 @@
-import { ThemeProvider } from '@committed/components'
+import { ThemeProvider } from '@committed/ds'
+import {
+  ContentModel,
+  GraphModel,
+  ModelEdge,
+  ModelNode,
+} from '@committed/graph'
 import '@testing-library/jest-dom/extend-expect'
 import { render, RenderOptions, RenderResult } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-import {
-  ModelNode,
-  ModelEdge,
-  ContentModel,
-  GraphModel,
-} from '@committed/graph'
 import ResizeObserver from 'resize-observer-polyfill'
 
 // Use the polyfill for the ResizeObserver.
@@ -79,11 +79,11 @@ if (typeof window !== 'undefined' && !window.DOMRect) {
   ;(window as { DOMRect: typeof DOMRect }).DOMRect = DOMRectPolyfill
 }
 
-const LightTheme: React.FC = ({ children }) => (
+const LightTheme: React.FC<React.PropsWithChildren> = ({ children }) => (
   <ThemeProvider choice="light">{children}</ThemeProvider>
 )
 
-const DarkTheme: React.FC = ({ children }) => (
+const DarkTheme: React.FC<React.PropsWithChildren> = ({ children }) => (
   <ThemeProvider choice="dark">{children}</ThemeProvider>
 )
 

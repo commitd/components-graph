@@ -1,4 +1,4 @@
-import { Flex } from '@committed/components'
+import { Flex } from '@committed/ds'
 import {
   CustomGraphLayout,
   DecoratedNode,
@@ -55,7 +55,7 @@ const typesLayout: CustomGraphLayout = {
 
 type TemplateProps = Omit<
   GraphToolbarProps,
-  'model' | 'onModelChange' | 'layouts'
+  'model' | 'onModelChange' | 'layouts' | 'direction'
 > &
   Partial<{
     layouts: GraphToolbarProps['layouts']
@@ -63,7 +63,7 @@ type TemplateProps = Omit<
     withGraph: boolean
   }>
 
-const Template: React.FC<TemplateProps> = ({
+const Template: React.FC<TemplateProps & { direction?: 'row' | 'column' }> = ({
   direction = 'row',
   withGraph = true,
   layouts = cytoscapeRenderer.layouts,
@@ -73,9 +73,9 @@ const Template: React.FC<TemplateProps> = ({
 
   return (
     <Flex
+      flexDirection={direction === 'row' ? 'column' : 'row'}
       css={{
         position: 'relative',
-        flexDirection: direction === 'row' ? 'column' : 'row',
       }}
     >
       <GraphToolbar

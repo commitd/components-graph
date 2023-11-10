@@ -5,13 +5,9 @@
   "author": "Committed",
   "private": false,
   "license": "MIT",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
-  "types": "dist/index.d.ts",
+  "exports": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "sideEffects": false,
-  "files": [
-    "dist"
-  ],
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
@@ -31,30 +27,37 @@
     "preset": "@committed/config/jest/jsdom"
   },
   "scripts": {
+    "//prepare": "npm run codegen",
+    "codegen": "panda codegen",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "build:clean": "rm -rf dist",
+    "build:css": "panda cssgen",
     "build:ts": "tsc --project tsconfig.build.json",
     "build:js": "node ../../node_modules/@committed/config/esbuild/build.mjs",
-    "build": "npm run build:clean && npm run build:ts && npm run build:js",
+    "build": "npm run build:clean && npm run build:css && npm run build:ts && npm run build:js",
     "lint": "tsc && eslint './src/**/*.{ts,tsx}'",
-    "test": "jest",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
     "test:ci": "jest --coverage",
     "test:watch": "jest --watchAll",
     "precommit": "lint-staged",
     "fix": "TIMING=1 eslint src/**/*.ts* --fix"
   },
   "devDependencies": {
+    "@committed/ds": "^0.1.0",
+    "@committed/ds-ss": "^0.1.0",
     "@committed/config": "*",
-    "@committed/components": ">= 8.1.2",
     "@committed/graph": "*",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "@mdi/js": "^7.2.96",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "peerDependencies": {
-    "@committed/components": ">= 8.1.2",
+    "@committed/ds": "^0.1.0",
+    "@committed/ds-ss": "^0.1.0",
     "@committed/graph": "*",
-    "react": ">= 16.8.0",
-    "react-dom": ">= 16.8.0"
+    "@mdi/js": ">= 7.2.96",
+    "react": ">= 18.2.0",
+    "react-dom": ">= 18.2.0"
   },
   "dependencies": {
     "cytoscape": "^3.23.0",

@@ -1,5 +1,5 @@
-import { Alert, AlertContent, AlertTitle, Flex } from '@committed/components'
 import { ContentModel, cytoscapeRenderer, Graph, GraphModel, GraphToolbar, ModelNode, NodeViewer } from '@committed/components-graph'
+import { Alert, AlertContent, AlertTitle, Flex } from '@committed/ds'
 import { Rdf, RdfUtil } from '@committed/graph-rdf'
 import { Meta, Story } from '@storybook/react'
 import React, { useEffect, useState } from 'react'

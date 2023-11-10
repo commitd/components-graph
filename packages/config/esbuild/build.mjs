@@ -16,13 +16,13 @@ const shared = {
 build({
   ...shared,
   format: 'esm',
-  target: ['esnext'],
-  outfile: `${outFolder}/index.esm.js`,
+  target: ['es2022'],
+  outfile: `${outFolder}/index.mjs`,
 })
 
-build({
-  ...shared,
-  format: 'cjs',
-  target: ['node16'],
-  outfile: `${outFolder}/index.cjs.js`,
-})
+// build({
+//   ...shared,
+//   format: 'cjs',
+//   target: ['node16'],
+//   outfile: `${outFolder}/index.cjs.js`,
+// })

@@ -1,17 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
-  CSSProps,
   Menu,
   MenuRadioGroup,
   MenuRadioItem,
   MenuSub,
   MenuSubContent,
   MenuSubTrigger,
-  VariantProps,
-} from '@committed/components'
+} from '@committed/ds'
 import { GraphModel, sizeNodeByAttribute } from '@committed/graph'
-import React, { useCallback, useMemo } from 'react'
+import React, { ComponentProps, useCallback, useMemo } from 'react'
 
 function capitalize(key: string) {
   return key.charAt(0).toUpperCase() + key.slice(1)
@@ -19,15 +15,14 @@ function capitalize(key: string) {
 
 const PREFIX = 'sizeNodeBy-'
 
-export type SizeByProps = CSSProps &
-  VariantProps<typeof Menu> & {
-    /** Declarative definition of graph state */
-    model: GraphModel
-    /** The graph model change callback */
-    onModelChange: (
-      model: GraphModel | ((model2: GraphModel) => GraphModel)
-    ) => void
-  }
+export type SizeByProps = ComponentProps<typeof Menu> & {
+  /** Declarative definition of graph state */
+  model: GraphModel
+  /** The graph model change callback */
+  onModelChange: (
+    model: GraphModel | ((model2: GraphModel) => GraphModel)
+  ) => void
+}
 
 /**
  * A GraphToolbar sub-component adds controls for sizing by an attribute
@@ -84,7 +79,7 @@ export const SizeBy: React.VFC<SizeByProps> = ({
   return (
     <MenuSub {...props}>
       <MenuSubTrigger>Size nodes by</MenuSubTrigger>
-      <MenuSubContent css={css as any}>
+      <MenuSubContent>
         <MenuRadioGroup
           value={
             selectedNodeAttributes

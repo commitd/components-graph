@@ -2,21 +2,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
-  AppBar,
-  AppBarActions,
-  AppBarHeading,
-  Row,
-  ThemeProvider,
-  ThemeSwitch,
-} from '@committed/components'
-import { use } from 'cytoscape'
-import * as React from 'react'
-import * as ReactDOM from 'react-dom'
-import {
-  Generator,
   CustomGraphLayout,
   cytoscapeRenderer,
   DecoratedNode,
+  Generator,
   Graph,
   GraphModel,
   GraphToolbar,
@@ -24,6 +13,18 @@ import {
   ModelNode,
   NodeViewer,
 } from '@committed/components-graph'
+import {
+  AppBar,
+  AppBarActions,
+  AppBarHeading,
+  Row,
+  ThemeProvider,
+  ThemeSwitch,
+} from '@committed/ds'
+import { use } from 'cytoscape'
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
+import './index.css'
 
 initializeCytoscape(use)
 

@@ -1,12 +1,10 @@
-import { Button } from '@committed/components'
+import { cytoscapeRenderer, Graph, NodeViewer } from '@committed/components-graph'
+import { Button } from '@committed/ds'
 import { Generator, ModelNode } from '@committed/graph'
 import { useBoolean } from '@committed/hooks'
 import { Meta, Story } from '@storybook/react'
-import React, { useState } from 'react'
-import { cytoscapeRenderer } from '@committed/components-graph'
-import { Graph } from '@committed/components-graph'
-import { NodeViewer } from '@committed/components-graph'
 import faker from 'faker'
+import React, { useState } from 'react'
 
 export default {
   title: 'Components/NodeViewer',

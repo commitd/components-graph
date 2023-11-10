@@ -1,4 +1,4 @@
-import { Caption, Flex, Heading } from '@committed/components'
+import { Caption, Column, Heading, Row } from '@committed/ds'
 import React from 'react'
 
 interface EmptyStateProps {
@@ -15,8 +15,8 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   logo,
 }) => {
   return (
-    <Flex css={{ justifyContent: 'center', width: '100%', padding: '$5' }}>
-      <Flex css={{ flexDirection: 'column', alignItems: 'center' }}>
+    <Row css={{ justifyContent: 'center', width: '100%', padding: '$5' }}>
+      <Column css={{ alignItems: 'center' }}>
         {logo == null ? (
           <img
             src={logo}
@@ -27,11 +27,11 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
             }}
           />
         ) : null}
-        <Heading variant="h5" size={1} css={{ mt: '$3' }}>
+        <Heading variant="h5" size={'$1'} css={{ mt: '$3' }}>
           {message}
         </Heading>
         {help == null ? <Caption css={{ mt: '$2' }}>{help}</Caption> : null}
-      </Flex>
-    </Flex>
+      </Column>
+    </Row>
   )
 }

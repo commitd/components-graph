@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { useTheme } from '@committed/components'
+import { useTheme } from '@committed/ds'
+import { Token, token } from '@committed/ds-ss'
 import {
   EdgeDecoration,
   GraphLayout,
@@ -189,7 +190,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   const selection = graphModel.getSelection()
   const [cytoscape, setCytoscape] = useState<cytoscape.Core>()
   const layoutStart = useRef<number>()
-  const [theme, resolveThemeToken] = useTheme()
+  const [theme] = useTheme()
   const dirty = graphModel.getCurrentLayout().isDirty()
   const layout = graphModel.getCurrentLayout().getLayout()
 
@@ -378,16 +379,17 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
       }
 
       if (typeof val === 'string') {
-        const resolved = resolveThemeToken(val)
+        const resolved = token(val as Token)
         if (resolved.startsWith('hsl')) {
-          return `#${tinycolor(resolved).toHex()}` as T
+          // @ts-ignore
+          return `#${tinycolor(resolved as ColorInput).toHex()}` as T
         } else {
           return resolved as T
         }
       }
       return val
     },
-    [resolveThemeToken]
+    [token]
   )
 
   const resolveThemedObject = useCallback(

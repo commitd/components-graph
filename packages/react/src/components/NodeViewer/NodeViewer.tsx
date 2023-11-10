@@ -1,10 +1,4 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Input,
-  Box,
-} from '@committed/components'
+import { Box, Dialog, DialogContent, DialogTitle, Input } from '@committed/ds'
 import { ModelNode } from '@committed/graph'
 import React from 'react'
 import { EmptyState } from '../EmptyState'

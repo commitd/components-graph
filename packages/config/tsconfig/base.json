@@ -5,6 +5,7 @@
   "compilerOptions": {
     "emitDeclarationOnly": true,
     "noEmit": false,
-    "declaration": true
+    "declaration": true,
+    "esModuleInterop": true
   }
 }

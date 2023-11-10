@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { CSSProps, MenuCheckboxItem, VariantProps } from '@committed/components'
+import { MenuCheckboxItem, Prettify } from '@committed/ds'
 import { GraphModel } from '@committed/graph'
-import React, { useCallback } from 'react'
+import React, { ComponentProps, useCallback } from 'react'
 
-export type HideProps = CSSProps &
-  VariantProps<typeof MenuCheckboxItem> & {
+export type HideProps = Prettify<
+  Partial<
+    Pick<ComponentProps<typeof MenuCheckboxItem>, 'css' | 'destructive'>
+  > & {
     /** Declarative definition of graph state */
     model: GraphModel
     /** The graph model change callback */
@@ -13,6 +13,7 @@ export type HideProps = CSSProps &
       model: GraphModel | ((model2: GraphModel) => GraphModel)
     ) => void
   }
+>
 
 /**
  * A GraphToolbar sub-component adds controls for hiding edges and nodes
@@ -48,7 +49,7 @@ export const Hide: React.FC<HideProps> = ({
   return (
     <>
       <MenuCheckboxItem
-        css={css as any}
+        css={css}
         {...props}
         key="hideNodeLabels"
         checked={model.getDecorators().isHideNodeLabels()}
@@ -57,7 +58,7 @@ export const Hide: React.FC<HideProps> = ({
         Hide node labels
       </MenuCheckboxItem>
       <MenuCheckboxItem
-        css={css as any}
+        css={css}
         {...props}
         key="hideEdgeLabels"
         checked={model.getDecorators().isHideEdgeLabels()}

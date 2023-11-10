@@ -1,9 +1,9 @@
-import { Flex } from '@committed/components'
 import {
   ContentModel,
   CustomGraphLayout, cytoscapeRenderer, DecoratedNode,
   Generator, Graph, GraphModel, GraphToolbar, GraphToolbarProps
 } from '@committed/components-graph'
+import { Flex, Row } from '@committed/ds'
 import { Meta, Story } from '@storybook/react'
 import React, { useEffect, useState } from 'react'
 
@@ -69,9 +69,9 @@ export const Default: Story = ({
 
   return (
     <Flex
+    flexDirection={args.direction === 'row' ? 'column' : 'row'}
       css={{
         position: 'relative',
-        flexDirection: args.direction === 'row' ? 'column' : 'row',
       }}
     >
       <GraphToolbar
@@ -141,10 +141,8 @@ const Template: Story<
 
   return (
     <Flex
-      css={{
-        position: 'relative',
-        flexDirection: direction === 'row' ? 'column' : 'row',
-      }}
+    flexDirection={ direction === 'row' ? 'column' : 'row'}
+    position= 'relative'
     >
       <GraphToolbar
         direction={direction}
@@ -259,7 +257,7 @@ export const CustomLayout: Story = () => {
     )
   }, [])
   return (
-    <Flex css={{ flexDirection: 'row' }}>
+    <Row>
       <GraphToolbar
         model={model}
         onModelChange={setModel}
@@ -271,7 +269,7 @@ export const CustomLayout: Story = () => {
         renderer={cytoscapeRenderer}
         options={{ height: 600 }}
       />
-    </Flex>
+    </Row>
   )
 }
 
