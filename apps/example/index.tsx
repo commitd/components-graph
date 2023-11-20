@@ -17,14 +17,14 @@ import {
   AppBar,
   AppBarActions,
   AppBarHeading,
+  ComponentsProvider,
   Row,
-  ThemeProvider,
   ThemeSwitch,
 } from '@committed/ds'
 import { use } from 'cytoscape'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import './index.css'
+import '../../node_modules/@committed/ds-ss/styles.css'
 
 initializeCytoscape(use)
 
@@ -70,12 +70,12 @@ const sortedLayout: CustomGraphLayout = {
   stopLayout: () => {},
 }
 
-const App: React.FC = () => {
+const Page: React.FC = () => {
   const [model, setModel] = React.useState(Generator.randomGraph)
 
   const [node, setNode] = React.useState<ModelNode | undefined>()
   return (
-    <ThemeProvider>
+    <>
       <AppBar>
         <AppBarHeading>Components Graph</AppBarHeading>
         <AppBarActions css={{ display: 'flex' }}>
@@ -103,7 +103,15 @@ const App: React.FC = () => {
         node={node}
         onOpenChange={() => setNode(undefined)}
       />
-    </ThemeProvider>
+    </>
+  )
+}
+
+const App: React.FC = () => {
+  return (
+    <ComponentsProvider>
+      <Page />
+    </ComponentsProvider>
   )
 }
 

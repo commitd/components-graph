@@ -5,8 +5,14 @@
   "author": "Committed",
   "license": "MIT",
   "private": false,
-  "exports": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
   "sideEffects": false,
   "publishConfig": {
     "access": "public",
@@ -19,7 +25,7 @@
     "node": ">=10"
   },
   "peerDependencies": {
-    "@committed/ds": ">= 0.1.0",
+    "@committed/ds": ">= 1.0.1",
     "react": ">= 18.2.0",
     "react-dom": ">= 18.2.0"
   },
@@ -39,7 +45,7 @@
     "build:clean": "rm -rf dist",
     "build:ts": "tsc --project tsconfig.json",
     "build:js": "node ../../node_modules/@committed/config/esbuild/build.mjs",
-    "build": "npm run build:clean && npm run build:ts && npm run build:js",
+    "build": "npm run build:clean && npm run build:ts",
     "lint": "tsc && eslint './src/**/*.{ts,tsx}'",
     "test": "jest --passWithNoTests",
     "test:ci": "jest --coverage --passWithNoTests",

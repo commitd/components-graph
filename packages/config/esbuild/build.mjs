@@ -5,11 +5,11 @@ const entryFile = 'src/index.ts'
 const outFolder = 'dist'
 
 const shared = {
-  bundle: true,
+  bundle: false,
   entryPoints: [entryFile],
   logLevel: 'info',
-  minify: true,
-  sourcemap: true,
+  minify: false,
+  sourcemap: false,
   plugins: [nodeExternalsPlugin()],
 }
 

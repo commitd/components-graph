@@ -1,4 +1,4 @@
-import { ContentModel } from 'graph'
+import { ContentModel } from '../../graph'
 import {
   EdgeDecorator,
   ModelEdge,

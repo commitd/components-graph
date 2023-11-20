@@ -1,17 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "React",
+  "display": "React Library",
   "extends": "./base.json",
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "module": "esnext",
-    "target": "ES2020",
-    "allowJs": true,
-    "allowSyntheticDefaultImports": true,
-    "isolatedModules": true,
     "jsx": "react-jsx",
-    "moduleResolution": "node",
-    "noFallthroughCasesInSwitch": true,
-    "resolveJsonModule": true
+    "lib": ["ES2017", "DOM"],
+    "module": "ESNext",
+    "target": "es6"
   }
 }

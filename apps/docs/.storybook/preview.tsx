@@ -1,12 +1,9 @@
-import { initializeCytoscape } from '@committed/components-graph';
+import { initializeCytoscape } from '@committed/components-graph-react';
 import { Preview } from '@storybook/react';
 import { use } from 'cytoscape';
 import React from 'react';
 import '../src/panda.css';
-import { committedDark, committedLight } from './committed/theme';
 import { withTheme } from './committed/withTheme';
-import { DocsContainer } from './components/DocsContainer';
-
 export const withCytoscape = 
   (Story) => {
     initializeCytoscape(use)
@@ -16,9 +13,9 @@ export const withCytoscape =
 
 const preview: Preview = {
   parameters: {
-    actions: { argTypesRegex: '^on[A-Z].*' },
+    // actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
-    matchers: {
+      matchers: {
         color: /(background|color)$/i,
         date: /Date$/,
       },
@@ -33,18 +30,14 @@ const preview: Preview = {
         ],
       },
     },
-    docs: {
-      container: DocsContainer,
-    },
-    darkMode: {
-      stylePreview: true,
-      dark: committedDark,
-      darkClass: 'dark',
-      light: committedLight,
-      lightClass: 'light',
-    },
   },
-  decorators: [withTheme, withCytoscape]
+  decorators: [ withTheme({
+    themes: {
+      light: 'light',
+      dark: 'dark',
+    },
+    defaultTheme: 'light',
+  }) , withCytoscape]
 }
 
 export default preview

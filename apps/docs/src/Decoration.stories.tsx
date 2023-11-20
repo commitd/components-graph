@@ -8,8 +8,8 @@ import {
 import { faker } from '@faker-js/faker'
 import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
-import { exampleGraphData } from './exampleData'
 import { Template } from './StoryUtil'
+import { exampleGraphData } from './exampleData'
 
 export default {
   title: 'Examples/Decoration',
@@ -49,8 +49,8 @@ export const TypedDecoration: React.FC = () => {
         nodeDecorators: [
           (node: ModelNode): Partial<NodeDecoration> => {
             const type = node.attributes['type']
-            if (type === 'person') return { color: '$colors$info' }
-            if (type === 'place') return { color: '$colors$success' }
+            if (type === 'person') return { color: 'colors.$info' }
+            if (type === 'place') return { color: 'colors.$success' }
             return { color: '#00FF00' }
           },
         ],

@@ -1,8 +1,8 @@
-import { componentsConfig } from '@committed/ds'
+import { componentsConfig } from '@committed/ds/config'
 
 export default componentsConfig(
   {
-    include: ['./stories/**/*.{js,jsx,ts,tsx}', '../../packages/react/src'],
+    include: ['./src/**/*.{js,jsx,ts,tsx}', '../../packages/react/src'],
     exclude: ['../../node_modules/@committed/ds-ss/index.mjs'],
     outdir: '../../node_modules/@committed/ds-ss'
   },

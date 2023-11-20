@@ -1,4 +1,4 @@
-import { edge1, node1, node2, exampleGraph } from 'test/setup'
+import { edge1, exampleGraph, node1, node2 } from '../test/setup'
 import { ContentModel } from './ContentModel'
 import { DecoratorModel } from './DecoratorModel'
 import { GraphModel } from './GraphModel'

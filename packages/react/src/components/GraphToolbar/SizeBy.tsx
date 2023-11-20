@@ -30,7 +30,6 @@ export type SizeByProps = ComponentProps<typeof Menu> & {
 export const SizeBy: React.VFC<SizeByProps> = ({
   model,
   onModelChange,
-  css,
   ...props
 }) => {
   const nodeAttributes: string[] = useMemo(

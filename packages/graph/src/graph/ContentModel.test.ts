@@ -1,4 +1,4 @@
-import { edge1, node1, node2 } from 'test/setup'
+import { edge1, node1, node2 } from '../test/setup'
 import { ContentModel } from './ContentModel'
 
 let contentModel: ContentModel

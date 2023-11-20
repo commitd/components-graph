@@ -40,9 +40,9 @@ import React, {
   useState,
 } from 'react'
 import CytoscapeComponent from 'react-cytoscapejs'
-import tinycolor from 'tinycolor2'
+import tinycolor, { ColorInput } from 'tinycolor2'
 import { useDebouncedCallback } from 'use-debounce'
-import { defaultLayouts, LayoutOptions } from '../layouts'
+import { LayoutOptions, defaultLayouts } from '../layouts'
 import { GraphRenderer, GraphRendererOptions } from '../types'
 import {
   CUSTOM_LAYOUT_NAME,
@@ -110,7 +110,7 @@ export interface CyGraphRendererOptions extends GraphRendererOptions {
 
 const dblClick = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let clicked: any | null = null
+  let clicked: any = null
   return (evt: EventObject) => {
     if (clicked && clicked === evt.target) {
       clicked = null
@@ -152,14 +152,19 @@ const toNodeCyStyle = (d: Partial<NodeDecoration>): Css.Node | undefined => {
 }
 
 const toEdgeCyStyle = (e: Partial<EdgeDecoration>): Css.Edge | undefined => {
-  const s: Css.Edge = {
-    'line-color': e.color,
-    'target-arrow-color': e.color,
-    'line-style': e.style as Css.LineStyle,
-    opacity: e.opacity,
+  const s: Css.Edge = {}
+  if (e.color) {
+    s['line-color'] = e.color
+    s['target-arrow-color'] = e.color
+  }
+  if (e.style) {
+    s['line-style'] = e.style as Css.LineStyle
+  }
+  if (e.opacity != null) {
+    s.opacity = e.opacity
   }
 
-  if (e.label !== undefined) {
+  if (e.label) {
     s.label = e.label
   }
   if (Object.values(s).every((v) => v == null)) {
@@ -193,6 +198,8 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
   const [theme] = useTheme()
   const dirty = graphModel.getCurrentLayout().isDirty()
   const layout = graphModel.getCurrentLayout().getLayout()
+
+  console.log(theme)
 
   // prevent rapid selection updates from fighting each other
   // and improve performance overheads by debouncing selection updates
@@ -372,41 +379,6 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commands])
 
-  const resolveThemeValue = useCallback(
-    <T extends string | number>(val: T): T => {
-      if (val === undefined) {
-        return val
-      }
-
-      if (typeof val === 'string') {
-        const resolved = token(val as Token)
-        if (resolved.startsWith('hsl')) {
-          // @ts-ignore
-          return `#${tinycolor(resolved as ColorInput).toHex()}` as T
-        } else {
-          return resolved as T
-        }
-      }
-      return val
-    },
-    [token]
-  )
-
-  const resolveThemedObject = useCallback(
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    <T extends object>(obj: T): T => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      return Object.keys(obj).reduce(function (result, key) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
-        if (obj[key] !== undefined) result[key] = resolveThemeValue(obj[key])
-        return result
-      }, {} as T)
-    },
-    [resolveThemeValue]
-  )
-
   const elements = useMemo(
     () => [
       ...nodes.map((n) => {
@@ -441,7 +413,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
         }
       }),
     ],
-    [nodes, edges, resolveThemedObject, selection.nodes, selection.edges]
+    [nodes, edges, selection.nodes, selection.edges, theme]
   )
 
   const defaultNodeStyles: Stylesheet = useMemo(() => {
@@ -451,8 +423,8 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
       style: resolveThemedObject({
         label: 'data(label)',
         // label styles
-        'text-background-color': '$colors$paper',
-        color: '$colors$text',
+        'text-background-color': 'colors.$surface.solid',
+        color: 'colors.$text',
         'text-background-opacity': 0.7,
         'text-margin-y': -4,
         'text-background-shape': 'roundrectangle',
@@ -471,7 +443,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
         ...toNodeCyStyle(nodeDefaults),
       }),
     }
-  }, [graphModel, resolveThemedObject])
+  }, [graphModel, theme])
 
   const nodeStyles: Stylesheet[] = useMemo(() => {
     return nodes
@@ -486,7 +458,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
         }
       })
       .filter((s) => Object.keys(s.style).length > 0)
-  }, [nodes, resolveThemedObject])
+  }, [nodes, theme])
 
   const defaultEdgeStyles: Stylesheet = useMemo(() => {
     const edgeDefaults = graphModel.getDecorators().getDefaultEdgeDecorator()()
@@ -495,8 +467,8 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
       style: resolveThemedObject({
         label: 'data(label)',
         // label styles
-        'text-background-color': '$colors$paper',
-        color: '$colors$text',
+        'text-background-color': 'colors.$surface.solid',
+        color: 'colors.$text',
         'text-background-opacity': 0.7,
         'text-margin-y': -4,
         'text-background-shape': 'roundrectangle',
@@ -513,7 +485,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
         ...toEdgeCyStyle(edgeDefaults),
       }),
     }
-  }, [graphModel, resolveThemedObject])
+  }, [graphModel, theme])
 
   const edgeStyles: Stylesheet[] = useMemo(() => {
     return edges
@@ -528,12 +500,14 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
         }
       })
       .filter((s) => Object.keys(s.style).length > 0)
-  }, [edges, resolveThemedObject])
+  }, [edges, theme])
 
   if (theme === undefined) {
     // Wait for theme to be defined
     return null
   }
+
+  console.log(elements)
 
   return (
     <CytoscapeComponent
@@ -545,7 +519,7 @@ const Renderer: GraphRenderer<CyGraphRendererOptions>['render'] = ({
             : options.width,
         height: options.height === 'full-height' ? '100%' : options.height,
         backgroundColor: resolveThemeValue(
-          '$colors$paper'
+          'colors.$surface.solid'
         ) as CSSProperties['backgroundColor'],
         overflow: 'hidden',
       }}
@@ -573,4 +547,43 @@ export const cytoscapeRenderer: GraphRenderer<CyGraphRendererOptions> = {
     },
   },
   layouts: Object.keys(defaultLayouts) as PresetGraphLayout[],
+}
+
+function getCSSVar(variable: string): string {
+  const root = document.querySelector('#root')
+  return root
+    ? getComputedStyle(root).getPropertyValue(
+        variable.substring(4, variable.length - 1).replace('\\', '')
+      )
+    : variable
+}
+
+function resolveThemeValue<T extends string | number>(val: T): T {
+  if (val === undefined) {
+    return val
+  }
+
+  if (typeof val === 'string') {
+    let resolved = token(val as Token, val)
+    if (resolved.startsWith('var')) {
+      resolved = getCSSVar(resolved)
+    }
+    if (resolved.startsWith('hsl')) {
+      return `#${tinycolor(resolved as ColorInput).toHex()}` as T
+    } else {
+      return resolved as T
+    }
+  }
+  return val
+}
+
+function resolveThemedObject<T extends object>(obj: T): T {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return Object.keys(obj).reduce(function (result, key) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
+    if (obj[key] !== undefined) result[key] = resolveThemeValue(obj[key])
+    return result
+  }, {} as T)
 }

@@ -1,4 +1,4 @@
-import { ModelNode, ModelEdge, ContentModel, GraphModel } from 'index'
+import { ContentModel, GraphModel, ModelEdge, ModelNode } from '../index'
 
 // TEST DATA
 

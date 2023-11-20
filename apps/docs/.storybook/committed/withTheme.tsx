@@ -1,21 +1,31 @@
-import {
-  ComponentsProvider
-} from '@committed/ds'
+import { ComponentsProvider } from '@committed/ds'
+import { DecoratorHelpers } from '@storybook/addon-themes'
 import React from 'react'
-import { useDarkMode } from 'storybook-dark-mode'
+
+const { initializeThemeState, pluckThemeFromContext, useThemeParameters } =
+  DecoratorHelpers
+
+import '@fontsource/dosis'
+import '@fontsource/inter'
 
 /**
  * Wrap a component with the default ThemeProvider
  *
  * @param {*} Story storybook component to wrap
  */
-export const withTheme = (Story) => {
-  const choice = useDarkMode() ? 'dark' : 'light'
-  document.body.classList.remove('dark')
-  document.body.classList.remove('light')
-  return (
-    <ComponentsProvider theme={{ choice }}>
-      <Story />
-    </ComponentsProvider>
-  )
+export const withTheme = ({ themes, defaultTheme }) => {
+  initializeThemeState(Object.keys(themes), defaultTheme)
+  return (Story, context) => {
+    const selectedTheme = pluckThemeFromContext(context)
+    const { themeOverride } = useThemeParameters()
+
+    const selected = themeOverride || selectedTheme || defaultTheme
+
+    return (
+      // Set local due to bug in theme controller
+      <ComponentsProvider theme={{ choice: selected, local: true }}>
+        <Story />
+      </ComponentsProvider>
+    )
+  }
 }

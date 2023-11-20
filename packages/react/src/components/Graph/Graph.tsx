@@ -1,5 +1,5 @@
 import { DecoratedNode, GraphModel } from '@committed/graph'
-import React, { PropsWithChildren, ReactElement } from 'react'
+import { PropsWithChildren, ReactElement } from 'react'
 import { GraphRenderer, GraphRendererOptions } from '../../graph/types'
 
 export interface GraphProps<O extends GraphRendererOptions> {

@@ -5,7 +5,7 @@ import {
 } from '@committed/components-graph'
 import { Flex, Row } from '@committed/ds'
 import { Meta, Story } from '@storybook/react'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 function isFunction(
   modelChange: GraphModel | ((model: GraphModel) => GraphModel)
@@ -25,28 +25,28 @@ const empty = {
 export default {
   title: 'Components/GraphToolbar',
   component: GraphToolbar,
-  argTypes: {
-    direction: {
-      control: {
-        type: 'radio',
-        options: ['row', 'column'],
-      },
-      description: 'The direction of the toolbar.',
-    },
-    align: {
-      control: {
-        type: 'radio',
-        options: ['start', 'end'],
-      },
-      description: 'Align items to the start or end of the toolbar.',
-    },
-    overlay: {
-      control: {
-        type: 'boolean',
-      },
-      description: 'Select to overlay the toolbar on the graph.',
-    },
-  },
+  // argTypes: {
+  //   direction: {
+  //     control: {
+  //       type: 'radio',
+  //       options: ['row', 'column'],
+  //     },
+  //     description: 'The direction of the toolbar.',
+  //   },
+  //   align: {
+  //     control: {
+  //       type: 'radio',
+  //       options: ['start', 'end'],
+  //     },
+  //     description: 'Align items to the start or end of the toolbar.',
+  //   },
+  //   overlay: {
+  //     control: {
+  //       type: 'boolean',
+  //     },
+  //     description: 'Select to overlay the toolbar on the graph.',
+  //   },
+  // },
 } as Meta
 
 export const Default: Story = ({

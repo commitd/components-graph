@@ -16,7 +16,7 @@
         "deploy": "storybook-to-ghpages -s public --ci"
     },
     "dependencies": {
-        "@committed/components-graph": "*",
+        "@committed/components-graph-react": "*",
         "@committed/hooks": "^0.10.4",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
@@ -25,21 +25,21 @@
     "devDependencies": {
         "@committed/config": "*",
         "@faker-js/faker": "^7.6.0",
-        "@pandacss/dev": "^0.15.4",
-        "@pandacss/types": "^0.15.4",
-        "@storybook/addon-actions": "^7.5.1",
-        "@storybook/addon-essentials": "^7.5.1",
-        "@storybook/addon-interactions": "^7.5.1",
-        "@storybook/addon-links": "^7.5.1",
-        "@storybook/addon-mdx-gfm": "^7.5.1",
-        "@storybook/blocks": "^7.5.1",
+        "@pandacss/dev": "^0.18.2",
+        "@pandacss/types": "^0.18.2",
+        "@storybook/addon-actions": "^7.5.3",
+        "@storybook/addon-essentials": "^7.5.3",
+        "@storybook/addon-interactions": "^7.5.3",
+        "@storybook/addon-links": "^7.5.3",
+        "@storybook/addon-mdx-gfm": "^7.5.3",
+        "@storybook/addon-themes": "^7.5.3",
+        "@storybook/blocks": "^7.5.3",
         "@storybook/jest": "^0.2.2",
-        "@storybook/react": "^7.5.1",
-        "@storybook/react-vite": "^7.5.1",
+        "@storybook/react": "^7.5.3",
+        "@storybook/react-vite": "^7.5.3",
         "faker": "^5.5.3",
         "serve": "^14.0.1",
-        "storybook": "^7.5.1",
-        "storybook-dark-mode": "^3.0.1",
-        "typescript": "^5.1.6"
+        "storybook": "^7.5.3",
+        "typescript": "^5.2.2"
     }
 }

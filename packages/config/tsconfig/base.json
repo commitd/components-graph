@@ -1,11 +1,22 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "base",
-  "extends": "@tsconfig/recommended/tsconfig.json",
   "compilerOptions": {
-    "emitDeclarationOnly": true,
-    "noEmit": false,
+    "composite": false,
     "declaration": true,
-    "esModuleInterop": true
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "inlineSources": false,
+    "isolatedModules": true,
+    "moduleResolution": "node",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "preserveWatchOutput": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "lib": ["ES2017"],
+    "module": "ESNext",
+    "target": "es6"
   }
 }

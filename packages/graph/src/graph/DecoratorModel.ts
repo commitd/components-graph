@@ -92,8 +92,8 @@ export class DecoratorModel {
     return () => ({
       ...DecoratorModel.DEFAULT_NODE_DECORATION,
       ...{
-        strokeColor: '$colors$textSecondary',
-        color: '$colors$brandYellow9',
+        strokeColor: 'colors.$text.secondary',
+        color: 'colors.$primary',
       },
       ...DecoratorModel.wrapDecorator(this.nodeDefaults)(),
     })
@@ -111,7 +111,7 @@ export class DecoratorModel {
     return () => ({
       ...DecoratorModel.DEFAULT_EDGE_DECORATION,
       ...{
-        color: '$colors$textSecondary',
+        color: 'colors.$text.secondary',
       },
       ...DecoratorModel.wrapDecorator(this.edgeDefaults)(),
     })

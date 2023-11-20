@@ -1,6 +1,5 @@
 import { Generator, GraphRenderer, GraphRendererOptions } from '@committed/components-graph'
 import { Box, Button, Heading, Monospace, Row } from '@committed/ds'
-import React from 'react'
 
 const Renderer: GraphRenderer<GraphRendererOptions>['render'] = ({
   graphModel,
@@ -24,7 +23,7 @@ const Renderer: GraphRenderer<GraphRendererOptions>['render'] = ({
       </Button>
       <Row flexWrap='wrap' justifyContent='space-evenly' >
         <div>
-          <Heading variant="h5" size={1}>
+          <Heading variant="h5" size="$1">
             Nodes:
           </Heading>
           <Monospace size={'$-2'}>
@@ -32,7 +31,7 @@ const Renderer: GraphRenderer<GraphRendererOptions>['render'] = ({
           </Monospace>
         </div>
         <div>
-          <Heading variant="h5" size={1}>
+          <Heading variant="h5" size="$1">
             Edges:{' '}
           </Heading>
           <Monospace size={'$-2'}>

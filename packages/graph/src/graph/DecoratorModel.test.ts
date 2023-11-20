@@ -78,11 +78,11 @@ beforeEach(() => {
 it('Create default sets default node decoration for light theme', () => {
   expect(decoratorModel.getDefaultNodeDecorator()()).toMatchInlineSnapshot(`
     {
-      "color": "$colors$brandYellow9",
+      "color": "colors.primary",
       "opacity": 1,
       "shape": "ellipse",
       "size": 25,
-      "strokeColor": "$colors$textSecondary",
+      "strokeColor": "colors.$text.secondary",
       "strokeSize": 2,
     }
   `)
@@ -91,11 +91,11 @@ it('Create default sets default node decoration for light theme', () => {
 it('Create default sets default node decoration for dark theme', () => {
   expect(decoratorModel.getDefaultNodeDecorator()()).toMatchInlineSnapshot(`
     {
-      "color": "$colors$brandYellow9",
+      "color": "colors.$primary",
       "opacity": 1,
       "shape": "ellipse",
       "size": 25,
-      "strokeColor": "$colors$textSecondary",
+      "strokeColor": "colors.$text.secondary",
       "strokeSize": 2,
     }
   `)
@@ -114,7 +114,7 @@ it('Can supply partial decorator for default', () => {
       "opacity": 1,
       "shape": "ellipse",
       "size": 10,
-      "strokeColor": "$colors$textSecondary",
+      "strokeColor": "colors.$text.secondary",
       "strokeSize": 2,
     }
   `)
@@ -195,7 +195,7 @@ it('Node specific decoration overrides both decorator default decoration and dec
 it('Create default sets default edge decoration for theme', () => {
   expect(decoratorModel.getDefaultEdgeDecorator()()).toMatchInlineSnapshot(`
     {
-      "color": "$colors$textSecondary",
+      "color": "colors.$text.secondary",
       "opacity": 1,
       "size": 2,
       "sourceArrow": false,
@@ -208,16 +208,16 @@ it('Create default sets default edge decoration for theme', () => {
 it('Can supply partial decorator function for default', () => {
   const decoration = DecoratorModel.createDefault({
     edgeDefaults: () => ({
-      color: '$colors$success',
+      color: 'colors.$success',
       size: 10,
     }),
   }).getDefaultEdgeDecorator()()
 
-  expect(decoration.color).toEqual('$colors$success')
+  expect(decoration.color).toEqual('colors.$success')
   expect(decoration.size).toEqual(10)
   expect(decoration).toMatchInlineSnapshot(`
     {
-      "color": "$colors$success",
+      "color": "colors.$success",
       "opacity": 1,
       "size": 10,
       "sourceArrow": false,

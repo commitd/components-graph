@@ -1,7 +1,6 @@
 import { Box, Button, Heading, Monospace, Row } from '@committed/ds'
 import { Generator } from '@committed/graph'
-import { GraphRenderer, GraphRendererOptions } from 'graph'
-import React from 'react'
+import { GraphRenderer, GraphRendererOptions } from '../graph'
 
 const Renderer: GraphRenderer<GraphRendererOptions>['render'] = ({
   graphModel,
@@ -16,7 +15,7 @@ const Renderer: GraphRenderer<GraphRendererOptions>['render'] = ({
   }
 
   return (
-    <Box css={{ backgroundColor: '$paper', p: '$3' }}>
+    <Box css={{ backgroundColor: '$surface.solid', p: '$3' }}>
       <Button css={{ m: '$3' }} onClick={handleAddNode}>
         Add Node
       </Button>

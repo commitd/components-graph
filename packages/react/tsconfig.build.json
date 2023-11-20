@@ -1,9 +1,11 @@
 {
   "extends": "./tsconfig.json",
   "exclude": [
-    "test/**/*",
-    "**/*.test.tsx?",
+    "**/test/**/*",
+    "**/*.test.ts",
+    "**/*.test.tsx",
     "**/*.stories.tsx",
-    "../../node_modules"
+    "../../node_modules",
+    "panda.config.ts"
   ]
 }

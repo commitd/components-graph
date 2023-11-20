@@ -5,8 +5,14 @@
   "author": "Committed",
   "private": false,
   "license": "MIT",
-  "exports": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
   "sideEffects": false,
   "files": [
     "dist"
@@ -34,7 +40,7 @@
     "build:clean": "rm -rf dist",
     "build:ts": "tsc --project tsconfig.build.json",
     "build:js": "node ../../node_modules/@committed/config/esbuild/build.mjs",
-    "build": "npm run build:clean && npm run build:ts && npm run build:js",
+    "build": "npm run build:clean && npm run build:ts",
     "lint": "tsc && eslint './src/**/*.{ts,tsx}'",
     "fix": "TIMING=1 eslint src/**/*.ts* --fix",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
